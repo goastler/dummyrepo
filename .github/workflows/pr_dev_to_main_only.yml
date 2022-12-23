@@ -11,4 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     if: github.base_ref == 'main' && github.ref_name != 'develop'
     steps:
-      run: exit 1
+      - name: exit
+        run: exit 1
