@@ -6,7 +6,8 @@ on:
       - opened
 
 jobs:
-  run:
+  build:
+    name: PR develop to main only
     runs-on: ubuntu-latest
     if: github.base_ref == 'main' && github.ref_name != 'develop'
     steps:
