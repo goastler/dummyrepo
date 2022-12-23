@@ -6,10 +6,11 @@ on:
       - opened
 
 jobs:
-  build:
+  check:
     name: PR develop to main only
     runs-on: ubuntu-latest
     if: github.base_ref == 'main' && github.ref_name != 'develop'
     steps:
-      - name: exit
-        run: exit 1
+    - uses: superbrothers/close-pull-request@v3
+      with:
+        comment: "Pull requests into main should only originate from the develop branch."
