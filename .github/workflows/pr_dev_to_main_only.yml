@@ -10,4 +10,5 @@ jobs:
     name: PR develop to main only
     runs-on: ubuntu-latest
     if: github.base_ref == 'main' && github.ref_name != 'develop'
-    run: exit 1
+    steps:
+      run: exit 1
