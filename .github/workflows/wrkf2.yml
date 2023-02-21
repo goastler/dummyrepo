@@ -1,10 +1,6 @@
 name: workflow2
 
-on:
-  workflow_run:
-    workflows: ["workflow1"]
-    types:
-      - completed
+on: workflow_dispatch
 
 env:
   GH_TOKEN: ${{ github.token }}
