@@ -43,7 +43,7 @@ jobs:
       - name: Tar images
         if: steps.docker_pull.outputs.change == 'true'
         run: |
-          docker save -o contracts-ci-linux.tar docker_image_cache/contracts-ci-linux:latest
+          docker save -o contracts-ci-linux.tar paritytech/contracts-ci-linux:latest
 
       - name: Save images to cache
         if: steps.docker_pull.outputs.change == 'true'
