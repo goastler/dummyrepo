@@ -18,10 +18,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: docker_image_cache
-          key: docker_image_cache_${{ runner.os }}${{ runner.arch }}
+          key: docker_image_cache_${{ runner.os }}_${{ runner.arch }}
+          restore-keys: |
+            docker_image_cache_${{ runner.os }}_${{ runner.arch }}-
 
       # load imgs from cache
       - name: Load images
+        id: load_images
         run: |
           ls docker_image_cache
           docker load -i docker_image_cache/contracts-ci-linux.tar || true
@@ -50,4 +53,22 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: docker_image_cache
-          key: docker_image_cache_${{ runner.os }}${{ runner.arch }}
+          key: docker_image_cache_${{ runner.os }}_${{ runner.arch }}_${{ github.run_id }}_${{ github.run_attempt }}
+
+      - name: Cleanup caches
+        if: steps.docker_pull.outputs.change == 'true'
+        run: |
+          set +e; gh extension install actions/gh-actions-cache; set -e
+          REPO=${{ github.repository }}
+          echo "Fetching list of cache key"
+          # get all but the most recent cache
+          cacheKeysForPR=$(gh actions-cache list --sort created-at --order desc --limit 100 -R $REPO --key ${{ runner.os }}-${{ runner.arch }}-cargo-env- | cut -f 1 | tail -n +2 )
+          echo caches to be removed:
+          echo ${cacheKeysForPR}
+          # delete the stale caches
+          ## Setting this to not fail the workflow while deleting cache keys. 
+          set +e
+          for cacheKey in $cacheKeysForPR
+          do
+              gh actions-cache delete $cacheKey -R $REPO --confirm
+          done
