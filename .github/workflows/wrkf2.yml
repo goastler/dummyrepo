@@ -1,0 +1,15 @@
+name: workflow2
+
+on:
+  workflow_run:
+    workflows: ["workflow1"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo goodbye
