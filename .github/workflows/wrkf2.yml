@@ -41,13 +41,13 @@ jobs:
 
       # save the cache
       - name: Tar images
-        if: ${{ steps.docker_pull.outputs.change }} == "true"
+        if: steps.docker_pull.outputs.change == "true"
         run: |
           docker save -o contracts-ci-linux.tar docker_image_cache/contracts-ci-linux:latest
 
       - name: Save images to cache
         id: docker_image_cache
-        if: ${{ steps.docker_pull.outputs.change }} == "true"
+        if: steps.docker_pull.outputs.change == "true"
         uses: actions/cache/save@v3
         with:
           path: docker_image_cache
