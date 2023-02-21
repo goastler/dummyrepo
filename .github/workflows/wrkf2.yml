@@ -11,9 +11,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - run: ls -la
-      - run: tree
-      - run: echo goodbye
-      - name: gh
-        run: echo ${{ toJSON(github) }}
+      - run: mkdir -p docker_image_cache
+      
+      - name: docker image cache
+        id: docker_image_cache
+        uses: actions/cache@v3
+        with:
+          path: docker_image_cache
+          key: docker_image_cache_${{ runner.os }}${{ runner.arch }}
+
+      # load imgs from cache
+      - name: Load images
+        run: |
+          ls docker_image_cache
+          docker load -i docker_image_cache/contracts-ci-linux.tar || true
+
+      # update the img
+      - name: Docker pull
+        id: docker_pull
+        run: |
+          before=$(docker image list -q)
+          docker pull paritytech/contracts-ci-linux:latest
+          after=$(docker image list -q)
+          if [[ "$before" == "$after" ]]; then
+            echo "change=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "change=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # save the cache
+      - name: Tar images
+        if: ${{ steps.docker_pull.outputs.change == "true" }}
+        run: |
+          docker save -o contracts-ci-linux.tar docker_image_cache/contracts-ci-linux:latest
+
+      - name: Save images to cache
+        id: docker_image_cache
+        uses: actions/cache/save@v3
+        with:
+          path: docker_image_cache
+          key: ${{ steps.docker_image_cache.outputs.change == "true" }}
