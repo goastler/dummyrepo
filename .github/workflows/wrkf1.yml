@@ -1,6 +1,9 @@
 name: workflow1
 
-on: push
+on:
+  push:
+    branches:
+      - xyz
 
 jobs:
   build:
