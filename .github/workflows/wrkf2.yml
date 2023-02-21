@@ -13,3 +13,4 @@ jobs:
     steps:
 
       - run: echo goodbye
+      - run: echo ${{ toJSON(github) }}
