@@ -16,9 +16,8 @@ jobs:
     steps:
       - run: mkdir -p docker_image_cache
       
-      - name: docker image cache
-        id: docker_image_cache
-        uses: actions/cache@v3
+      - name: Restore docker image cache
+        uses: actions/cache/restore@v3
         with:
           path: docker_image_cache
           key: docker_image_cache_${{ runner.os }}_${{ runner.arch }}
