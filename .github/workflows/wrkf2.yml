@@ -65,7 +65,7 @@ jobs:
           REPO=${{ github.repository }}
           echo "Fetching list of cache key"
           # get all but the most recent cache
-          cacheKeysForPR=$(gh actions-cache list --sort created-at --order desc --limit 100 -R $REPO --key docker_image_cache_${{ runner.os }}_${{ runner.arch }}- | cut -f 1 | tail -n +2 )
+          cacheKeysForPR=$(gh actions-cache list --sort created-at --order desc --limit 100 -R $REPO --key docker_image_cache_${{ runner.os }}_${{ runner.arch }} | cut -f 1 | tail -n +2 )
           echo caches to be removed:
           echo ${cacheKeysForPR}
           # delete the stale caches
