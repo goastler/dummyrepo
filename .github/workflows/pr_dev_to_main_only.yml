@@ -1,4 +1,4 @@
-name: PR develop to main only
+name: PR dev to main only
 
 on:
   pull_request_target:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   check:
-    name: PR develop to main only
+    name: PR dev to main only
     runs-on: ubuntu-latest
     if: github.base_ref == 'main' && github.ref_name != 'develop'
     steps:
