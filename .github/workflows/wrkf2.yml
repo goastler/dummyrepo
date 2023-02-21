@@ -50,4 +50,4 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: docker_image_cache
-          key: ${{ steps.docker_image_cache.outputs.cache-primary-key }}
+          key: docker_image_cache_${{ runner.os }}${{ runner.arch }}
