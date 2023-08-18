@@ -27,6 +27,8 @@ jobs:
                   path: |
                       cache
                   key: cache
+                  restore-keys: |
+                      cache-
 
             - name: ls
               run: |
