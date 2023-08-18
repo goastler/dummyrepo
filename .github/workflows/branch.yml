@@ -1,0 +1,45 @@
+name: Main
+
+# on push to main when rust code has changed
+# we do this because any branch can use the cache built from main, whereas caches built from other branches are only available to that branch and its children
+on:
+    pull_request:
+        branches:
+            - '*'
+
+env:
+    CARGO_TERM_COLOR: always
+    GH_TOKEN: ${{ github.token }}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: mkdir
+              run: |
+                  mkdir -p cache
+
+            - name: Restore cached cargo build
+              uses: actions/cache/restore@v3
+              with:
+                  path: |
+                      cache
+                  key: cache
+
+            - name: ls
+              run: |
+                  ls -la
+                  ls -la cache
+
+            - name: Build
+              id: build
+              run: |
+                  cd cache
+                  touch $(date | tr ' ' '_')
+
+            - name: ls
+              run: |
+                  ls -la
+                  ls -la cache
