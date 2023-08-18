@@ -44,6 +44,25 @@ jobs:
                   ls -la
                   ls -la cache
 
+            - name: Cleanup caches
+              if: always() && (${{ steps.build.conclusion }} == "success" || ${{ steps.build.conclusion }} == "failure")
+              run: |
+                  set +e; gh extension install actions/gh-actions-cache; set -e
+                  REPO=${{ github.repository }}
+                  echo "Fetching list of cache key"
+                  # remove all except the most recent cached build
+                  # we leave the latest cached build to be used by other workflows which may be running in parallel (i.e. there is always at least one cached build at any given time)
+                  cacheKeys=$(gh actions-cache list --sort created-at --order desc --limit 100 -R $REPO --key cache | cut -f 1 | tail -n +2)
+                  echo caches to be removed:
+                  echo ${cacheKeys}
+                  # delete the stale caches
+                  ## Setting this to not fail the workflow while deleting cache keys. 
+                  set +e
+                  for cacheKey in $cacheKeys
+                  do
+                      gh actions-cache delete $cacheKey -R $REPO --confirm
+                  done
+
             - name: Save build to cache
               uses: actions/cache/save@v3
               if: always() && (${{ steps.build.conclusion }} == "success" || ${{ steps.build.conclusion }} == "failure")
