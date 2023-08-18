@@ -1,0 +1,53 @@
+name: Main
+
+# on push to main when rust code has changed
+# we do this because any branch can use the cache built from main, whereas caches built from other branches are only available to that branch and its children
+on:
+    push:
+        branches:
+            - 'main'
+        paths:
+            - 'protocol/**'
+            - '.github/workflows/cache_contracts_main.yml'
+
+env:
+    CARGO_TERM_COLOR: always
+    GH_TOKEN: ${{ github.token }}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Restore cached cargo build
+              uses: actions/cache/restore@v3
+              with:
+                  path: |
+                      cache
+                  key: cache
+
+            - name: ls
+              run: |
+                  ls -la
+                  ls -la cache
+
+            - name: Build
+              id: build
+              run: |
+                  cd cache
+                  touch $(datetime | tr ' ' '_')
+
+            - name: ls
+              run: |
+                  ls -la
+                  ls -la cache
+
+            - name: Save build to cache
+              uses: actions/cache/save@v3
+              if: always() && (${{ steps.build.conclusion }} == "success" || ${{ steps.build.conclusion }} == "failure")
+              with:
+                  path: |
+                      cache
+                  key: cache
+
