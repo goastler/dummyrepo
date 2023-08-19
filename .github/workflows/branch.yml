@@ -1,4 +1,4 @@
-name: Main
+name: Branch
 
 # on push to main when rust code has changed
 # we do this because any branch can use the cache built from main, whereas caches built from other branches are only available to that branch and its children
@@ -12,7 +12,7 @@ env:
     GH_TOKEN: ${{ github.token }}
 
 jobs:
-    build:
+    branch:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
