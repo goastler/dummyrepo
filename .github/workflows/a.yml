@@ -27,35 +27,55 @@ jobs:
     one:
         runs-on: ubuntu-latest
         steps:
-            - name: Dump GitHub context
+            - name: Dump github context
               env:
-                GITHUB_CONTEXT: ${{ toJson(github) }}
-              run: echo "$GITHUB_CONTEXT"
-            - name: Dump job context
+                CONTEXT: ${{ toJson(github) }}
+              run: echo "$CONTEXT"
+            - name: Dump env context
               env:
-                JOB_CONTEXT: ${{ toJson(job) }}
-              run: echo "$JOB_CONTEXT"
-            - name: Dump steps context
+                ENV: ${{ toJson(env) }}
+              run: echo "$ENV"
+            - name: Dump github vars context
               env:
-                STEPS_CONTEXT: ${{ toJson(steps) }}
-              run: echo "$STEPS_CONTEXT"
-            - name: Dump runner context
+                VARS: ${{ toJson(vars) }}
+              run: echo "$VARS"
+            - name: Dump github job context
               env:
-                RUNNER_CONTEXT: ${{ toJson(runner) }}
-              run: echo "$RUNNER_CONTEXT"
-            - name: Dump strategy context
+                JOB: ${{ toJson(job) }}
+              run: echo "$JOB"
+            - name: Dump github jobs context
               env:
-                STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-              run: echo "$STRATEGY_CONTEXT"
-            - name: Dump matrix context
-              env:
-                MATRIX_CONTEXT: ${{ toJson(matrix) }}
-              run: echo "$MATRIX_CONTEXT"
-    
-            - name: Show default environment variables
+                JOBS: ${{ toJson(jobs) }}
+              run: echo "$JOBS"
+            - name: Dump github steps context
+              env: 
+                STEPS: ${{ toJson(steps) }}
+              run: echo "$STEPS"
+            - name: Dump github runner context
+              env: 
+                RUNNER: ${{ toJson(runner) }}
+              run: echo "$RUNNER"
+            - name: Dump github secrets context
+              env: 
+                SECRETS: ${{ toJson(secrets) }}
+              run: echo "$SECRETS"
+            - name: Dump github strategy context
+              env: 
+                STRATEGY: ${{ toJson(strategy) }}
+              run: echo "$STRATEGY"
+            - name: Dump github matrix context
+              env: 
+                MATRIX: ${{ toJson(matrix) }}
+              run: echo "$MATRIX"
+            - name: Dump github needs context
+              env: 
+                NEEDS: ${{ toJson(needs) }}
+              run: echo "$NEEDS"
+            - name: Dump github inputs context
+              env: 
+                INPUTS: ${{ toJson(inputs) }}
+              run: echo "$INPUTS"
+            - name: Show environment variables
+              shell: bash
               run: |
-                echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
-                echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
-                echo "The run id is: $GITHUB_RUN_ID"
-                echo "The GitHub Actor's username is: $GITHUB_ACTOR"
-                echo "GitHub SHA: $GITHUB_SHA"
+                printenv
