@@ -1,0 +1,22 @@
+name: a
+
+on:
+    pull_request:
+        branches:
+            - '*'
+
+env:
+    CARGO_TERM_COLOR: always
+    GH_TOKEN: ${{ github.token }}
+
+jobs:
+    branch:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-node@v3
+              with: 
+                node-version-file: '.nvmrc'
+            - run: |
+                node --version
