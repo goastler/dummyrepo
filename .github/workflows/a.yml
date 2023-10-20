@@ -43,10 +43,6 @@ jobs:
               env:
                 JOB: ${{ toJson(job) }}
               run: echo "$JOB"
-            - name: Dump github jobs context
-              env:
-                JOBS: ${{ toJson(jobs) }}
-              run: echo "$JOBS"
             - name: Dump github steps context
               env: 
                 STEPS: ${{ toJson(steps) }}
