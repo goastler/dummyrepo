@@ -71,7 +71,7 @@ jobs:
               env: 
                 INPUTS: ${{ toJson(inputs) }}
               run: echo "$INPUTS"
-            - name: Show environment variables
+            - name: Dump shell environment variables
               shell: bash
               run: |
                 printenv
