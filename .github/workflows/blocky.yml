@@ -13,6 +13,15 @@ on:
             - created
             - edited
             - deleted
+    pull_request:
+        types:
+            - opened
+            - synchronize
+            - reopened
+            - edited
+            - closed
+            - labeled
+            - unlabeled
 
 
 # TODO
