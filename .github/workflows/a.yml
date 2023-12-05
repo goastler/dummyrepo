@@ -1,22 +1,68 @@
-name: a
+name: blocky
 
 on:
     pull_request:
-        branches:
-            - '*'
+        types:
+            - opened
+            - synchronize
+            - reopened
+            - edited
+            - closed
+            - labeled
+            - unlabeled
+    issues:
+        types:
+            - opened
+            - edited
+            - deleted
+            - transferred
+            - closed
+            - reopened
+            - labeled
+            - unlabeled
+    issue_comment:
+        types:
+            - created
+            - edited
+            - deleted
+    pull_request_comment:
+        types:
+            - created
+            - edited
+            - deleted
+    pull_request_review_comment:
+        types:
+            - created
+            - edited
+            - deleted
+    pull_request_review:
+        types:
+            - submitted
+            - edited
+            - dismissed
+    # or run manually
+    workflow_dispatch:
 
-env:
-    CARGO_TERM_COLOR: always
-    GH_TOKEN: ${{ github.token }}
+# TODO
+# check if the PR is open or closed
+#     if closed, remove the label
+#     if open, add the label
+# go through all linked issues/PRs and check if they are closed
+#     if closed, remove the label and pass
+#     if open, add the label and fail
 
 jobs:
-    branch:
+    blocky:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - name: Configure labels
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  # get the comments + body for the current PR
+                  # search for linked issues/PRs (e.g. blocked by #xyz)
+                  # check if the linked issues/PRs are closed
+                  # if any are open, add the label and fail
+                  # if all are closed, remove the label and pass
+                  echo "trigger: ${{ github.event.action }}"
 
-            - uses: actions/setup-node@v3
-              with: 
-                node-version-file: '.nvmrc'
-            - run: |
-                node --version
