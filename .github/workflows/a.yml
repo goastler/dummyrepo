@@ -20,3 +20,58 @@ jobs:
                 node-version-file: '.nvmrc'
             - run: |
                 node --version
+
+
+            - run: |
+                echo ${{ github.context }}
+    one:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Dump github context
+              env:
+                CONTEXT: ${{ toJson(github) }}
+              run: echo "$CONTEXT"
+            - name: Dump env context
+              env:
+                ENV: ${{ toJson(env) }}
+              run: echo "$ENV"
+            - name: Dump github vars context
+              env:
+                VARS: ${{ toJson(vars) }}
+              run: echo "$VARS"
+            - name: Dump github job context
+              env:
+                JOB: ${{ toJson(job) }}
+              run: echo "$JOB"
+            - name: Dump github steps context
+              env: 
+                STEPS: ${{ toJson(steps) }}
+              run: echo "$STEPS"
+            - name: Dump github runner context
+              env: 
+                RUNNER: ${{ toJson(runner) }}
+              run: echo "$RUNNER"
+            - name: Dump github secrets context
+              env: 
+                SECRETS: ${{ toJson(secrets) }}
+              run: echo "$SECRETS"
+            - name: Dump github strategy context
+              env: 
+                STRATEGY: ${{ toJson(strategy) }}
+              run: echo "$STRATEGY"
+            - name: Dump github matrix context
+              env: 
+                MATRIX: ${{ toJson(matrix) }}
+              run: echo "$MATRIX"
+            - name: Dump github needs context
+              env: 
+                NEEDS: ${{ toJson(needs) }}
+              run: echo "$NEEDS"
+            - name: Dump github inputs context
+              env: 
+                INPUTS: ${{ toJson(inputs) }}
+              run: echo "$INPUTS"
+            - name: Dump shell environment variables
+              shell: bash
+              run: |
+                printenv
