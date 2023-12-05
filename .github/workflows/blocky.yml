@@ -33,6 +33,10 @@ on:
             - edited
             - dismissed
 
+concurrency:
+    # only 1 workflow run at a time
+    group: ${{ github.workflow }}
+    cancel-in-progress: true
 
 # TODO
 # check if the PR is open or closed
@@ -46,14 +50,35 @@ jobs:
     blocky:
         runs-on: ubuntu-latest
         steps:
+            - name: Context
+              run: echo "${{ toJson(github) }}"
             - name: Configure labels
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  # get the comments + body for the current PR
-                  # search for linked issues/PRs (e.g. blocked by #xyz)
-                  # check if the linked issues/PRs are closed
-                  # if any are open, add the label and fail
-                  # if all are closed, remove the label and pass
-                  echo "trigger: ${{ github.event.action }}"
+                # entrypoints:
+                    # issue / PR opened
+                    # issue / PR edited
+                    # issue / PR closed
+                # cases:
+                    # issue / PR is a dependent of another
+                    # issue / PR is a blocker of another
+                    # neither, e.g. "blocked by #xyz" comment has been deleted
+
+                # loop through all issues + PRs in the blocked label
+                # if closed, remove the blocked label
+                
+                # loop through all issues + PRs
+                # if open, look through comments for "blocked by #xyz"
+                # if found, check if #xyz is closed
+                # if open, add the blocked label
+
+
+                # get the comments + body for the current PR
+                # search for linked issues/PRs (e.g. blocked by #xyz)
+                # check if the linked issues/PRs are closed
+                # if any are open, add the label and fail
+                # if all are closed, remove the label and pass
+                echo "trigger: ${{ github.event.action }}"
+                sleep 30s
 
