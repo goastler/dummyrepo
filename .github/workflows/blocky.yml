@@ -22,11 +22,6 @@ on:
             - closed
             - labeled
             - unlabeled
-    pull_request_comment:
-        types:
-            - created
-            - edited
-            - deleted
     pull_request_review_comment:
         types:
             - created
