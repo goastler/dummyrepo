@@ -1,47 +1,8 @@
 name: blocky
 
 on:
-    pull_request:
-        types:
-            - opened
-            - synchronize
-            - reopened
-            - edited
-            - closed
-            - labeled
-            - unlabeled
     issues:
-        types:
-            - opened
-            - edited
-            - deleted
-            - transferred
-            - closed
-            - reopened
-            - labeled
-            - unlabeled
-    issue_comment:
-        types:
-            - created
-            - edited
-            - deleted
-    pull_request_comment:
-        types:
-            - created
-            - edited
-            - deleted
-    pull_request_review_comment:
-        types:
-            - created
-            - edited
-            - deleted
-    pull_request_review:
-        types:
-            - submitted
-            - edited
-            - dismissed
-    # or run manually
-    workflow_dispatch:
+        types: [opened, edited, closed, reopened]
 
 # TODO
 # check if the PR is open or closed
