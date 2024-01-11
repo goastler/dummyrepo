@@ -52,8 +52,4 @@ jobs:
               shell: bash
               run: echo "${{ toJson(inputs) }}"
 
-            - name: invalid context
-              shell: bash
-              run: echo "${{ toJson(invalid) }}"
-
             - uses: prosopo/captcha/.github/actions/print_vars@main
