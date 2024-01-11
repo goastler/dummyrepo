@@ -18,4 +18,4 @@ jobs:
         steps:
             - name: abc
               run: echo "abc"
-            - uses: prosopo/captcha/.github/actions/print_vars/action.yml@main
+            - uses: prosopo/captcha/.github/actions/print_vars@main
