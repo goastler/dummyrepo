@@ -1,23 +1,13 @@
-name: a
+name: b
 
 on:
-    push:
-        # only on the main branch
-        branches:
-            - main
-    # or run manually
     workflow_dispatch:
-
-# enqueues multiple jobs to run sequentially, not in parallel. This avoids race conditions related to version bumping
-concurrency:
-    group: ${{ github.workflow }}
-
+    workflow_call:
+        
 jobs:
     publish:
         runs-on: ubuntu-latest
         steps:
-            - name: abc
-              run: echo "abc"
             - name: github context
               shell: bash
               run: echo "${{ toJson(github) }}"
@@ -51,8 +41,3 @@ jobs:
             - name: inputs context
               shell: bash
               run: echo "${{ toJson(inputs) }}"
-
-            - uses: goastler/dummyrepo/.github/workflows/b.yml@main
-
-            - uses: goastler/dummyrepo/.github/actions/print_vars@main
-            # - uses: prosopo/captcha/.github/actions/print_vars@main
