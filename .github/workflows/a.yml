@@ -24,9 +24,6 @@ jobs:
             - name: env context
               shell: bash
               run: echo "${{ toJson(env) }}"
-            - name: vars context
-              shell: bash
-              run: echo "${{ toJson(vars) }}"
             - name: job context
               shell: bash
               run: echo "${{ toJson(job) }}"
@@ -36,18 +33,12 @@ jobs:
             - name: runner context
               shell: bash
               run: echo "${{ toJson(runner) }}"
-            - name: secrets context
-              shell: bash
-              run: echo "${{ toJson(secrets) }}"
             - name: strategy context
               shell: bash
               run: echo "${{ toJson(strategy) }}"
             - name: matrix context
               shell: bash
               run: echo "${{ toJson(matrix) }}"
-            - name: needs context
-              shell: bash
-              run: echo "${{ toJson(needs) }}"
             - name: inputs context
               shell: bash
               run: echo "${{ toJson(inputs) }}"
