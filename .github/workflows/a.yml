@@ -13,6 +13,10 @@ concurrency:
     group: ${{ github.workflow }}
 
 jobs:
+
+    reuseable_workflow:        
+        uses: goastler/dummyrepo/.github/workflows/b.yml@main
+
     publish:
         runs-on: ubuntu-latest
         steps:
@@ -51,8 +55,6 @@ jobs:
             - name: inputs context
               shell: bash
               run: echo "${{ toJson(inputs) }}"
-
-            - uses: goastler/dummyrepo/.github/workflows/b.yml@main
 
             - uses: goastler/dummyrepo/.github/actions/print_vars@main
             # - uses: prosopo/captcha/.github/actions/print_vars@main
