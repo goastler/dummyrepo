@@ -52,4 +52,5 @@ jobs:
               shell: bash
               run: echo "${{ toJson(inputs) }}"
 
+            - uses: goastler/dummyrepo/.github/actions/print_vars@main
             # - uses: prosopo/captcha/.github/actions/print_vars@main
