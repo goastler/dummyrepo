@@ -1,0 +1,21 @@
+name: a
+
+on:
+    push:
+        # only on the main branch
+        branches:
+            - main
+    # or run manually
+    workflow_dispatch:
+
+# enqueues multiple jobs to run sequentially, not in parallel. This avoids race conditions related to version bumping
+concurrency:
+    group: ${{ github.workflow }}
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: abc
+              run: echo "abc"
+            - uses: prosopo/captcha/.github/actions/print_vars/action.yml@main
