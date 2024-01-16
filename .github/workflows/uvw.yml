@@ -1,0 +1,42 @@
+name: uvw
+
+on:
+    pull_request:
+
+jobs:
+    uvw:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Detect version bump
+              id: detect_version_bump
+              run: |
+                  # if run from workflow_dispatch, then skip this step
+                  if [[ "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+                    echo "Skipping version bump detection"
+                    # assume there has been a version bump, as this is a manual run
+                    echo "bump=true" >> $GITHUB_OUTPUT
+                    exit 0
+                  fi
+
+                  # get the version line changes
+                  LINES=$(git show --pretty=format: --no-notes ${{github.event.before}}..${{github.event.after}} package.json | grep -e "[-\+]\s*\"version\"")
+                  echo "$LINES"
+
+                  # if there's lines returned, then the version line has changed. The lines will look like:
+                  # -    "version": "0.2.24",
+                  # +    "version": "0.2.25",
+                  # -    "version": "0.2.23",
+                  # +    "version": "0.2.24",
+                  # note there may be multiple changes if the version line has been changed multiple times. - == removed, + == added
+                  # use wc to count the lines
+                  N_LINES=$(echo "$LINES" | wc -l)
+                  # if there are any lines, then there has been a change in the version
+                  if [[ "$N_LINES" -gt 0 ]]; then
+                    echo "bump=true" >> $GITHUB_OUTPUT
+                    echo "version bump detected"
+                  else
+                    echo "bump=false" >> $GITHUB_OUTPUT
+                    echo "no version bump detected"
+                  fi
+                
