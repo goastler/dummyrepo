@@ -57,7 +57,7 @@ jobs:
                   fi
 
                   # get the version line changes
-                  set +x
+                  set -x
                   echo "before: ${{github.event.before}}"
                   echo "after: ${{github.event.after}}"
                   git show --pretty=format: --no-notes "${{github.event.before}}..HEAD" package.json
