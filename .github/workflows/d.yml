@@ -1,0 +1,36 @@
+name: d
+
+on:
+    workflow_dispatch:
+
+jobs:
+    d:
+        runs-on: ubuntu-latest
+        steps:
+            - name: a
+              run: |
+                echo "a"
+            - name: b
+              run: |
+                echo "b"
+            - name: c
+              continue-on-error: true
+              run: |
+                echo "c"
+                exit 1
+            - name: d
+              run: |
+                    echo "d"
+
+            
+            - name: Summary
+              run: |
+                # loop through all steps and check their outcome. Any failure should cause this step to fail. The workflow may not have failed due to continue-on-error being enabled, hence this step catches those errors.
+                for step_id in ${{ steps.*.id }}; do
+                if [ "${{ needs.${step_id}.result }}" == "failure" ]; then
+                    echo "Step $step_id failed."
+                    exit 1
+                else
+                    echo "Step $step_id succeeded."
+                fi
+                done
