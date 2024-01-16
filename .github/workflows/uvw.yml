@@ -57,6 +57,7 @@ jobs:
                   fi
 
                   # get the version line changes
+                  git pull
                   LINES=$(git show --pretty=format: --no-notes ${{github.event.before}}..${{github.event.after}} package.json | grep -e "[-\+]\s*\"version\"")
                   echo "$LINES"
 
