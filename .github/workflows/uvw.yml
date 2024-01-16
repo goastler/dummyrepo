@@ -7,6 +7,43 @@ jobs:
     uvw:
         runs-on: ubuntu-latest
         steps:
+            - name: Print contexts
+              env:
+                  GITHUB_CONTEXT: ${{ toJson(github) }}
+                  ENV_CONTEXT: ${{ toJson(env) }}
+                  VARS_CONTEXT: ${{ toJson(vars) }}
+                  JOB_CONTEXT: ${{ toJson(job) }}
+                  STEPS_CONTEXT: ${{ toJson(steps) }}
+                  RUNNER_CONTEXT: ${{ toJson(runner) }}
+                  SECRETS_CONTEXT: ${{ toJson(secrets) }}
+                  STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+                  MATRIX_CONTEXT: ${{ toJson(matrix) }}
+                  NEEDS_CONTEXT: ${{ toJson(needs) }}
+                  INPUTS_CONTEXT: ${{ toJson(inputs) }}
+              run: |
+                  echo "******************************"
+                  echo "github:" "$GITHUB_CONTEXT"
+                  echo "******************************"
+                  echo "env:" "$ENV_CONTEXT"
+                  echo "******************************"
+                  echo "vars:" "$VARS_CONTEXT"
+                  echo "******************************"
+                  echo "job:" "$JOB_CONTEXT"
+                  echo "******************************"
+                  echo "steps:" "$STEPS_CONTEXT"
+                  echo "******************************"
+                  echo "runner:" "$RUNNER_CONTEXT"
+                  echo "******************************"
+                  echo "secrets:" "$SECRETS_CONTEXT"
+                  echo "******************************"
+                  echo "strategy:" "$STRATEGY_CONTEXT"
+                  echo "******************************"
+                  echo "matrix:" "$MATRIX_CONTEXT"
+                  echo "******************************"
+                  echo "needs:" "$NEEDS_CONTEXT"
+                  echo "******************************"
+                  echo "inputs:" "$INPUTS_CONTEXT"
+                  echo "******************************"
             - uses: actions/checkout@v3
             - name: Detect version bump
               id: detect_version_bump
@@ -19,24 +56,52 @@ jobs:
                     exit 0
                   fi
 
-                  # get the version line changes
-                  LINES=$(git show --pretty=format: --no-notes ${{github.event.before}}..${{github.event.after}} package.json | grep -e "[-\+]\s*\"version\"")
-                  echo "$LINES"
+                  PR_HEAD=$(git rev-parse HEAD)
+                  # checkout the default branch
+                  git fetch
+                  git checkout ${{ github.base_ref }}
 
-                  # if there's lines returned, then the version line has changed. The lines will look like:
-                  # -    "version": "0.2.24",
-                  # +    "version": "0.2.25",
-                  # -    "version": "0.2.23",
-                  # +    "version": "0.2.24",
-                  # note there may be multiple changes if the version line has been changed multiple times. - == removed, + == added
-                  # use wc to count the lines
-                  N_LINES=$(echo "$LINES" | wc -l)
-                  # if there are any lines, then there has been a change in the version
-                  if [[ "$N_LINES" -gt 0 ]]; then
+                  # get the version number currently on default branch
+                  MAIN_VERSION=$(cat package.json | jq -r '.version' || echo "0.0.0")
+                  echo "main version: $MAIN_VERSION"
+
+                  # checkout the PR branch
+                  git checkout $PR_HEAD
+
+                  # get the version number on the PR branch
+                  PR_VERSION=$(cat package.json | jq -r '.version' || echo "0.0.0")
+                  echo "pr version: $PR_VERSION"
+                  
+                  # split into major, minor, patch
+                  MAIN_MAJOR=$(echo $MAIN_VERSION | cut -d. -f1)
+                  MAIN_MINOR=$(echo $MAIN_VERSION | cut -d. -f2)
+                  MAIN_PATCH=$(echo $MAIN_VERSION | cut -d. -f3)
+                  PR_MAJOR=$(echo $PR_VERSION | cut -d. -f1)
+                  PR_MINOR=$(echo $PR_VERSION | cut -d. -f2)
+                  PR_PATCH=$(echo $PR_VERSION | cut -d. -f3)
+                  echo "main major: $MAIN_MAJOR"
+                  echo "main minor: $MAIN_MINOR"
+                  echo "main patch: $MAIN_PATCH"
+                  echo "pr major: $PR_MAJOR"
+                  echo "pr minor: $PR_MINOR"
+                  echo "pr patch: $PR_PATCH"
+                  
+                  # compare the major, minor, patch versions
+                  if [[ "$MAIN_MAJOR" -lt "$PR_MAJOR" ]]; then
                     echo "bump=true" >> $GITHUB_OUTPUT
-                    echo "version bump detected"
-                  else
+                    echo "major version bump detected"
+                    exit 0
+                  elif [[ "$MAIN_MINOR" -lt "$PR_MINOR" ]]; then
+                    echo "bump=true" >> $GITHUB_OUTPUT
+                    echo "minor version bump detected"
+                    exit 0
+                  elif [[ "$MAIN_PATCH" -lt "$PR_PATCH" ]]; then
+                    echo "bump=true" >> $GITHUB_OUTPUT
+                    echo "patch version bump detected"
+                    exit 0
+                  else 
                     echo "bump=false" >> $GITHUB_OUTPUT
                     echo "no version bump detected"
+                    exit 0
                   fi
                 
