@@ -59,7 +59,7 @@ jobs:
                   # get the version line changes
                   echo "before: ${{github.event.before}}"
                   echo "after: ${{github.event.after}}"
-                  LINES=$(git show --pretty=format: --no-notes ${{github.event.before}}..HEAD package.json | grep -e "[-\+]\s*\"version\"")
+                  LINES=$(git show --pretty=format: --no-notes "${{github.event.before}}..HEAD" package.json | grep -e "[-\+]\s*\"version\"")
                   echo "$LINES"
 
                   # if there's lines returned, then the version line has changed. The lines will look like:
