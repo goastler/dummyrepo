@@ -56,6 +56,7 @@ jobs:
                     exit 0
                   fi
 
+                  git rev-parse HEAD
                   # checkout the default branch
                   git fetch
                   git checkout ${{ github.base_ref }}
@@ -65,7 +66,7 @@ jobs:
                   echo "main version: $MAIN_VERSION"
 
                   # checkout the PR branch
-                  git checkout ${{ github.event.after }}
+                  git checkout pull/${{ github.event.number }}/merge
 
                   # get the version number on the PR branch
                   PR_VERSION=$(npm view . version || echo "0.0.0")
