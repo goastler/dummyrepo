@@ -9,9 +9,6 @@ on:
               description: Version number (e.g. 1.2.3)
               required: true
 
-              
-permissions: write-all
-
 jobs:
     xyz:
         runs-on: ubuntu-latest
