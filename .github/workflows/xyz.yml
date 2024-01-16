@@ -19,8 +19,8 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: a
-              env:
-                GITHUB_TOKEN: ${{ secrets.PROSOPONATOR_PAT }}
+              # env:
+              #   GITHUB_TOKEN: ${{ secrets.PROSOPONATOR_PAT }}
               run: |
                 # make a new branch for the version changes
                 git switch -c bump-version-${{ github.event.inputs.version }}
