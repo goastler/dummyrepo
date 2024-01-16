@@ -56,20 +56,20 @@ jobs:
                     exit 0
                   fi
 
-                  git rev-parse HEAD
+                  PR_HEAD=$(git rev-parse HEAD)
                   # checkout the default branch
                   git fetch
                   git checkout ${{ github.base_ref }}
 
                   # get the version number currently on default branch
-                  MAIN_VERSION=$(npm view . version || echo "0.0.0")
+                  MAIN_VERSION=$(cat package.json | jq -r '.version' || echo "0.0.0")
                   echo "main version: $MAIN_VERSION"
 
                   # checkout the PR branch
-                  git checkout pull/${{ github.event.number }}/merge
+                  git checkout $PR_HEAD
 
                   # get the version number on the PR branch
-                  PR_VERSION=$(npm view . version || echo "0.0.0")
+                  PR_VERSION=$(cat package.json | jq -r '.version' || echo "0.0.0")
                   echo "pr version: $PR_VERSION"
                   
                   # split into major, minor, patch
