@@ -1,0 +1,15 @@
+name: xyz
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    xyz:
+        runs-on: ubuntu-latest
+        steps:
+            - name: a
+              run: |
+                  echo "a"
+                
