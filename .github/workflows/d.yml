@@ -27,7 +27,7 @@ jobs:
               run: |
                 # loop through all steps and check their outcome. Any failure should cause this step to fail. The workflow may not have failed due to continue-on-error being enabled, hence this step catches those errors.
                 for step_id in ${{ steps.*.id }}; do
-                if [ "${{ needs.${step_id}.result }}" == "failure" ]; then
+                if [ "${{ steps.${step_id}.outcome }}" == "failure" ]; then
                     echo "Step $step_id failed."
                     exit 1
                 else
