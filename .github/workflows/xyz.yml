@@ -9,6 +9,10 @@ on:
               description: Version number (e.g. 1.2.3)
               required: true
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
     xyz:
         runs-on: ubuntu-latest
