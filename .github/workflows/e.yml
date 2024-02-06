@@ -14,6 +14,7 @@ jobs:
         with:
           github-token: ${{ secrets.PROSOPONATOR_PAT }}
           script: |
+            const { context, github } = require('@actions/github');
             const comment = context.payload.comment.body;
             // print the payload
             console.log(JSON.stringify(context.payload, null, 2));
