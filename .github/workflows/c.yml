@@ -16,7 +16,7 @@ jobs:
               run: |
                   echo "a"
 
-                  diff=$(git show --pretty=format: --no-notes "${{ github.event.before }}..${{ github.event.after }}" -- package.json | cat)
+                  diff=$(git show --pretty=format: --no-notes ${{ github.event.before }}..${{ github.event.after }} -- package.json | cat)
                   echo "diff:"
                   echo "$diff"
                   echo ""
