@@ -31,7 +31,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         comment_id: context.payload.comment.id,
-                        content: 'rocket'
+                        content: '+1'
                     });
                     console.log('approving');
                     // approve the pull request
@@ -40,6 +40,23 @@ jobs:
                         repo: context.repo.repo,
                         pull_number: context.payload.issue.number,
                         event: 'APPROVE'
+                    });
+                } else if (words[1] === 'disapprove') {
+                    console.log('reacting');
+                    // react to the comment with a thumbs down
+                    github.rest.reactions.createForIssueComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        comment_id: context.payload.comment.id,
+                        content: '-1'
+                    });
+                    console.log('disapproving');
+                    // request changes to the pull request
+                    github.rest.pulls.createReview({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        pull_number: context.payload.issue.number,
+                        event: 'REQUEST_CHANGES'
                     });
                 } else {
                     console.log('unknown command');
