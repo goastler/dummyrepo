@@ -19,9 +19,10 @@ jobs:
             console.log(JSON.stringify(context.payload, null, 2));
             // split comment by space
             const words = comment.split(' ');
-            // if first word is '@prosponator'
-            if (words[0] === '@prosponator') {
-              console.log('prosponator called');
+            // if first word is '@prosoponator'
+            const bot = 'prosoponator';
+            if (words[0] === '@' + bot) {
+              console.log(bot + ' called');
               // if the next word is 'approve' then approve the pull request
                 if (words[1] === 'approve') {
                     console.log('reacting');
@@ -52,5 +53,5 @@ jobs:
                     });
                 }
             } else {
-                console.log('prosponator not called')
+                console.log(bot + ' not called')
             }
