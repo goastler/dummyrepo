@@ -56,7 +56,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         comment_id: context.payload.comment.id,
-                        content: '-1'
+                        content: '+1'
                     });
                     // quote reply
                     console.log('replying');
@@ -73,7 +73,7 @@ jobs:
                         repo: context.repo.repo,
                         pull_number: context.payload.issue.number,
                         event: 'REQUEST_CHANGES',
-                        body: ''
+                        body: 'Disapproved by ' + context.payload.comment.user.login'
                     });
                 } else {
                     console.log('unknown command');
