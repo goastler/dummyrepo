@@ -19,6 +19,7 @@ jobs:
             console.log(JSON.stringify(context.payload, null, 2));
             // split comment by space
             const words = comment.split(' ');
+            console.log(words);
             // if first word is '@prosponator'
             if (words[0] === '@prosponator') {
               console.log('prosponator called');
