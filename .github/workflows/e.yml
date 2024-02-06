@@ -15,6 +15,35 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const comment = context.payload.comment.body;
-            console.log(`Comment: ${comment}`);
-            console.log(`PR: ${context.payload.issue.number}`);
-            console.log(`Event: ${JSON.stringify(context.event, null, 2)}`);
+            // print the payload
+            console.log(JSON.stringify(context.payload, null, 2));
+            // split comment by space
+            const words = comment.split(' ');
+            // if first word is '@prosponator'
+            if (words[0] === '@prosponator') {
+              // if the next word is 'approve' then approve the pull request
+                if (words[1] === 'approve') {
+                    // react to the comment with a thumbs up
+                    github.reactions.createForIssueComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        comment_id: context.payload.comment.id,
+                        content: 'rocket'
+                    });
+                    // approve the pull request
+                    github.pulls.createReview({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        pull_number: context.payload.issue.number,
+                        event: 'APPROVE'
+                    });
+                } else {
+                    // react with confused
+                    github.reactions.createForIssueComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        comment_id: context.payload.comment.id,
+                        content: 'confused'
+                    });
+                }
+            }
