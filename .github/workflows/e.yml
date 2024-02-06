@@ -9,11 +9,12 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-      - name: a
-        env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-            echo A comment on PR $NUMBER
-            echo event: $GITHUB_CONTEXT
-
-          
+      - uses: actions/github-script@v7
+        name: a
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const comment = context.payload.comment.body;
+            console.log(`Comment: ${comment}`);
+            console.log(`PR: ${context.payload.issue.number}`);
+            console.log(`Event: ${JSON.stringify(context.event, null, 2)}`);
