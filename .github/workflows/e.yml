@@ -18,13 +18,13 @@ jobs:
             // print the payload
             console.log(JSON.stringify(context.payload, null, 2));
             // split comment by space
-            const words = comment.split(' ');
+            const words = comment.split(' ').map(word => word.toLowerCase().trim());
             // if first word is '@prosoponator'
             const bot = 'prosoponator';
             if (words[0] === '@' + bot) {
               console.log(bot + ' called');
               // if the next word is 'approve' then approve the pull request
-                if (words[1] === 'approve') {
+                if (words[1] === 'approve' || words[1] === 'accept') {
                     console.log('reacting');
                     // react to the comment with a thumbs up
                     github.rest.reactions.createForIssueComment({
@@ -33,13 +33,13 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '+1'
                     });
-                    // leaving comment
-                    console.log('commenting');
+                    // quote reply
+                    console.log('replying');
                     github.rest.issues.createComment({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: 'Approve requested by @' + context.payload.comment.user.login
+                        body: '> ' + context.payload.comment.body + '\n\nApproved by @' + context.payload.comment.user.login
                     });
                     console.log('approving');
                     // approve the pull request
@@ -58,13 +58,13 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '-1'
                     });
-                    // leaving comment
-                    console.log('commenting');
+                    // quote reply
+                    console.log('replying');
                     github.rest.issues.createComment({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: 'Disapproved requested by @' + context.payload.comment.user.login
+                        body: '> ' + context.payload.comment.body + '\n\nDisapprove requested by @' + context.payload.comment.user.login
                     });
                     console.log('disapproving');
                     // request changes to the pull request
@@ -85,13 +85,13 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: 'confused'
                     });
-                    // leaving comment
-                    console.log('commenting');
+                    // quote reply
+                    console.log('replying');
                     github.rest.issues.createComment({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: 'I pity the fool who doesn\'t know my commands! :bot:'
+                        body: '> ' + context.payload.comment.body + '\n\nDoes not compute! :robot:'
                     });
                 }
             } else {
