@@ -18,7 +18,7 @@ jobs:
             // print the payload
             console.log(JSON.stringify(context.payload, null, 2));
             // split comment by space
-            const words = comment.split(' ').map(word => word.toLowerCase().trim());
+            const words = comment.split(' ').map(word => word.toLowerCase().trim()).filter(word => word.length > 0);
             // if first word is '@prosoponator'
             const bot = 'prosoponator';
             if (words[0] === '@' + bot) {
