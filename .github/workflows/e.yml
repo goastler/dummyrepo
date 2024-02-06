@@ -39,7 +39,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: '> ' + context.payload.comment.body + '\n\nApproved by @' + context.payload.comment.user.login
+                        body: '@' + context.payload.comment.user.login + '\n\n> ' + context.payload.comment.body + '\n\nApproving... :rocket:'
                     });
                     console.log('approving');
                     // approve the pull request
@@ -64,7 +64,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: '> ' + context.payload.comment.body + '\n\nDisapprove requested by @' + context.payload.comment.user.login
+                        body: '@' + context.payload.comment.user.login + '\n\n> ' + context.payload.comment.body + '\n\nDisapproving... :no_entry:'
                     });
                     console.log('disapproving');
                     // request changes to the pull request
@@ -73,7 +73,7 @@ jobs:
                         repo: context.repo.repo,
                         pull_number: context.payload.issue.number,
                         event: 'REQUEST_CHANGES',
-                        body: 'Disapproved requested by @' + context.payload.comment.user.login
+                        body: ''
                     });
                 } else {
                     console.log('unknown command');
@@ -91,7 +91,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         issue_number: context.payload.issue.number,
-                        body: '> ' + context.payload.comment.body + '\n\nDoes not compute! :robot:'
+                        body: '@' + context.payload.comment.user.login + '\n\n> ' + context.payload.comment.body + '\n\nDoes not compute! :robot:'
                     });
                 }
             } else {
