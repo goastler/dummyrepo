@@ -33,6 +33,14 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '+1'
                     });
+                    // leaving comment
+                    console.log('commenting');
+                    github.rest.issues.createComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        issue_number: context.payload.issue.number,
+                        body: 'Approve requested by @' + context.payload.comment.user.login
+                    });
                     console.log('approving');
                     // approve the pull request
                     github.rest.pulls.createReview({
@@ -41,7 +49,7 @@ jobs:
                         pull_number: context.payload.issue.number,
                         event: 'APPROVE'
                     });
-                } else if (words[1] === 'disapprove') {
+                } else if (words[1] === 'disapprove' || words[1] === 'reject') {
                     console.log('reacting');
                     // react to the comment with a thumbs down
                     github.rest.reactions.createForIssueComment({
@@ -50,13 +58,22 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '-1'
                     });
+                    // leaving comment
+                    console.log('commenting');
+                    github.rest.issues.createComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        issue_number: context.payload.issue.number,
+                        body: 'Disapproved requested by @' + context.payload.comment.user.login
+                    });
                     console.log('disapproving');
                     // request changes to the pull request
                     github.rest.pulls.createReview({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         pull_number: context.payload.issue.number,
-                        event: 'REQUEST_CHANGES'
+                        event: 'REQUEST_CHANGES',
+                        body: 'Disapproved requested by @' + context.payload.comment.user.login
                     });
                 } else {
                     console.log('unknown command');
@@ -67,6 +84,14 @@ jobs:
                         repo: context.repo.repo,
                         comment_id: context.payload.comment.id,
                         content: 'confused'
+                    });
+                    // leaving comment
+                    console.log('commenting');
+                    github.rest.issues.createComment({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        issue_number: context.payload.issue.number,
+                        body: 'I pity the fool who doesn\'t know my commands! :bot:'
                     });
                 }
             } else {
