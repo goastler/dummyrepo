@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: a
+        env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
             echo A comment on PR $NUMBER
-            echo event: ${{ toJson(github) }}
+            echo event: $GITHUB_CONTEXT
 
           
