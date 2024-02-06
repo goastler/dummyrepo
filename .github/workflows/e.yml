@@ -12,7 +12,7 @@ jobs:
       - uses: actions/github-script@v7
         name: a
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PROSOPONATOR_PAT }}
           script: |
             const comment = context.payload.comment.body;
             // print the payload
@@ -21,8 +21,10 @@ jobs:
             const words = comment.split(' ');
             // if first word is '@prosponator'
             if (words[0] === '@prosponator') {
+              console.log('prosponator called');
               // if the next word is 'approve' then approve the pull request
                 if (words[1] === 'approve') {
+                    console.log('reacting');
                     // react to the comment with a thumbs up
                     github.reactions.createForIssueComment({
                         owner: context.repo.owner,
@@ -30,6 +32,7 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: 'rocket'
                     });
+                    console.log('approving');
                     // approve the pull request
                     github.pulls.createReview({
                         owner: context.repo.owner,
@@ -38,6 +41,8 @@ jobs:
                         event: 'APPROVE'
                     });
                 } else {
+                    console.log('unknown command');
+                    console.log('reacting');
                     // react with confused
                     github.reactions.createForIssueComment({
                         owner: context.repo.owner,
@@ -46,4 +51,6 @@ jobs:
                         content: 'confused'
                     });
                 }
+            } else {
+                console.log('prosponator not called')
             }
