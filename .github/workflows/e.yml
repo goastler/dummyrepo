@@ -33,21 +33,14 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '+1'
                     });
-                    // quote reply
-                    # console.log('replying');
-                    # github.rest.issues.createComment({
-                    #     owner: context.repo.owner,
-                    #     repo: context.repo.repo,
-                    #     issue_number: context.payload.issue.number,
-                    #     body: '@' + context.payload.comment.user.login + '\n\n> ' + context.payload.comment.body + '\n\nApproving... :rocket:'
-                    # });
                     console.log('approving');
                     // approve the pull request
                     github.rest.pulls.createReview({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         pull_number: context.payload.issue.number,
-                        event: 'APPROVE'
+                        event: 'APPROVE',
+                        body: 'Approved by ' + context.payload.comment.user.login
                     });
                 } else if (words[1] === 'disapprove' || words[1] === 'reject') {
                     console.log('reacting');
@@ -58,14 +51,6 @@ jobs:
                         comment_id: context.payload.comment.id,
                         content: '+1'
                     });
-                    // quote reply
-                    # console.log('replying');
-                    # github.rest.issues.createComment({
-                    #     owner: context.repo.owner,
-                    #     repo: context.repo.repo,
-                    #     issue_number: context.payload.issue.number,
-                    #     body: '@' + context.payload.comment.user.login + '\n\n> ' + context.payload.comment.body + '\n\nDisapproving... :no_entry:'
-                    # });
                     console.log('disapproving');
                     // request changes to the pull request
                     github.rest.pulls.createReview({
