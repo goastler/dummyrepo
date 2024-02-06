@@ -31,7 +31,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         comment_id: context.payload.comment.id,
-                        content: 'rocket'
+                        content: '+1'
                     });
                     console.log('approving');
                     // approve the pull request
@@ -48,7 +48,7 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         comment_id: context.payload.comment.id,
-                        content: 'confused'
+                        content: '-1'
                     });
                     console.log('disapproving');
                     // request changes to the pull request
