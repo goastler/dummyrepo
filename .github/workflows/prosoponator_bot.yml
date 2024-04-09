@@ -45,7 +45,10 @@ jobs:
             echo "inputs:" "$INPUTS_CONTEXT"
             echo "******************************"
         - uses: actions/checkout@v3
-        - run: |
+        - name: Run
+          env:
+            github-token: ${{ secrets.PROSOPONATOR_PAT }}
+          run: |
             cd packages/prosoponator-bot
             npm i
             npx tsx src/review.ts
