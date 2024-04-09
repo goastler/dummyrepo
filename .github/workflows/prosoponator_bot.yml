@@ -47,6 +47,6 @@ jobs:
             echo "******************************"
         - uses: actions/checkout@v3
         - run: |
-            cd prosoponator-bot
+            cd packages/prosoponator-bot
             npm i
             npx tsx review.ts
