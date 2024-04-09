@@ -6,11 +6,31 @@ async function disapprove(args: string[]) {
 }
 
 async function approve(args: string[]) {
-    console.log('approve', args)
+    console.log('approve')
+    const token = core.getInput('github-token');
+    const octokit = github.getOctokit(token);
+    console.log('reacting');
+    // react to the comment with a thumbs up
+    octokit.rest.reactions.createForIssueComment({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        comment_id: github.context.payload.comment!.id,
+        content: '+1'
+    });
+    console.log('approving')
+    octokit.rest.pulls.createReview({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        pull_number: github.context.payload.issue!.number,
+        event: 'APPROVE',
+        body: 'Approved by @' + github.context.payload.comment!.user.login
+    });
+    console.log('done')
 }
 
 async function help(args: string[]) {
-    console.log('help', args)
+    const str = `Commands: ${Object.keys(commands).join(', ')}`
+    
 }
 
 async function usage(args: string[]) {
