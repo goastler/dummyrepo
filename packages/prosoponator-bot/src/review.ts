@@ -28,6 +28,8 @@ const commands: {
     'reject': disapprove,
 }
 
+const tag = 'prosoponator'
+
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -54,12 +56,17 @@ async function run() {
         console.log('No words found in comment')
         return
     }
-    const command = words[0]
+    const target = words[0]
+    if(target !== `@${tag}`) {
+        console.log('Bot not tagged in comment')
+        return
+    }
+    const command = words[1]
     if(command === undefined) {
         console.log('No command found in comment')
         return
     }
-    const args = words.slice(1)
+    const args = words.slice(2)
     console.log('command', command)
     console.log('args', args)
 
