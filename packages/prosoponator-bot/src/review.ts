@@ -90,8 +90,6 @@ const tag = 'prosoponator'
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-    console.log(':robot: brrr :robot:')
-
     if (github.context.eventName !== 'issue_comment') {
         console.log('This event is not a comment.');
         return
@@ -102,8 +100,6 @@ async function run() {
         console.log('No comment found in payload')
         return
     }
-
-    console.log('comment', comment)
 
     const body = comment['body'] as string
     const words = body.split(' ').map(word => word.trim()).filter(word => word.length > 0)
