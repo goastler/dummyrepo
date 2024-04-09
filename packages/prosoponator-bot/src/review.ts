@@ -7,9 +7,7 @@ import * as github from '@actions/github'
  */
 async function run() {
   try {
-    // The `who-to-greet` input is defined in action metadata file
-    const whoToGreet = core.getInput('who-to-greet', { required: true })
-    core.info(`Hello, ${whoToGreet}!`)
+    console.log('hello')
 
     // Get the current time and set as an output
     const time = new Date().toTimeString()
@@ -22,5 +20,6 @@ async function run() {
   } catch (error: any) {
     // Fail the workflow step if an error occurs
     core.setFailed(error.message)
+    console.error(error)
   }
 }
