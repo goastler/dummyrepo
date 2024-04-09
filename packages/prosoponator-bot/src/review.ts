@@ -7,7 +7,7 @@ async function disapprove(args: string[]) {
 
 async function approve(args: string[]) {
     console.log('approve')
-    const token = core.getInput('github-token');
+    const token = core.getInput('github-token') || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
     const octokit = github.getOctokit(token);
     console.log('reacting');
     // react to the comment with a thumbs up
