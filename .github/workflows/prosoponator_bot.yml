@@ -49,4 +49,4 @@ jobs:
         - run: |
             cd packages/prosoponator-bot
             npm i
-            npx tsx review.ts
+            npx tsx src/review.ts
