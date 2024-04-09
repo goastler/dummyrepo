@@ -1,11 +1,10 @@
 name: prosoponator_bot
 
-on: push
+on: issue_comment
 
 jobs:
-  pr_commented:
+  comment:
     # This job only runs for pull request comments
-    name: PR comment
     runs-on: ubuntu-latest
     steps:
         - name: Print contexts

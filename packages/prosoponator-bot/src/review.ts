@@ -6,22 +6,23 @@ import * as github from '@actions/github'
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-  try {
-    console.log('hello')
+    console.log(':robot: brrr :robot:')
 
-    // Get the current time and set as an output
-    const time = new Date().toTimeString()
-    core.setOutput('time', time)
+    const comment = github.context.payload.comment
+    if (!comment) {
+        console.log('No comment found in payload')
+        return
+    }
 
-    // Output the payload for debugging
-    core.info(
-      `The event payload: ${JSON.stringify(github.context.payload, null, 2)}`
-    )
-  } catch (error: any) {
-    // Fail the workflow step if an error occurs
-    core.setFailed(error.message)
-    console.error(error)
-  }
+    console.log('comment', comment)
+
+    // const body = comment.body
+    // const words = body.split(' ').map(word => word.trim()).filter(word => word.length > 0)
+    // const command = words[0]
+    // const args = words.slice(1)
 }
 
-run()
+run().catch(error => {
+    console.error(error)
+    core.setFailed(error.message)
+})
