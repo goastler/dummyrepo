@@ -53,7 +53,7 @@ async function help(args: string[]) {
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         issue_number: github.context.payload.issue!.number,
-        body: `@${github.context.payload.comment!.user.login}\n\n>${github.context.payload.comment!.body}\n\nDoes not compute! :robot:\n\nCommands: ${Object.keys(commands).join(', ')}`
+        body: `Commands: ${Object.keys(commands).join(', ')}`
     });
     console.log('done')
 }
