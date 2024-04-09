@@ -128,6 +128,7 @@ async function run() {
     const fn = commands[command]
     if(fn === undefined) {
         console.log('Command not found')
+        await usage(args)
         return
     }
     await fn(args)
