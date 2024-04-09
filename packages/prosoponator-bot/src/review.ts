@@ -2,16 +2,32 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 
 async function disapprove(args: string[]) {
-    console.log('disapprove', args)
+    console.log('disapprove')
+    const token = core.getInput('github-token') || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+    const octokit = github.getOctokit(token);
+    console.log('reacting');
+    octokit.rest.reactions.createForIssueComment({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        comment_id: github.context.payload.comment!.id,
+        content: '+1'
+    });
+    console.log('disapproving')
+    octokit.rest.pulls.createReview({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        pull_number: github.context.payload.issue!.number,
+        event: 'REQUEST_CHANGES',
+        body: 'Requested by @' + github.context.payload.comment!.user.login
+    });
+    console.log('done')
 }
 
 async function approve(args: string[]) {
     console.log('approve')
     const token = core.getInput('github-token') || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
-    console.log('token', token.slice(0, 4) + '...')
     const octokit = github.getOctokit(token);
     console.log('reacting');
-    // react to the comment with a thumbs up
     octokit.rest.reactions.createForIssueComment({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -24,7 +40,7 @@ async function approve(args: string[]) {
         repo: github.context.repo.repo,
         pull_number: github.context.payload.issue!.number,
         event: 'APPROVE',
-        body: 'Approved by @' + github.context.payload.comment!.user.login
+        body: 'Requested by @' + github.context.payload.comment!.user.login
     });
     console.log('done')
 }
