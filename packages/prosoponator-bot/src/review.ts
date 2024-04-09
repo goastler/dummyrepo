@@ -18,7 +18,6 @@ async function disapprove(args: string[]) {
         repo: github.context.repo.repo,
         pull_number: github.context.payload.issue!.number,
         event: 'REQUEST_CHANGES',
-        body: 'Requested by @' + github.context.payload.comment!.user.login
     });
     console.log('done')
 }
@@ -40,7 +39,6 @@ async function approve(args: string[]) {
         repo: github.context.repo.repo,
         pull_number: github.context.payload.issue!.number,
         event: 'APPROVE',
-        body: 'Requested by @' + github.context.payload.comment!.user.login
     });
     console.log('done')
 }
@@ -53,7 +51,7 @@ async function help(args: string[]) {
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         issue_number: github.context.payload.issue!.number,
-        body: `Commands: ${Object.keys(commands).join(', ')}`
+        body: `Commands: ${Object.keys(commands).sort().join(', ')}`
     });
     console.log('done')
 }
@@ -69,7 +67,6 @@ async function usage(args: string[]) {
         comment_id: github.context.payload.comment!.id,
         content: 'confused'
     });
-    await help(args)
     console.log('done')
 }
 
@@ -90,8 +87,6 @@ const tag = 'prosoponator'
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-    console.log(':robot: brrr :robot:')
-
     if (github.context.eventName !== 'issue_comment') {
         console.log('This event is not a comment.');
         return
@@ -102,8 +97,6 @@ async function run() {
         console.log('No comment found in payload')
         return
     }
-
-    console.log('comment', comment)
 
     const body = comment['body'] as string
     const words = body.split(' ').map(word => word.trim()).filter(word => word.length > 0)
