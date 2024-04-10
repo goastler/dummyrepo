@@ -51,7 +51,7 @@ async function help(args: string[]) {
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         issue_number: github.context.payload.issue!.number,
-        body: `Commands: ${Object.keys(commands).sort().join(', ')}`
+        body: `My commands are: ${Object.keys(commands).sort().join(', ')}`
     });
     console.log('done')
 }
