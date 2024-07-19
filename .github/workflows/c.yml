@@ -7,14 +7,13 @@ on:
 
 jobs:
     c:
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted, ubuntu-latest]
         steps:
             - uses: actions/checkout@v3
               with:
                 fetch-depth: 0
             - name: a
               run: |
-                  echo "a"
 
                   diff=$(git show --pretty=format: --no-notes ${{ github.event.before }}..${{ github.event.after }} -- package.json | cat)
                   echo "diff:"
