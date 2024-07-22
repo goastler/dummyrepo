@@ -9,44 +9,7 @@ jobs:
         steps:
             - name: a
               run: |
-                echo "a"
+                apt list --installed
             - name: b
               run: |
-                echo "b"
-            - name: c
-              continue-on-error: true
-              run: |
-                echo "c"
-                exit 1
-            - name: d
-              run: |
-                    echo "d"
-
-            
-            # - name: Summary
-            #   run: |
-            #     # loop through all steps and check their outcome. Any failure should cause this step to fail. The workflow may not have failed due to continue-on-error being enabled, hence this step catches those errors.
-            #     for step_id in ${{ steps.*.id }}; do
-            #     if [ "${{ steps.${step_id}.outcome }}" == "failure" ]; then
-            #         echo "Step $step_id failed."
-            #         exit 1
-            #     else
-            #         echo "Step $step_id succeeded."
-            #     fi
-            #     done
-
-
-            - name: Final Step
-              run: |
-                
-                    steps_json=$(echo "${{ toJson(steps) }}")
-                    
-                    for step_id in ${{ steps.*.id }}; do
-                        result=$(echo "$steps_json" | jq -r --arg step_id "$step_id" '.[] | select(.name == $step_id) | .conclusion')
-                        
-                        if [ "$result" == "failure" ]; then
-                        echo "Step $step_id failed, failing Final Step"
-                        exit 1
-                        fi
-                    done
-                    echo "All steps passed, proceeding with Final Step"
+                dpkg --list
