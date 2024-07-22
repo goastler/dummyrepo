@@ -10,4 +10,4 @@ jobs:
         steps:
             - name: a
               run: |
-                apt-mark showmanual
+                dpkg --get-selections | cat
