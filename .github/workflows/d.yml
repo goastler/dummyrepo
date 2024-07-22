@@ -2,6 +2,7 @@ name: d
 
 on:
     workflow_dispatch:
+    push:
 
 jobs:
     d:
@@ -9,7 +10,4 @@ jobs:
         steps:
             - name: a
               run: |
-                apt list --installed
-            - name: b
-              run: |
-                dpkg --list
+                apt-mark showmanual
