@@ -11,3 +11,9 @@ jobs:
             - name: a
               run: |
                 apt-mark showmanual
+            - name: b
+              run: |
+                cat /etc/apt/sources.list
+            - name: c
+              run: |
+                cat /etc/apt/sources.list.d/*.list
