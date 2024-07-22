@@ -10,4 +10,4 @@ jobs:
         steps:
             - name: a
               run: |
-                dpkg --get-selections | cat
+                dpkg --get-selections | awk '{print $1}'
