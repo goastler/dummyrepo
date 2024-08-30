@@ -8,6 +8,12 @@ jobs:
     d:
         runs-on: ubuntu-latest
         steps:
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
             - name: a
               run: |
                 apt-mark showmanual
@@ -17,3 +23,7 @@ jobs:
             - name: c
               run: |
                 cat /etc/apt/sources.list.d/*.list
+            
+            - name: d
+              run: |
+                echo hello
