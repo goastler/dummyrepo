@@ -15,7 +15,7 @@ jobs:
             - name: b
               run: |
                 echo b
-                exit 0
+                exit 1
             - name: c
               run: |
                 echo c
