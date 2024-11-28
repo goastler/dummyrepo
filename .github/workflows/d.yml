@@ -6,8 +6,9 @@ on:
 
 jobs:
     a:
-        runs-on: ubuntu-latestoutputs:
-        my_output: ${{ steps.detect_env.outputs.env }}
+        runs-on: ubuntu-latest
+        outputs:
+            env: ${{ steps.detect_env.outputs.env }}
         steps:
             - name: detect env
               id: detect_env
@@ -21,7 +22,7 @@ jobs:
             - name: a
               run: |
                 echo a
-                echo "The output from job1 is: ${{ needs.job1.outputs.my_output }}"
+                echo "The output from job1 is: ${{ needs.a.outputs.env }}"
             - name: b
               run: |
                 echo b
