@@ -7,8 +7,9 @@ on:
 jobs:
     a:
         runs-on: ubuntu-latest
-        matrix:
-            environment: [dev, staging, prod]
+        strategy:
+            matrix:
+                environment: [dev, staging, prod]
         outputs:
             env: ${{ steps.detect_env.outputs.env }}
         steps:
