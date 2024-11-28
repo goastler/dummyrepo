@@ -5,13 +5,23 @@ on:
     push:
 
 jobs:
-    d:
-        runs-on: ubuntu-latest
+    a:
+        runs-on: ubuntu-latestoutputs:
+        my_output: ${{ steps.detect_env.outputs.env }}
         steps:
-
+            - name: detect env
+              id: detect_env
+              run: |
+                echo a
+                echo "::set-output name=env::abc"
+    b:
+        runs-on: ubuntu-latest
+        needs: a
+        steps:
             - name: a
               run: |
                 echo a
+                echo "The output from job1 is: ${{ needs.job1.outputs.my_output }}"
             - name: b
               run: |
                 echo b
