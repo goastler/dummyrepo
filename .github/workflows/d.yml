@@ -22,7 +22,7 @@ jobs:
             - name: a
               run: |
                 echo a
-                echo "The output from job1 is: ${{ needs.a.outputs.env }}"
+                echo "The output from job1 is: $env"
             - name: b
               run: |
                 echo b
