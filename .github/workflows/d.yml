@@ -14,7 +14,7 @@ jobs:
               id: detect_env
               run: |
                 echo a
-                echo "env=abc" >> $GITHUB_ENV
+                echo "env=abc" >> "$GITHUB_OUTPUT"
     b:
         runs-on: ubuntu-latest
         needs: a
@@ -22,11 +22,10 @@ jobs:
             - name: a
               run: |
                 echo a
-                echo "The output from job1 is: $env"
+                echo "The output from job1 is: ${{ needs.a.outputs.env }}"
             - name: b
               run: |
                 echo b
-                exit 1
             - name: c
               run: |
                 echo c
