@@ -14,7 +14,7 @@ jobs:
               id: detect_env
               run: |
                 echo a
-                echo "::set-output name=env::abc"
+                echo "env=abc" >> $GITHUB_ENV
     b:
         runs-on: ubuntu-latest
         needs: a
