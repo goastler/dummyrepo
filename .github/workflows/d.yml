@@ -10,6 +10,7 @@ jobs:
         strategy:
             matrix:
                 environment: [dev, staging, prod]
+        if: matrix.environment == 'dev'
         outputs:
             env: ${{ steps.detect_env.outputs.env }}
         steps:
