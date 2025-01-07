@@ -28,4 +28,5 @@ jobs:
             needs: ${{ toJson(needs) }}
             inputs: ${{ toJson(inputs) }}
             format: "env"
+            artifact: "contexts.txt"
             
