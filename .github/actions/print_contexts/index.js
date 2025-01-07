@@ -48,19 +48,19 @@ function indent(str, indent) {
 	return ' '.repeat(indent) + str;
 }
 
-function objToString(obj, indent, totalIndent = 0) {
-	totalIndent += indent;
+function objToString(obj, indentInc, totalIndent = 0) {
+	totalIndent += indentInc;
 	const lines = [indent('{', totalIndent)]
 	for(const [key, value] of Object.entries(obj)) {
 		if(typeof value === 'object' && value !== null) {
 			lines.push(indent(`${key}: {`, totalIndent));
-			lines.push(...objToString(value, indent, totalIndent + indent));
+			lines.push(...objToString(value, indentInc, totalIndent + indentInc));
 			lines.push(indent('}', totalIndent));
 		} else {
 			lines.push(indent(`${key}: ${value}`, totalIndent));
 		}
 	}
-	lines.push(indent('}', totalIndent - indent));
+	lines.push(indent('}', totalIndent - indentInc));
 	return lines
 }
 
