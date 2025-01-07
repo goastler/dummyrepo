@@ -10,7 +10,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Print contexts
-          uses: ./.github/actions/print_contexts@${{ github.ref }}
+          uses: ./.github/actions/print_contexts
         
         - run: ls -la
             
