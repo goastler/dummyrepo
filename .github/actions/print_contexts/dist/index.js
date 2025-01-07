@@ -27562,7 +27562,7 @@ function* iterEntriesInEnvFormat(obj, name, prefix = '') {
 		const prefixedKey = dotPrefix(prefix, key);
 		if(typeof value === 'object') {
 			// recurse
-			yield* iterEntriesInEnvFormat(value, secret, prefixedKey);
+			yield* iterEntriesInEnvFormat(value, name, prefixedKey);
 		} else {
 			if(isSecret(name)) {
 				yield [prefixedKey, '<secret>'];
