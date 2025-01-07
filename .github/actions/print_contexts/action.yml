@@ -1,5 +1,8 @@
 name: "print_contexts"
 
+permissions:
+  contents: read
+  
 runs:
     using: "composite"
     steps:
