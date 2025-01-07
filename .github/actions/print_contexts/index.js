@@ -103,8 +103,8 @@ async function main() {
 		}
 		try {
 			// upload the artifact
-			console.log('here', Object.keys(artifactClient.default))
-			console.log('here2', Object.keys(artifactClient.DefaultArtifactClient))
+			console.log('here', Object.getPrototypeOf(artifactClient.default))
+			console.log('here2', Object.getPrototypeOf(artifactClient.DefaultArtifactClient))
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
