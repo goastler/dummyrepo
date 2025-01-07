@@ -145,7 +145,7 @@ async function main() {
 		if(format === 'json') {
 			chunks.push(JSON.stringify(all, null, indent));
 		} else if(format === 'js') {
-			chunks.push(...objToString(all, indent));
+			chunks.push(...toJsString(all, indent));
 		}
 		for(const chunk of chunks) {
 			console.log(chunk);
