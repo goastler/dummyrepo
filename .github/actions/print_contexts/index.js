@@ -55,7 +55,10 @@ function toJsString(val, indent) {
 function toJsStringLines(val, indent) {
 	if(typeof val !== 'object' || val === null) {
 		// primitive
-		return [String(val)]
+		if(typeof val === 'string') {
+			return [`'${val}'`];
+		}
+		return [`${val}`];
 	}
 	const lines = []
 	const isArr = Array.isArray(val);
