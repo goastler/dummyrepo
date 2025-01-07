@@ -34,7 +34,7 @@ function* iterEntriesInEnvFormat(obj, name, prefix = '') {
 	}
 }
 
-function entriesInJsonFormat(obj, name) {
+function entriesInObjectFormat(obj, name) {
 	if(isSecret(name)) {
 		// redact secrets
 		for(const key of Object.keys(obj)) {
@@ -48,7 +48,7 @@ async function main() {
 	const chunks = []
 	try {
 		// get the format to print in
-		const format = core.getInput('format') || 'json';
+		const format = core.getInput('format') || 'object';
 		const jsonIndent = Number.parseInt(core.getInput('json-indent') || '2');
 		// get the inputs
 		const names = [
@@ -69,8 +69,8 @@ async function main() {
 		const all = {}
 		for(const name of names) {
 			const data = JSON.parse(core.getInput(name));
-			if(format === 'json') {
-				all[name] = entriesInJsonFormat(data, name);
+			if(format === 'js' || format === 'json') {
+				all[name] = entriesInObjectFormat(data, name);
 			} else if(format === 'env') {
 				chunks.push(`${commentPrefix} ${name}:`)
 				for(const [key, value] of iterEntriesInEnvFormat(data, name)) {
@@ -83,6 +83,8 @@ async function main() {
 		}
 		if(format === 'json') {
 			chunks.push(JSON.stringify(all, null, jsonIndent));
+		} else if(format === 'js') {
+			chunks.push(all)
 		}
 		for(const chunk of chunks) {
 			console.log(chunk);
