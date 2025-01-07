@@ -1,117 +1,40 @@
 name: "print_contexts"
 
 inputs:
-  github-context:
+  github:
     description: "Github context"
     required: true
-  env-context:
+  env:
     description: "Env context"
     required: true
-  vars-context:
+  vars:
     description: "Vars context"
     required: true
-  job-context:
+  job:
     description: "Job context"
     required: true
-  steps-context:
+  steps:
     description: "Steps context"
     required: true
-  runner-context:
+  runner:
     description: "Runner context"
     required: true
-  secrets-context:
+  secrets:
     description: "Secrets context"
     required: true
-  strategy-context:
+  strategy:
     description: "Strategy context"
     required: true
-  matrix-context:
+  matrix:
     description: "Matrix context"
     required: true
-  needs-context:
+  needs:
     description: "Needs context"
     required: true
-  inputs-context:
+  inputs:
     description: "Inputs context"
     required: true
 
 runs:
-    using: "composite"
-    steps:
-
-      - name: Print github context
-        shell: bash
-        run: |
-          echo "github:"
-          echo "${{ inputs.github-context }}"
-          echo ""
-
-      - name: Print env context
-        shell: bash
-        run: |
-          echo "env:"
-          echo "${{ inputs.env-context }}"
-          echo ""
-      
-      - name: Print vars context
-        shell: bash
-        run: |
-          echo "vars:"
-          echo "${{ inputs.vars-context }}"
-          echo ""
-
-      - name: Print job context
-        shell: bash
-        run: |
-          echo "job:"
-          echo "${{ inputs.job-context }}"
-          echo ""
-
-      - name: Print steps context
-        shell: bash
-        run: |
-          echo "steps:"
-          echo "${{ inputs.steps-context }}"
-          echo ""
-
-      - name: Print runner context
-        shell: bash
-        run: |
-          echo "runner:"
-          echo "${{ inputs.runner-context }}"
-          echo ""
-
-      - name: Print secrets context
-        shell: bash
-        run: |
-          echo "secrets:"
-          echo "${{ inputs.secrets-context }}"
-          echo ""
-
-      - name: Print strategy context
-        shell: bash
-        run: |
-          echo "strategy:"
-          echo "${{ inputs.strategy-context }}"
-          echo ""
-
-      - name: Print matrix context
-        shell: bash
-        run: |
-          echo "matrix:"
-          echo "${{ inputs.matrix-context }}"
-          echo ""
-
-      - name: Print needs context
-        shell: bash
-        run: |
-          echo "needs:"
-          echo "${{ inputs.needs-context }}"
-          echo ""
-
-      - name: Print inputs context
-        shell: bash
-        run: |
-          echo "inputs:"
-          echo "${{ inputs.inputs-context }}"
-          echo ""
+    using: "node20"
+    main: "index.js"
