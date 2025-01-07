@@ -44,16 +44,23 @@ function entriesInObjectFormat(obj, name) {
 	return obj
 }
 
+function indent(str, indent) {
+	return ' '.repeat(indent) + str;
+}
+
 function objToString(obj, indent, totalIndent = 0) {
-	const lines = []
+	totalIndent += indent;
+	const lines = [indent('{', totalIndent)]
 	for(const [key, value] of Object.entries(obj)) {
 		if(typeof value === 'object' && value !== null) {
-			lines.push(`${key}:`);
+			lines.push(indent(`${key}: {`, totalIndent));
 			lines.push(...objToString(value, indent, totalIndent + indent));
+			lines.push(indent('}', totalIndent));
 		} else {
-			lines.push(`${key}: ${value}`);
+			lines.push(indent(`${key}: ${value}`, totalIndent));
 		}
 	}
+	lines.push(indent('}', totalIndent - indent));
 	return lines
 }
 
