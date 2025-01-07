@@ -27549,6 +27549,9 @@ function dotPrefix(prefix, key) {
 }
 
 function* iterEntries(obj, prefix = '') {
+	if(!obj) {
+		return;
+	}
 	for(const [key, value] of Object.entries(obj)) {
 		const prefixedKey = dotPrefix(prefix, key);
 		if(typeof value === 'object') {
