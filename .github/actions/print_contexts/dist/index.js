@@ -27559,7 +27559,7 @@ function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
 			yield* iterEntriesInEnvFormat(value, secret, prefixedKey);
 		} else {
 			if(secret) {
-				yield [prefixedKey, '***'];
+				yield [prefixedKey, '<secret>'];
 			}
 			yield [prefixedKey, JSON.stringify(value)];
 		}
@@ -27603,7 +27603,6 @@ async function main() {
 			}
 		}
 		if(format === 'json') {
-			console.log('json indent:', jsonIndent);
 			console.log(JSON.stringify(all, null, jsonIndent));
 		}
 	} catch(e) {
