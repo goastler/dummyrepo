@@ -1,6 +1,6 @@
-const core = require('@actions/core');
-const artifact = require('@actions/artifact')
-const fs = require('fs');
+import * as core from '@actions/core'
+import * as artifact from '@actions/artifact'
+import fs from 'fs'
 
 const redacted = '***'
 
@@ -145,7 +145,7 @@ async function main() {
 		if(format === 'json') {
 			chunks.push(JSON.stringify(all, null, indent));
 		} else if(format === 'js') {
-			chunks.push(...toJsString(all, indent));
+			chunks.push(...toJsStringLines(all, indent));
 		}
 		for(const chunk of chunks) {
 			console.log(chunk);
@@ -170,10 +170,7 @@ async function main() {
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
-			const options = {
-				continueOnError: false
-			};
-			const uploadResponse = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
+			const uploadResponse = await artifactClient.uploadArtifact(artifactName, files, rootDirectory);
 			core.info(`Artifact uploaded: ${artifactName}`);
 		} catch(e: any) {
 			core.setFailed(`Failed to upload artifact: ${e.message}`);
