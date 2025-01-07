@@ -1,14 +1,11 @@
 name: "print_contexts"
 
-defaults:
-    run:
-        shell: bash
-        
 runs:
     using: "composite"
     steps:
 
       - name: Print contexts
+        shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
