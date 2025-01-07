@@ -9,6 +9,10 @@ jobs:
     a:
       runs-on: ubuntu-latest
       steps:
+        - uses: actions/checkout@v3
+            with:
+              fetch-depth: 0
+              
         - name: Print contexts
           uses: ./.github/actions/print_contexts
         
