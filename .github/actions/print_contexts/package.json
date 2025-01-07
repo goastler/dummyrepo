@@ -1,9 +1,9 @@
 {
 	"name": "print_contexts",
 	"version": "1.0.0",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
-		"package": "ncc build index.js -o dist"
+		"package": "ncc build index.js -o dist --source-map"
 	},
 	"dependencies": {
 		"@actions/core": "^1.11.1"
