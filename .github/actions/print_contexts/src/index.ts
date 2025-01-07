@@ -109,8 +109,8 @@ async function main() {
 	const chunks: string[] = []
 	try {
 		// get the format to print in
-		const format = core.getInput('format') || 'object';
-		const indent = Number.parseInt(core.getInput('indent') || '2');
+		const format = core.getInput('format') || 'json';
+		const indent = Number.parseInt(core.getInput('indent') || '4');
 		// get the inputs
 		const names = [
 			'github',
