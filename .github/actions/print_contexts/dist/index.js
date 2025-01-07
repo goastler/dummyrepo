@@ -27585,7 +27585,7 @@ async function main() {
 			console.log(`${name}:`);
 			console.log(spacer);
 			for(const [key, value] of iterEntries(data)) {
-				console.log(`${key}: ${value}`);
+				console.log(`${key}=${value}`);
 			}
 			console.log(spacer);
 		}
