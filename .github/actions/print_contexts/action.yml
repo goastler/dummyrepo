@@ -1,47 +1,95 @@
 name: "print_contexts"
 
-permissions:
-  contents: read
-  
+inputs:
+  github-context:
+    description: "Github context"
+    required: true
+  env-context:
+    description: "Env context"
+    required: true
+  vars-context:
+    description: "Vars context"
+    required: true
+  job-context:
+    description: "Job context"
+    required: true
+  steps-context:
+    description: "Steps context"
+    required: true
+  runner-context:
+    description: "Runner context"
+    required: true
+  secrets-context:
+    description: "Secrets context"
+    required: true
+  strategy-context:
+    description: "Strategy context"
+    required: true
+  matrix-context:
+    description: "Matrix context"
+    required: true
+  needs-context:
+    description: "Needs context"
+    required: true
+  inputs-context:
+    description: "Inputs context"
+    required: true
+
 runs:
     using: "composite"
     steps:
 
-      - name: Print contexts
+      - name: Print github context
         shell: bash
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          ENV_CONTEXT: ${{ toJson(env) }}
-          VARS_CONTEXT: ${{ toJson(vars) }}
-          JOB_CONTEXT: ${{ toJson(job) }}
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-          NEEDS_CONTEXT: ${{ toJson(needs) }}
-          INPUTS_CONTEXT: ${{ toJson(inputs) }}
         run: |
-          echo "******************************"
-          echo "github:" "$GITHUB_CONTEXT"
-          echo "******************************"
-          echo "env:" "$ENV_CONTEXT"
-          echo "******************************"
-          echo "vars:" "$VARS_CONTEXT"
-          echo "******************************"
-          echo "job:" "$JOB_CONTEXT"
-          echo "******************************"
-          echo "steps:" "$STEPS_CONTEXT"
-          echo "******************************"
-          echo "runner:" "$RUNNER_CONTEXT"
-          echo "******************************"
-          echo "secrets:" "$SECRETS_CONTEXT"
-          echo "******************************"
-          echo "strategy:" "$STRATEGY_CONTEXT"
-          echo "******************************"
-          echo "matrix:" "$MATRIX_CONTEXT"
-          echo "******************************"
-          echo "needs:" "$NEEDS_CONTEXT"
-          echo "******************************"
-          echo "inputs:" "$INPUTS_CONTEXT"
-          echo "******************************"
+          echo "${{ inputs.github-context }}"
+      
+      - name: Print env context
+        shell: bash
+        run: |
+          echo "${{ inputs.env-context }}"
+      
+      - name: Print vars context
+        shell: bash
+        run: |
+          echo "${{ inputs.vars-context }}"
+
+      - name: Print job context
+        shell: bash
+        run: |
+          echo "${{ inputs.job-context }}"
+
+      - name: Print steps context
+        shell: bash
+        run: |
+          echo "${{ inputs.steps-context }}"
+
+      - name: Print runner context
+        shell: bash
+        run: |
+          echo "${{ inputs.runner-context }}"
+
+      - name: Print secrets context
+        shell: bash
+        run: |
+          echo "${{ inputs.secrets-context }}"
+
+      - name: Print strategy context
+        shell: bash
+        run: |
+          echo "${{ inputs.strategy-context }}"
+
+      - name: Print matrix context
+        shell: bash
+        run: |
+          echo "${{ inputs.matrix-context }}"
+
+      - name: Print needs context
+        shell: bash
+        run: |
+          echo "${{ inputs.needs-context }}"
+
+      - name: Print inputs context
+        shell: bash
+        run: |
+          echo "${{ inputs.inputs-context }}"

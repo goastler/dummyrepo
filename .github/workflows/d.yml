@@ -15,6 +15,18 @@ jobs:
 
         - name: Print contexts
           uses: ./.github/actions/print_contexts
+          with:
+            github-context: ${{ toJson(github) }}
+            env-context: ${{ toJson(env) }}
+            vars-context: ${{ toJson(vars) }}
+            job-context: ${{ toJson(job) }}
+            steps-context: ${{ toJson(steps) }}
+            runner-context: ${{ toJson(runner) }}
+            secrets-context: ${{ toJson(secrets) }}
+            strategy-context: ${{ toJson(strategy) }}
+            matrix-context: ${{ toJson(matrix) }}
+            needs-context: ${{ toJson(needs) }}
+            inputs-context: ${{ toJson(inputs) }}
         
         - run: ls -la
             
