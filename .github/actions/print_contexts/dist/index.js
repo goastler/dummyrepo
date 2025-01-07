@@ -30637,7 +30637,7 @@ module.exports = parseParams
 /************************************************************************/
 var __webpack_exports__ = {};
 const core = __nccwpck_require__(7484);
-const artifact = __nccwpck_require__(7884);
+const {DefaultArtifactClient} = __nccwpck_require__(7884)
 const fs = __nccwpck_require__(9896);
 
 const redacted = '***'
@@ -30741,7 +30741,7 @@ async function main() {
 		}
 		try {
 			// upload the artifact
-			const artifactClient = artifact.create();
+			const artifactClient = new DefaultArtifactClient();
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';

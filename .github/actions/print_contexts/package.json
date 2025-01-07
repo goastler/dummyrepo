@@ -6,7 +6,7 @@
 		"package": "ncc build index.js -o dist --source-map"
 	},
 	"dependencies": {
-		"@actions/artifact": "1.1.2",
+		"@actions/artifact": "^2.2.0",
 		"@actions/core": "^1.11.1"
 	},
 	"devDependencies": {
