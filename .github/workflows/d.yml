@@ -27,6 +27,6 @@ jobs:
             matrix: ${{ toJson(matrix) }}
             needs: ${{ toJson(needs) }}
             inputs: ${{ toJson(inputs) }}
-        
-        - run: ls -la
+            format: "json"
+            json-indent: 6
             

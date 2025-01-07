@@ -5,6 +5,10 @@ inputs:
     description: "Format to print the data"
     required: false
     default: "json"
+  json-indent:
+    description: "Indentation for JSON output"
+    required: false
+    default: 2
   github:
     description: "Github context"
     required: true
