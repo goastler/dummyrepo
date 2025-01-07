@@ -103,7 +103,7 @@ async function main() {
 		}
 		try {
 			// upload the artifact
-			const artifactClient = DefaultArtifactClient();
+			const artifactClient = new DefaultArtifactClient();
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
