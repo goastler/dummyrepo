@@ -1,6 +1,10 @@
 name: "print_contexts"
 
 inputs:
+  format:
+    description: "Format to print the data"
+    required: false
+    default: "json"
   github:
     description: "Github context"
     required: true

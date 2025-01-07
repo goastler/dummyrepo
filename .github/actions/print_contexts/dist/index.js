@@ -27548,7 +27548,7 @@ function dotPrefix(prefix, key) {
 	return `${prefix}.${key}`;
 }
 
-function* iterEntries(obj, prefix = '') {
+function* iterEntriesInEnvFormat(obj, prefix = '') {
 	if(!obj) {
 		return;
 	}
@@ -27556,7 +27556,7 @@ function* iterEntries(obj, prefix = '') {
 		const prefixedKey = dotPrefix(prefix, key);
 		if(typeof value === 'object') {
 			// recurse
-			yield* iterEntries(value, prefixedKey);
+			yield* iterEntriesInEnvFormat(value, prefixedKey);
 		} else {
 			yield [prefixedKey, JSON.stringify(value)];
 		}
@@ -27565,6 +27565,8 @@ function* iterEntries(obj, prefix = '') {
 
 async function main() {
 	try {
+		// get the format to print in
+		const format = core.getInput('format') || 'json';
 		// get the inputs
 		const names = [
 			'github',
@@ -27584,8 +27586,14 @@ async function main() {
 			const data = JSON.parse(core.getInput(name));
 			console.log(`${name}:`);
 			console.log(spacer);
-			for(const [key, value] of iterEntries(data)) {
-				console.log(`${key}=${value}`);
+			if(format === 'json') {
+				console.log(data)
+			} else if(format === 'env') {
+				for(const [key, value] of iterEntriesInEnvFormat(data)) {
+					console.log(`${key}=${value}`);
+				}
+			} else {
+				throw new Error(`Unsupported format: ${format}`);
 			}
 			console.log(spacer);
 		}
