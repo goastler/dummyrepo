@@ -50,7 +50,10 @@ function indent(str, indent) {
 
 function objToString(obj, indentInc, totalIndent = 0) {
 	totalIndent += indentInc;
-	const lines = [indent('{', totalIndent)]
+	const lines = []
+	if(totalIndent === 0) {
+		lines.push('{');
+	}
 	for(const [key, value] of Object.entries(obj)) {
 		if(typeof value === 'object' && value !== null) {
 			lines.push(indent(`${key}: {`, totalIndent));
@@ -60,7 +63,9 @@ function objToString(obj, indentInc, totalIndent = 0) {
 			lines.push(indent(`${key}: ${value}`, totalIndent));
 		}
 	}
-	lines.push(indent('}', totalIndent - indentInc));
+	if(totalIndent === 0) {
+		lines.push('}');
+	}
 	return lines
 }
 
