@@ -27,7 +27,6 @@ jobs:
             matrix: ${{ toJson(matrix) }}
             needs: ${{ toJson(needs) }}
             inputs: ${{ toJson(inputs) }}
-            format: 'env'
         
         - run: ls -la
             
