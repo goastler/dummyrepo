@@ -1,5 +1,7 @@
 const core = require('@actions/core');
 
+const redacted = '***'
+
 function dotPrefix(prefix, key) {
 	if(prefix === '') {
 		return key;
@@ -29,7 +31,7 @@ function entriesInJsonFormat(obj, name) {
 	if(name === 'secrets') {
 		// redact secrets
 		for(const key of Object.keys(obj)) {
-			obj[key] = '<secret2>'
+			obj[key] = redacted
 		}
 	}
 	return obj

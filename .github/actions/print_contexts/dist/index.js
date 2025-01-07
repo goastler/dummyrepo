@@ -27541,6 +27541,8 @@ module.exports = parseParams
 var __webpack_exports__ = {};
 const core = __nccwpck_require__(7484);
 
+const redacted = '***'
+
 function dotPrefix(prefix, key) {
 	if(prefix === '') {
 		return key;
@@ -27570,7 +27572,7 @@ function entriesInJsonFormat(obj, name) {
 	if(name === 'secrets') {
 		// redact secrets
 		for(const key of Object.keys(obj)) {
-			obj[key] = '<secret2>'
+			obj[key] = redacted
 		}
 	}
 	return obj
