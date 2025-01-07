@@ -2,6 +2,10 @@ const core = require('@actions/core');
 
 const redacted = '***'
 
+function isSecret(key) {
+	return key === 'secrets';
+}
+
 function dotPrefix(prefix, key) {
 	if(prefix === '') {
 		return key;
@@ -9,7 +13,7 @@ function dotPrefix(prefix, key) {
 	return `${prefix}.${key}`;
 }
 
-function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
+function* iterEntriesInEnvFormat(obj, name, prefix = '') {
 	if(!obj) {
 		return;
 	}
@@ -19,16 +23,17 @@ function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
 			// recurse
 			yield* iterEntriesInEnvFormat(value, secret, prefixedKey);
 		} else {
-			if(secret) {
+			if(isSecret(name)) {
 				yield [prefixedKey, '<secret>'];
+			} else {
+				yield [prefixedKey, JSON.stringify(value)];
 			}
-			yield [prefixedKey, JSON.stringify(value)];
 		}
 	}
 }
 
 function entriesInJsonFormat(obj, name) {
-	if(name === 'secrets') {
+	if(isSecret(name)) {
 		// redact secrets
 		for(const key of Object.keys(obj)) {
 			obj[key] = redacted
@@ -65,7 +70,7 @@ async function main() {
 				all[name] = entriesInJsonFormat(data, name);
 			} else if(format === 'env') {
 				console.log(`${commentPrefix} ${name}:`)
-				for(const [key, value] of iterEntriesInEnvFormat(data)) {
+				for(const [key, value] of iterEntriesInEnvFormat(data, name)) {
 					console.log(`${key}=${value}`);
 				}
 				console.log(`${commentPrefix} ${spacer}`);
