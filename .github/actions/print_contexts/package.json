@@ -2,7 +2,13 @@
 	"name": "print_contexts",
 	"version": "1.0.0",
 	"main": "index.js",
+	"scripts": {
+		"package": "ncc build index.js -o dist"
+	},
 	"dependencies": {
 		"@actions/core": "^1.11.1"
+	},
+	"devDependencies": {
+		"@vercel/ncc": "^0.38.3"
 	}
 }
