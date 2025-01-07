@@ -103,13 +103,14 @@ async function main() {
 		}
 		try {
 			// upload the artifact
+			const artifactClient = artifact.create();
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
 			const options = {
 				continueOnError: false
 			};
-			const uploadResponse = await artifact.uploadArtifact(artifactName, files, rootDirectory, options);
+			const uploadResponse = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
 			core.info(`Artifact uploaded: ${uploadResponse.artifactName}`);
 		} catch(e) {
 			core.setFailed(`Failed to upload artifact: ${e.message}`);
