@@ -42,54 +42,76 @@ runs:
       - name: Print github context
         shell: bash
         run: |
+          echo "github:"
           echo "${{ inputs.github-context }}"
-      
+          echo ""
+
       - name: Print env context
         shell: bash
         run: |
+          echo "env:"
           echo "${{ inputs.env-context }}"
+          echo ""
       
       - name: Print vars context
         shell: bash
         run: |
+          echo "vars:"
           echo "${{ inputs.vars-context }}"
+          echo ""
 
       - name: Print job context
         shell: bash
         run: |
+          echo "job:"
           echo "${{ inputs.job-context }}"
+          echo ""
 
       - name: Print steps context
         shell: bash
         run: |
+          echo "steps:"
           echo "${{ inputs.steps-context }}"
+          echo ""
 
       - name: Print runner context
         shell: bash
         run: |
+          echo "runner:"
           echo "${{ inputs.runner-context }}"
+          echo ""
 
       - name: Print secrets context
         shell: bash
         run: |
+          echo "secrets:"
           echo "${{ inputs.secrets-context }}"
+          echo ""
 
       - name: Print strategy context
         shell: bash
         run: |
+          echo "strategy:"
           echo "${{ inputs.strategy-context }}"
+          echo ""
 
       - name: Print matrix context
         shell: bash
         run: |
+          echo "matrix:"
           echo "${{ inputs.matrix-context }}"
+          echo ""
 
       - name: Print needs context
         shell: bash
         run: |
+          echo "needs:"
           echo "${{ inputs.needs-context }}"
+          echo ""
 
       - name: Print inputs context
         shell: bash
         run: |
+          echo "inputs:"
           echo "${{ inputs.inputs-context }}"
+          echo ""
