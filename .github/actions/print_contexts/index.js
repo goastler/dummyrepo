@@ -7,7 +7,7 @@ function dotPrefix(prefix, key) {
 	return `${prefix}.${key}`;
 }
 
-function* iterEntriesInEnvFormat(obj, prefix = '') {
+function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
 	if(!obj) {
 		return;
 	}
@@ -15,8 +15,11 @@ function* iterEntriesInEnvFormat(obj, prefix = '') {
 		const prefixedKey = dotPrefix(prefix, key);
 		if(typeof value === 'object') {
 			// recurse
-			yield* iterEntriesInEnvFormat(value, prefixedKey);
+			yield* iterEntriesInEnvFormat(value, secret, prefixedKey);
 		} else {
+			if(secret) {
+				yield [prefixedKey, '***'];
+			}
 			yield [prefixedKey, JSON.stringify(value)];
 		}
 	}
@@ -59,6 +62,7 @@ async function main() {
 			}
 		}
 		if(format === 'json') {
+			console.log('json indent:', jsonIndent);
 			console.log(JSON.stringify(all, null, jsonIndent));
 		}
 	} catch(e) {

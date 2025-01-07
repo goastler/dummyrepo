@@ -27548,7 +27548,7 @@ function dotPrefix(prefix, key) {
 	return `${prefix}.${key}`;
 }
 
-function* iterEntriesInEnvFormat(obj, prefix = '') {
+function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
 	if(!obj) {
 		return;
 	}
@@ -27556,8 +27556,11 @@ function* iterEntriesInEnvFormat(obj, prefix = '') {
 		const prefixedKey = dotPrefix(prefix, key);
 		if(typeof value === 'object') {
 			// recurse
-			yield* iterEntriesInEnvFormat(value, prefixedKey);
+			yield* iterEntriesInEnvFormat(value, secret, prefixedKey);
 		} else {
+			if(secret) {
+				yield [prefixedKey, '***'];
+			}
 			yield [prefixedKey, JSON.stringify(value)];
 		}
 	}
@@ -27567,6 +27570,7 @@ async function main() {
 	try {
 		// get the format to print in
 		const format = core.getInput('format') || 'json';
+		const jsonIndent = Number.parseInt(core.getInput('json-indent') || '2');
 		// get the inputs
 		const names = [
 			'github',
@@ -27582,20 +27586,25 @@ async function main() {
 			'inputs',
 		]
 		const spacer = '----------------------------------------';
+		const commentPrefix = '#';
+		const all = {}
 		for(const name of names) {
 			const data = JSON.parse(core.getInput(name));
-			console.log(`${name}:`);
-			console.log(spacer);
 			if(format === 'json') {
-				console.log(data)
+				all[name] = data;
 			} else if(format === 'env') {
+				console.log(`${commentPrefix} ${name}:`)
 				for(const [key, value] of iterEntriesInEnvFormat(data)) {
 					console.log(`${key}=${value}`);
 				}
+				console.log(`${commentPrefix} ${spacer}`);
 			} else {
 				throw new Error(`Unsupported format: ${format}`);
 			}
-			console.log(spacer);
+		}
+		if(format === 'json') {
+			console.log('json indent:', jsonIndent);
+			console.log(JSON.stringify(all, null, jsonIndent));
 		}
 	} catch(e) {
 		core.setFailed(e.message);
