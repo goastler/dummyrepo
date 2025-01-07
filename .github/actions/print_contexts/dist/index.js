@@ -27554,6 +27554,10 @@ function* iterEntries(obj, prefix = '') {
 	}
 	for(const [key, value] of Object.entries(obj)) {
 		const prefixedKey = dotPrefix(prefix, key);
+		if(key === 'DOKKU_SSH_PRIVATE_KEY') {
+			console.log('here')
+			console.log(`value: ${value}`)
+		}
 		if(typeof value === 'object') {
 			// recurse
 			yield* iterEntries(value, prefixedKey);
