@@ -1,0 +1,12 @@
+declare const core: any;
+declare const artifact: any;
+declare const fs: any;
+declare const redacted = "***";
+declare function isSecret(key: string): key is "secrets";
+declare function dotPrefix(prefix: string, key: string): string;
+declare function iterEntriesInEnvFormat(obj: unknown, name: string, prefix?: string): Generator<[string, string]>;
+declare function entriesInObjectFormat(obj: object, name: string): object;
+declare function toJsString(val: unknown, indent: number): string;
+declare function indentStr(str: string, indent: number): string;
+declare function toJsStringLines(val: unknown, indent: number): string[];
+declare function main(): Promise<void>;
