@@ -45,6 +45,9 @@ inputs:
   inputs:
     description: "Inputs context"
     required: true
+    
+env:
+  ACTIONS_STEP_DEBUG: false
 
 runs:
     using: "node20"
