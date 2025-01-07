@@ -37,7 +37,7 @@ async function main() {
 		]
 		const spacer = '----------------------------------------';
 		for(const name of names) {
-			const value = fromJSON(core.getInput(name));
+			const value = JSON.parse(core.getInput(name));
 			console.log(`${name}:`);
 			console.log(spacer);
 			for(const [key, value] of iterEntries(value)) {

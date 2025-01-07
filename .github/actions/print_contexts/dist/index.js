@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 4914:
@@ -27578,7 +27578,7 @@ async function main() {
 		]
 		const spacer = '----------------------------------------';
 		for(const name of names) {
-			const value = fromJSON(core.getInput(name));
+			const value = JSON.parse(core.getInput(name));
 			console.log(`${name}:`);
 			console.log(spacer);
 			for(const [key, value] of iterEntries(value)) {
@@ -27596,3 +27596,4 @@ main()
 module.exports = __webpack_exports__;
 /******/ })()
 ;
+//# sourceMappingURL=index.js.map
