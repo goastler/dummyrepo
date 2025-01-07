@@ -27578,10 +27578,10 @@ async function main() {
 		]
 		const spacer = '----------------------------------------';
 		for(const name of names) {
-			const value = JSON.parse(core.getInput(name));
+			const data = JSON.parse(core.getInput(name));
 			console.log(`${name}:`);
 			console.log(spacer);
-			for(const [key, value] of iterEntries(value)) {
+			for(const [key, value] of iterEntries(data)) {
 				console.log(`${key}: ${value}`);
 			}
 			console.log(spacer);
