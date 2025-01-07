@@ -27566,6 +27566,16 @@ function* iterEntriesInEnvFormat(obj, secret, prefix = '') {
 	}
 }
 
+function entriesInJsonFormat(obj, name) {
+	if(name === 'secrets') {
+		// redact secrets
+		for(const key of Object.keys(obj)) {
+			obj[key] = '<secret2>'
+		}
+	}
+	return obj
+}
+
 async function main() {
 	try {
 		// get the format to print in
@@ -27591,7 +27601,7 @@ async function main() {
 		for(const name of names) {
 			const data = JSON.parse(core.getInput(name));
 			if(format === 'json') {
-				all[name] = data;
+				all[name] = entriesInJsonFormat(data, name);
 			} else if(format === 'env') {
 				console.log(`${commentPrefix} ${name}:`)
 				for(const [key, value] of iterEntriesInEnvFormat(data)) {
