@@ -9,6 +9,9 @@ inputs:
     description: "Indentation for JSON output"
     required: false
     default: 2
+  artifact:
+    description: "Name of the artifact to upload. Leave unset for no artifact"
+    required: false
   github:
     description: "Github context"
     required: true

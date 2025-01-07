@@ -1,4 +1,6 @@
 const core = require('@actions/core');
+const artifact = require('@actions/artifact');
+const fs = require('fs');
 
 const redacted = '***'
 
@@ -24,7 +26,7 @@ function* iterEntriesInEnvFormat(obj, name, prefix = '') {
 			yield* iterEntriesInEnvFormat(value, name, prefixedKey);
 		} else {
 			if(isSecret(name)) {
-				yield [prefixedKey, '<secret>'];
+				yield [prefixedKey, redacted];
 			} else {
 				yield [prefixedKey, JSON.stringify(value)];
 			}
@@ -43,6 +45,7 @@ function entriesInJsonFormat(obj, name) {
 }
 
 async function main() {
+	const chunks = []
 	try {
 		// get the format to print in
 		const format = core.getInput('format') || 'json';
@@ -69,20 +72,49 @@ async function main() {
 			if(format === 'json') {
 				all[name] = entriesInJsonFormat(data, name);
 			} else if(format === 'env') {
-				console.log(`${commentPrefix} ${name}:`)
+				chunks.push(`${commentPrefix} ${name}:`)
 				for(const [key, value] of iterEntriesInEnvFormat(data, name)) {
-					console.log(`${key}=${value}`);
+					chunks.push(`${key}=${value}`);
 				}
-				console.log(`${commentPrefix} ${spacer}`);
+				chunks.push(`${commentPrefix} ${spacer}`);
 			} else {
 				throw new Error(`Unsupported format: ${format}`);
 			}
 		}
 		if(format === 'json') {
-			console.log(JSON.stringify(all, null, jsonIndent));
+			chunks.push(JSON.stringify(all, null, jsonIndent));
+		}
+		for(const chunk of chunks) {
+			console.log(chunk);
 		}
 	} catch(e) {
-		core.setFailed(e.message);
+		core.setFailed(`Failed to handle contexts: ${e.message}`);
+	}
+	const file = core.getInput('artifact')
+	if(file) {
+		try {
+			// overwrite the file
+			fs.writeFileSync(file, '');
+			for(const chunk of chunks) {
+				fs.appendFileSync(file, chunk + '\n');
+			}
+		} catch(e) {
+			core.setFailed(`Failed to write file: ${e.message}`);
+		}
+		try {
+			// upload the artifact
+			const artifactClient = artifact.create();
+			const artifactName = file;
+			const files = [file];
+			const rootDirectory = '.';
+			const options = {
+				continueOnError: false
+			};
+			const uploadResponse = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
+			core.info(`Artifact uploaded: ${uploadResponse.artifactName}`);
+		} catch(e) {
+			core.setFailed(`Failed to upload artifact: ${e.message}`);
+		}
 	}
 }
 
