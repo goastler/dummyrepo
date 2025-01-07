@@ -103,6 +103,7 @@ async function main() {
 		}
 		try {
 			// upload the artifact
+			console.log('keys', Object.keys(artifactClient))
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
