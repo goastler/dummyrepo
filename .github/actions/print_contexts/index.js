@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const artifactClient = require('@actions/artifact')
+const artifact = require('@actions/artifact')
 const fs = require('fs');
 
 const redacted = '***'
@@ -103,8 +103,7 @@ async function main() {
 		}
 		try {
 			// upload the artifact
-			console.log('here', Object.getPrototypeOf(artifactClient.default))
-			console.log('here2', Object.getPrototypeOf(artifactClient.DefaultArtifactClient))
+			const artifactClient = new artifact.DefaultArtifactClient()
 			const artifactName = file;
 			const files = [file];
 			const rootDirectory = '.';
