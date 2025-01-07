@@ -3,16 +3,13 @@ function indentStr(str, indent) {
 	return ' '.repeat(indent) + str;
 }
 
-const newline = '\n'
-
-function indentLines(lines, indent) {
-	return lines.map(line => indentStr(line, indent));
-}
-
 function toJsStringLines(val, indent) {
 	if(typeof val !== 'object' || val === null) {
 		// primitive
-		return [String(val)]
+		if(typeof val === 'string') {
+			return [`${JSON.stringify(val)}`];
+		}
+		return [`${val}`];
 	}
 	const lines = []
 	const isArr = Array.isArray(val);
@@ -75,3 +72,25 @@ console.log(toJsStringLines({
 	h: [],
 	i: {},
 }, 4).join('\n'));
+
+
+console.log(toJsStringLines({
+	github: {
+		x: '"',
+		token: "***",
+		job: "a",
+		event: {
+			after: "33056cacc32509a12d8f7134053ead35ae051e0c",
+			base_ref: null,
+			before: "315adc6d104f6e9737e011945b0d5e33d5cb1314",
+			commits: {
+				0: {
+					author: {
+						email: "goastler4@gmail.com"
+					},
+					tree_id: "8272e325b35d49c10a90627c4e64ee9557bc8afa"
+				}
+			}
+		}
+	}
+}, 4).join('\n'))

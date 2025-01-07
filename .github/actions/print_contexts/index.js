@@ -44,19 +44,19 @@ function entriesInObjectFormat(obj, name) {
 	return obj
 }
 
-function indentStr(str, indent) {
-	return ' '.repeat(indent) + str;
-}
-
 function toJsString(val, indent) {
 	return toJsStringLines(val, indent).join('\n');
+}
+
+function indentStr(str, indent) {
+	return ' '.repeat(indent) + str;
 }
 
 function toJsStringLines(val, indent) {
 	if(typeof val !== 'object' || val === null) {
 		// primitive
 		if(typeof val === 'string') {
-			return [`'${val}'`];
+			return [`${JSON.stringify(val)}`];
 		}
 		return [`${val}`];
 	}
