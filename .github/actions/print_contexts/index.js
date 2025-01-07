@@ -44,12 +44,25 @@ function entriesInObjectFormat(obj, name) {
 	return obj
 }
 
+function objToString(obj, indent, totalIndent = 0) {
+	const lines = []
+	for(const [key, value] of Object.entries(obj)) {
+		if(typeof value === 'object' && value !== null) {
+			lines.push(`${key}:`);
+			lines.push(...objToString(value, indent, totalIndent + indent));
+		} else {
+			lines.push(`${key}: ${value}`);
+		}
+	}
+	return lines
+}
+
 async function main() {
 	const chunks = []
 	try {
 		// get the format to print in
 		const format = core.getInput('format') || 'object';
-		const jsonIndent = Number.parseInt(core.getInput('json-indent') || '2');
+		const indent = Number.parseInt(core.getInput('indent') || '2');
 		// get the inputs
 		const names = [
 			'github',
@@ -82,9 +95,9 @@ async function main() {
 			}
 		}
 		if(format === 'json') {
-			chunks.push(JSON.stringify(all, null, jsonIndent));
+			chunks.push(JSON.stringify(all, null, indent));
 		} else if(format === 'js') {
-			chunks.push(all)
+			chunks.push(...objToString(all, indent));
 		}
 		for(const chunk of chunks) {
 			console.log(chunk);

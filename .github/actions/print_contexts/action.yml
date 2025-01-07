@@ -5,8 +5,8 @@ inputs:
     description: "Format to print the data"
     required: false
     default: "json"
-  json-indent:
-    description: "Indentation for JSON output"
+  indent:
+    description: "Indentation for output"
     required: false
     default: 2
   artifact:
