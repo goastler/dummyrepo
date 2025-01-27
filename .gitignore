@@ -2,3 +2,8 @@
 **/node_modules
 !.github/actions/**/dist
 .nx
+
+
+
+.nx/cache
+.nx/workspace-data
