@@ -9,10 +9,7 @@
   "release": {
     "projects": ["*"],
     "versionPlans": true,
-    "projectsRelationship": "independent",
-    "changelog": {
-      
-    }
+    "projectsRelationship": "independent"
   },
   "parallel": 1,
   "pluginsConfig": {
