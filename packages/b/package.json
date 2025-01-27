@@ -1,11 +1,11 @@
 {
   "name": "b",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "main": "index.js",
   "type": "module",
   "private": true,
   "scripts": {},
   "dependencies": {
-    "a": "2.1.0"
+    "a": "3.0.0"
   }
 }
