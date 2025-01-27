@@ -12,7 +12,8 @@
   "license": "ISC",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "demos/*"
   ],
   "devDependencies": {
     "@nx/js": "20.3.3",

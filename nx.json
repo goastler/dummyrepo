@@ -8,6 +8,16 @@
   "defaultBase": "main",
   "release": {
     "projects": ["*"],
-    "versionPlans": true
+    "versionPlans": true,
+    "projectsRelationship": "independent",
+    "changelog": {
+      
+    }
+  },
+  "parallel": 1,
+  "pluginsConfig": {
+    "@nx/js": {
+      "projectsAffectedByDependencyUpdates": "auto"
+    }
   }
 }
