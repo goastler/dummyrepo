@@ -10,6 +10,9 @@ inputs:
     VARS_CONTEXT:
         description: "The vars context as json"
         required: true
+    SECRETS_CONTEXT:
+        description: "The secrets context as json"
+        required: true
 
 runs:
     using: "composite"
@@ -29,7 +32,7 @@ runs:
           echo "******************************"
           echo "runner:" "${{ toJson(runner) }}"
           echo "******************************"
-          echo "secrets:" "${{ toJson(secrets) }}"
+          echo "secrets:" "${{ inputs.SECRETS_CONTEXT }}"
           echo "******************************"
           echo "strategy:" "${{ toJson(strategy) }}"
           echo "******************************"
