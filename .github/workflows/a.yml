@@ -14,6 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: step1
+        id: step1
+        run: echo "Hello, world!"
+
       - uses: ./.github/actions/print_contexts
         with:
           INPUTS_CONTEXT: ${{ toJson(inputs) }}
