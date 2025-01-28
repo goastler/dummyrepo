@@ -3,16 +3,19 @@ name: "print_contexts"
 inputs:
     INPUTS_CONTEXT:
         description: "The inputs context as json"
-        required: true
+        required: false
     NEEDS_CONTEXT:
         description: "The needs context as json"
-        required: true
+        required: false
     VARS_CONTEXT:
         description: "The vars context as json"
-        required: true
+        required: false
     SECRETS_CONTEXT:
         description: "The secrets context as json"
-        required: true
+        required: false
+    STEPS_CONTEXT:
+        description: "The steps context as json"
+        required: false
 
 runs:
     using: "composite"
@@ -42,5 +45,5 @@ runs:
           echo "******************************"
           echo "inputs:" "${{ inputs.INPUTS_CONTEXT }}"
           echo "******************************"
-          echo "steps:" "${{ toJson(steps) }}"
+          echo "steps:" "${{ inputs.STEPS_CONTEXT }}"
           echo "******************************"
