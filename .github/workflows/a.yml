@@ -3,7 +3,7 @@ name: a
 on: [push, pull_request]
 
 jobs:
-  print-contexts:
+  a:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
