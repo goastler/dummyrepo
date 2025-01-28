@@ -30,7 +30,6 @@ runs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-          JOB_CONTEXT: ${{ toJson(job) }}
         run: |
           echo "******************************"
           echo "github:" "$GITHUB_CONTEXT"
@@ -39,7 +38,7 @@ runs:
           echo "******************************"
           echo "vars:" "${{ inputs.VARS_CONTEXT }}"
           echo "******************************"
-          echo "job:" "${{ toJson(JOB_CONTEXT) }}"
+          echo "job:" "${{ toJson(job) }}"
           echo "******************************"
           echo "runner:" "${{ inputs.RUNNER_CONTEXT }}"
           echo "******************************"
