@@ -10,10 +10,10 @@ inputs:
 
 runs:
     using: "composite"
-    shell: bash
     steps:
 
       - name: Print contexts
+        shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
