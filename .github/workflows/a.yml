@@ -22,7 +22,7 @@ jobs:
         with:
           INPUTS_CONTEXT: ${{ toJson(inputs) }}
           NEEDS_CONTEXT: ${{ toJson(needs) }}
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
           STRATEGY_CONTEXT: ${{ toJson(strategy) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
