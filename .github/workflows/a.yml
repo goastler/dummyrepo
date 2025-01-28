@@ -1,0 +1,12 @@
+name: a
+
+on: [push, pull_request]
+
+jobs:
+  print-contexts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: ./.github/actions/print_contexts@${{ github.sha }}
