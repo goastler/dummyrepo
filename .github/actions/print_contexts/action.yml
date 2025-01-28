@@ -10,12 +10,6 @@ inputs:
     VARS_CONTEXT:
         description: "The vars context as json"
         required: true
-    JOB_CONTEXT:
-        description: "The job context as json"
-        required: true
-    STEPS_CONTEXT:
-        description: "The steps context as json"
-        required: true
     RUNNER_CONTEXT:
         description: "The runner context as json"
         required: true
@@ -36,6 +30,7 @@ runs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
         run: |
           echo "******************************"
           echo "github:" "$GITHUB_CONTEXT"
@@ -44,9 +39,7 @@ runs:
           echo "******************************"
           echo "vars:" "${{ inputs.VARS_CONTEXT }}"
           echo "******************************"
-          echo "job:" "${{ inputs.JOB_CONTEXT }}"
-          echo "******************************"
-          echo "steps:" "${{ inputs.STEPS_CONTEXT }}"
+          echo "job:" "${{ toJson(JOB_CONTEXT) }}"
           echo "******************************"
           echo "runner:" "${{ inputs.RUNNER_CONTEXT }}"
           echo "******************************"
