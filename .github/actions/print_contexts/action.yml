@@ -42,3 +42,5 @@ runs:
           echo "******************************"
           echo "inputs:" "${{ inputs.INPUTS_CONTEXT }}"
           echo "******************************"
+          echo "steps:" "${{ toJson(steps) }}"
+          echo "******************************"
