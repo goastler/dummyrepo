@@ -4,9 +4,6 @@ inputs:
     INPUTS_CONTEXT:
         description: "The inputs context as json"
         required: true
-    NEEDS_CONTEXT:
-        description: "The needs context as json"
-        required: true
     VARS_CONTEXT:
         description: "The vars context as json"
         required: true
@@ -38,7 +35,7 @@ runs:
           echo "******************************"
           echo "matrix:" "${{ toJson(matrix)}}"
           echo "******************************"
-          echo "needs:" "${{ inputs.NEEDS_CONTEXT }}"
+          echo "needs:" "${{ toJson(needs) }}"
           echo "******************************"
           echo "inputs:" "${{ inputs.INPUTS_CONTEXT }}"
           echo "******************************"
