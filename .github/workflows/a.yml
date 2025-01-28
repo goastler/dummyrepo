@@ -25,4 +25,4 @@ jobs:
           STRATEGY_CONTEXT: ${{ toJson(strategy) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
-      - run: echo "${{ toJson(secrets) }}"
+      - run: echo "${{ toJson(steps) }}"
