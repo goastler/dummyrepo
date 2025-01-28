@@ -27,7 +27,7 @@ jobs:
       - uses: ./.github/actions/print_contexts
         with:
           INPUTS_CONTEXT: ${{ toJson(inputs) }}
-          VARS_CONTEXT: ${{ toJson(vars) }}
+          NEEDS_CONTEXT: ${{ toJson(needs) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - run: echo "${{ toJson(steps) }}"

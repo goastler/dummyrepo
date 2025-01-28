@@ -4,8 +4,8 @@ inputs:
     INPUTS_CONTEXT:
         description: "The inputs context as json"
         required: true
-    VARS_CONTEXT:
-        description: "The vars context as json"
+    NEEDS_CONTEXT:
+        description: "The needs context as json"
         required: true
     SECRETS_CONTEXT:
         description: "The secrets context as json"
@@ -23,7 +23,7 @@ runs:
           echo "******************************"
           echo "env:" "${{ toJson(env) }}"
           echo "******************************"
-          echo "vars:" "${{ inputs.VARS_CONTEXT }}"
+          echo "vars:" "${{ toJson(vars) }}"
           echo "******************************"
           echo "job:" "${{ toJson(job) }}"
           echo "******************************"
@@ -35,7 +35,7 @@ runs:
           echo "******************************"
           echo "matrix:" "${{ toJson(matrix)}}"
           echo "******************************"
-          echo "needs:" "${{ toJson(needs) }}"
+          echo "needs:" "${{ inputs.NEEDS_CONTEXT }}"
           echo "******************************"
           echo "inputs:" "${{ inputs.INPUTS_CONTEXT }}"
           echo "******************************"
