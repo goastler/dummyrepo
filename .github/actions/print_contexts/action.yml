@@ -50,7 +50,7 @@ runs:
           echo "******************************"
           echo "runner:" "${{ inputs.RUNNER_CONTEXT }}"
           echo "******************************"
-          echo "secrets:" "$SECRETS_CONTEXT"
+          echo "secrets:" "${{ inputs.SECRETS_CONTEXT }}"
           echo "******************************"
           echo "strategy:" "${{ inputs.STRATEGY_CONTEXT }}"
           echo "******************************"

@@ -2,6 +2,11 @@ name: a
 
 on: [push, pull_request]
 
+env:
+  A: 'a'
+  B: 'b'
+  C: 'c'
+
 jobs:
   a:
     runs-on: ubuntu-latest
