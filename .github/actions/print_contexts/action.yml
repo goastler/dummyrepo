@@ -7,9 +7,6 @@ inputs:
     NEEDS_CONTEXT:
         description: "The needs context as json"
         required: true
-    VARS_CONTEXT:
-        description: "The vars context as json"
-        required: true
     RUNNER_CONTEXT:
         description: "The runner context as json"
         required: true
@@ -32,7 +29,7 @@ runs:
           echo "******************************"
           echo "env:" "${{ toJson(env) }}"
           echo "******************************"
-          echo "vars:" "${{ inputs.VARS_CONTEXT }}"
+          echo "vars:" "${{ toJson(vars) }}"
           echo "******************************"
           echo "job:" "${{ toJson(job) }}"
           echo "******************************"
