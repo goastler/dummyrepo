@@ -32,12 +32,7 @@ runs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
-          VARS_CONTEXT: ${{ toJson(vars) }}
-          JOB_CONTEXT: ${{ toJson(job) }}
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: |
           echo "******************************"
