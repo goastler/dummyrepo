@@ -22,6 +22,9 @@ inputs:
     STRATEGY_CONTEXT:
         description: "The strategy context as json"
         required: true
+    SECRETS_CONTEXT:
+        description: "The secrets context as json"
+        required: true
 
 runs:
     using: "composite"
@@ -32,7 +35,6 @@ runs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           ENV_CONTEXT: ${{ toJson(env) }}
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: |
           echo "******************************"

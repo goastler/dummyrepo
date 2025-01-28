@@ -18,3 +18,4 @@ jobs:
           STEPS_CONTEXT: ${{ toJson(steps) }}
           RUNNER_CONTEXT: ${{ toJson(runner) }}
           STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
