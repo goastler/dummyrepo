@@ -7,6 +7,21 @@ inputs:
     NEEDS_CONTEXT:
         description: "The needs context as json"
         required: true
+    VARS_CONTEXT:
+        description: "The vars context as json"
+        required: true
+    JOB_CONTEXT:
+        description: "The job context as json"
+        required: true
+    STEPS_CONTEXT:
+        description: "The steps context as json"
+        required: true
+    RUNNER_CONTEXT:
+        description: "The runner context as json"
+        required: true
+    STRATEGY_CONTEXT:
+        description: "The strategy context as json"
+        required: true
 
 runs:
     using: "composite"
@@ -30,17 +45,17 @@ runs:
           echo "******************************"
           echo "env:" "$ENV_CONTEXT"
           echo "******************************"
-          echo "vars:" "$VARS_CONTEXT"
+          echo "vars:" "${{ inputs.VARS_CONTEXT }}"
           echo "******************************"
-          echo "job:" "$JOB_CONTEXT"
+          echo "job:" "${{ inputs.JOB_CONTEXT }}"
           echo "******************************"
-          echo "steps:" "$STEPS_CONTEXT"
+          echo "steps:" "${{ inputs.STEPS_CONTEXT }}"
           echo "******************************"
-          echo "runner:" "$RUNNER_CONTEXT"
+          echo "runner:" "${{ inputs.RUNNER_CONTEXT }}"
           echo "******************************"
           echo "secrets:" "$SECRETS_CONTEXT"
           echo "******************************"
-          echo "strategy:" "$STRATEGY_CONTEXT"
+          echo "strategy:" "${{ inputs.STRATEGY_CONTEXT }}"
           echo "******************************"
           echo "matrix:" "$MATRIX_CONTEXT"
           echo "******************************"
