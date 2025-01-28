@@ -26,15 +26,11 @@ runs:
 
       - name: Print contexts
         shell: bash
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          ENV_CONTEXT: ${{ toJson(env) }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: |
           echo "******************************"
-          echo "github:" "$GITHUB_CONTEXT"
+          echo "github:" "${{ toJson(github) }}"
           echo "******************************"
-          echo "env:" "$ENV_CONTEXT"
+          echo "env:" "${{ toJson(env) }}"
           echo "******************************"
           echo "vars:" "${{ inputs.VARS_CONTEXT }}"
           echo "******************************"
@@ -46,7 +42,7 @@ runs:
           echo "******************************"
           echo "strategy:" "${{ inputs.STRATEGY_CONTEXT }}"
           echo "******************************"
-          echo "matrix:" "$MATRIX_CONTEXT"
+          echo "matrix:" "${{ toJson(matrix)}}"
           echo "******************************"
           echo "needs:" "${{ inputs.NEEDS_CONTEXT }}"
           echo "******************************"
