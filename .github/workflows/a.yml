@@ -8,13 +8,7 @@ env:
   C: 'c'
 
 jobs:
-  b:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello, world!"
-
   a:
-    needs: b
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,3 +26,5 @@ jobs:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - run: echo "${{ toJson(steps) }}"
+
+      - uses: ./.github/actions/dummy
