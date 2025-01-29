@@ -27,4 +27,4 @@ jobs:
 
       - run: echo "${{ toJson(steps) }}"
 
-      - uses: ./.github/actions/dummy
+      - uses: prosopo/captcha/.github/actions/restore_npm_cache@gha
