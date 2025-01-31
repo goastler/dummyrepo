@@ -9,12 +9,22 @@
   "release": {
     "projects": ["*"],
     "versionPlans": true,
-    "projectsRelationship": "independent"
+    "projectsRelationship": "independent",
+    "version": {
+      "generatorOptions": {
+        "versionPrefix": ""
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": true,
+      "projectChangelogs": true
+    }
   },
   "parallel": 1,
   "pluginsConfig": {
     "@nx/js": {
       "projectsAffectedByDependencyUpdates": "auto"
     }
-  }
+  },
+  "neverConnectToCloud": true,
 }

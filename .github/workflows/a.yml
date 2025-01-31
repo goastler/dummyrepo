@@ -1,11 +1,6 @@
 name: a
 
-on: [push, pull_request]
-
-env:
-  A: 'a'
-  B: 'b'
-  C: 'c'
+on: [push]
 
 jobs:
   a:
@@ -14,17 +9,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: step1
-        id: step1
-        run: echo "Hello, world!"
+      - run: npm ci
 
-      - uses: ./.github/actions/print_contexts
-        with:
-          INPUTS_CONTEXT: ${{ toJson(inputs) }}
-          NEEDS_CONTEXT: ${{ toJson(needs) }}
-          VARS_CONTEXT: ${{ toJson(vars) }}
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      # - run: sleep 1m
 
-      - run: echo "${{ toJson(steps) }}"
+      - name: version
+        run: |
+          npx nx release version
 
-      - uses: ./.github/actions/restore_npm_cache
+      - name: commit
+        run: |
+          git config --global user.email "goastler4@gmail.com"
+          git config --global user.name "goastler"
+
+          git add .
+          git commit -m "chore: release version"
+          git push
