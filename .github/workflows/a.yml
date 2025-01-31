@@ -75,3 +75,10 @@ jobs:
             npm run build -w $pkg --if-present
           done
 
+      - name: release
+        run: |
+          # for entries in AFFECTED
+          for tag in $(echo $AFFECTED | jq -r 'to_entries | .[] | "\(.key)/\(.value)"'); do
+            echo "Releasing package $tag"
+            gh release create "$tag" --title "Release $tag" --notes "Release $tag"
+          done
