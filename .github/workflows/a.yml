@@ -28,6 +28,8 @@ jobs:
           git config --global user.email "goastler4@gmail.com"
           git config --global user.name "goastler"
 
+          git add .
+
           git diff --cached
 
           if git diff --cached --quiet; then
@@ -35,6 +37,5 @@ jobs:
             exit 0
           fi
 
-          git add .
           git commit -m "chore: release version"
           git push
