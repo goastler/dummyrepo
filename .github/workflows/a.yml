@@ -76,6 +76,8 @@ jobs:
           done
 
       - name: release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # for entries in AFFECTED
           for tag in $(echo $AFFECTED | jq -r 'to_entries | .[] | "\(.key)/\(.value)"'); do

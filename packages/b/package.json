@@ -1,7 +1,6 @@
 {
   "name": "b",
   "version": "11.0.3",
-  "main": "index.js",
   "type": "module",
   "private": true,
   "dependencies": {
