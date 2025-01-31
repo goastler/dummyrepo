@@ -24,65 +24,65 @@ jobs:
       #   run: |
       #     rm -rfv .nx/version-plans
 
-      - run: npm i
+      # - run: npm i
 
-      - name: commit
-        run: |
-          git config --global user.email "goastler4@gmail.com"
-          git config --global user.name "goastler"
+      # - name: commit
+      #   run: |
+      #     git config --global user.email "goastler4@gmail.com"
+      #     git config --global user.name "goastler"
 
-          git add .
+      #     git add .
 
-          git diff --cached
+      #     git diff --cached
 
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
+      #     if git diff --cached --quiet; then
+      #       echo "No changes to commit"
+      #       exit 0
+      #     fi
 
-          git commit -m "chore: release version"
-          git push
+      #     git commit -m "chore: release version"
+      #     git push
 
-      - name: affected
-        run: |
-          # HEAD is the latest commit and contains the version bumps
-          pkgs=$(npx nx show projects --affected --base ${{ github.event.before }} --head HEAD)
-          echo "Affected packages: $pkgs"
+      # - name: affected
+      #   run: |
+      #     # HEAD is the latest commit and contains the version bumps
+      #     pkgs=$(npx nx show projects --affected --base ${{ github.event.before }} --head HEAD)
+      #     echo "Affected packages: $pkgs"
 
-          json="[]"
-          # for each package, find the current version from the package.json
-          for pkg in $pkgs; do
-            pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')/package.json"
-            echo "Checking package $pkg at path $pth"
-            version=$(jq -r ".version" "$pth")
-            echo "Package $pkg is currently at version $version"
-            json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
-          done
-          # reverse order to release most dependent package last
-          json=$(echo $json | jq "reverse")
+      #     json="[]"
+      #     # for each package, find the current version from the package.json
+      #     for pkg in $pkgs; do
+      #       pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')/package.json"
+      #       echo "Checking package $pkg at path $pth"
+      #       version=$(jq -r ".version" "$pth")
+      #       echo "Package $pkg is currently at version $version"
+      #       json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
+      #     done
+      #     # reverse order to release most dependent package last
+      #     json=$(echo $json | jq "reverse")
 
-          echo "Affected: $json"
+      #     echo "Affected: $json"
 
-          echo "$json" > affected.json
+      #     echo "$json" > affected.json
 
-          json=$(echo $json | jq -c ".")
+      #     json=$(echo $json | jq -c ".")
 
-          echo "AFFECTED=$json" >> $GITHUB_ENV
+      #     echo "AFFECTED=$json" >> $GITHUB_ENV
 
-      - name: build
-        run: |
-          # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            echo "Building package $pkg"
-            npm run build -w $pkg --if-present
-          done
+      # - name: build
+      #   run: |
+      #     # for each package in AFFECTED
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       echo "Building package $pkg"
+      #       npm run build -w $pkg --if-present
+      #     done
 
-      - name: release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # for entries in AFFECTED
-          for tag in $(echo $AFFECTED | jq -r '.[] | .name + "@v" + .version'); do
-            echo "Releasing package $tag"
-            gh release create "$tag" --title "$tag" --generate-notes
-          done
+      # - name: release
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     # for entries in AFFECTED
+      #     for tag in $(echo $AFFECTED | jq -r '.[] | .name + "@v" + .version'); do
+      #       echo "Releasing package $tag"
+      #       gh release create "$tag" --title "$tag" --generate-notes
+      #     done
