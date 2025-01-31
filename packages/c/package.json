@@ -1,6 +1,6 @@
 {
   "name": "c",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -8,6 +8,6 @@
   },
   "private": true,
   "dependencies": {
-    "b": "6.0.0"
+    "b": "7.0.0"
   }
 }
