@@ -6,5 +6,9 @@
   "private": true,
   "dependencies": {
     "a": "4.0.9"
+  },
+  "scripts": {
+    "build": "echo build b",
+    "test": "echo test b"
   }
 }

@@ -70,6 +70,6 @@ jobs:
           # for each package in AFFECTED
           for pkg in $(echo $AFFECTED | jq -r 'keys[]'); do
             echo "Building package $pkg"
-            npm run build -w $pkg
+            npm run build -w $pkg --if-present
           done
 
