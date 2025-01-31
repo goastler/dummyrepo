@@ -49,14 +49,14 @@ jobs:
           pkgs=$(npx nx show projects --affected --base ${{ github.event.before }} --head HEAD)
           echo "Affected packages: $pkgs"
 
-          json="{}"
+          json="[]"
           # for each package, find the current version from the package.json
           for pkg in $pkgs; do
             pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')/package.json"
             echo "Checking package $pkg at path $pth"
             version=$(jq -r ".version" "$pth")
             echo "Package $pkg is currently at version $version"
-            json=$(echo $json | jq ". + {\"$pkg\": \"$version\"}")
+            json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
           done
 
           echo "Affected: $json"
@@ -70,7 +70,7 @@ jobs:
       - name: build
         run: |
           # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r 'keys[]'); do
+          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
             echo "Building package $pkg"
             npm run build -w $pkg --if-present
           done
@@ -80,7 +80,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # for entries in AFFECTED
-          for tag in $(echo $AFFECTED | jq -r 'to_entries | .[] | "\(.key)/\(.value)"'); do
+          # reverse order to release most dependent package last
+          for tag in $(echo $AFFECTED | jq -r '. | reverse | .[] | .name + "@" + .version'); do
             echo "Releasing package $tag"
             gh release create "$tag" --title "Release $tag" --notes "Release $tag"
           done
