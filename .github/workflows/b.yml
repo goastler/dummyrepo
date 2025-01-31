@@ -16,6 +16,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Fetch main branch
+        run: git fetch origin main
+        
       - run: git diff --name-only --no-renames --relative "main" "HEAD"
 
       - name: check versions
