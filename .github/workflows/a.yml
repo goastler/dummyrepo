@@ -42,3 +42,8 @@ jobs:
 
           git commit -m "chore: release version"
           git push
+
+      - name: build
+        run: |
+          # HEAD is the latest commit and contains the version bumps
+          npx nx show projects --affected --base ${{ github.event.before }} --head HEAD
