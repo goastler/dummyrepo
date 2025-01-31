@@ -1,6 +1,6 @@
 {
   "name": "c",
-  "version": "2.7.8",
+  "version": "2.7.9",
   "main": "index.js",
   "type": "module",
   "description": "",
