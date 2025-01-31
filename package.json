@@ -14,7 +14,7 @@
   "workspaces": [
     "packages/*",
     "demos/*",
-    "dummyrepo"
+    "."
   ],
   "devDependencies": {
     "@nx/js": "20.3.3",
