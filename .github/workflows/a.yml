@@ -43,7 +43,17 @@ jobs:
           git commit -m "chore: release version"
           git push
 
-      - name: build
+      - name: affected
         run: |
           # HEAD is the latest commit and contains the version bumps
-          npx nx show projects --affected --base ${{ github.event.before }} --head HEAD
+          pkgs=$(npx nx show projects --affected --base ${{ github.event.before }} --head HEAD)
+          echo "Affected packages: $pkgs"
+
+          # for each package, find the current version from the package.json
+          for pkg in $pkgs; do
+            pth="$(npx -w pkg node -e 'console.log(process.cwd())')/package.json"
+            echo "Checking package $pkg at path $pth"
+            version=$(jq -r ".version" "$pth")
+            echo "Package $pkg is currently at version $version"
+          done
+
