@@ -22,7 +22,6 @@
       }
     },
     "changelog": {
-      "workspaceChangelog": true,
       "projectChangelogs": true,
       "git": {
         "commit": false,
