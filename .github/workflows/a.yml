@@ -17,6 +17,11 @@ jobs:
 
       - run: git fetch origin ${{ github.event.before }}
 
+      - name: git author
+        run: |
+          git config --global user.email "goastler4@gmail.com"
+          git config --global user.name "goastler"
+
       - run: npm ci
 
       - name: version
