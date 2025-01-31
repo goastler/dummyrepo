@@ -56,7 +56,7 @@ jobs:
             echo "Checking package $pkg at path $pth"
             version=$(jq -r ".version" "$pth")
             echo "Package $pkg is currently at version $version"
-            json=$(echo $json | jq ". + {\"$pkg\": \"$version\"}")
+            json=$(echo $json | jq -c ". + {\"$pkg\": \"$version\"}")
           done
 
           echo "Affected: $json"
