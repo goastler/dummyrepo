@@ -17,6 +17,7 @@ jobs:
         run: |
           npx nx release version
           rm -rf .nx/version-plans
+          npm i
 
       - name: commit
         run: |
