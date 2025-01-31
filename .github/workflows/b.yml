@@ -15,4 +15,4 @@ jobs:
       - run: npm ci
 
       - name: check versions
-        run: npx nx release plan:check -- --verbose --base=${{ github.base_ref }} --head=${{ github.head_ref }}
+        run: npx nx release plan:check --verbose --base=${{ github.before }} --head=${{ github.after }}
