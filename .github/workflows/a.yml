@@ -26,5 +26,3 @@ jobs:
           git add .
           git commit -m "chore: release version"
           git push
-
-          git diff --stat ${{ github.event.before }} HEAD
