@@ -15,9 +15,11 @@
         "versionPrefix": ""
       }
     },
-    "changelog": {
-      "workspaceChangelog": true,
-      "projectChangelogs": true
+    "git": {
+      "commit": false,
+      "tag": false,
+      "push": false,
+      "stageChanges": false
     }
   },
   "parallel": 1,

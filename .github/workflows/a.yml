@@ -24,6 +24,7 @@ jobs:
           git config --global user.email "goastler4@gmail.com"
           git config --global user.name "goastler"
 
+          git diff
           git add .
           git commit -m "chore: release version"
           git push
