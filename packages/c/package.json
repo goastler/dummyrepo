@@ -3,7 +3,6 @@
   "version": "2.7.12",
   "main": "index.js",
   "type": "module",
-  "description": "",
   "scripts": {
     "build": "echo build c",
     "test": "echo test c"
