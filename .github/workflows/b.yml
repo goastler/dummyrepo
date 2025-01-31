@@ -14,19 +14,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Show git status and branches
-        run: |
-          git status
-          git branch -a
-
-      - name: Fetch main branch explicitly
-        run: |
-          git fetch origin main
-
-      - name: Show fetched branches
-        run: |
-          git branch -r
-
       - run: git diff --name-only --no-renames --relative "origin/main" "HEAD"
 
       - run: npm ci
