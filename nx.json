@@ -22,7 +22,9 @@
       }
     },
     "changelog": {
-      "projectChangelogs": true,
+      "projectChangelogs": {
+        "createRelease": "github"
+      },
       "git": {
         "commit": false,
         "tag": false,
