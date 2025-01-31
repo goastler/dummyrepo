@@ -13,7 +13,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "demos/*"
+    "demos/*",
+    "dummyrepo"
   ],
   "devDependencies": {
     "@nx/js": "20.3.3",
