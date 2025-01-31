@@ -13,13 +13,13 @@
     "version": {
       "generatorOptions": {
         "versionPrefix": ""
+      },
+      "git": {
+        "commit": false,
+        "tag": false,
+        "push": false,
+        "stageChanges": false
       }
-    },
-    "git": {
-      "commit": false,
-      "tag": false,
-      "push": false,
-      "stageChanges": false
     }
   },
   "parallel": 1,
