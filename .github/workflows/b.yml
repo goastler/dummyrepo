@@ -20,4 +20,4 @@ jobs:
 
       - name: check versions
         run: |
-          npx nx release plan:check --verbose --base=${{ github.base_ref }} --head=${{ github.head_ref }}
+          npx nx release plan:check --verbose --base="origin/${{ github.base_ref }}" --head="${{ github.head_ref }}"
