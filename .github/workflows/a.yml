@@ -16,6 +16,7 @@ jobs:
       - name: version
         run: |
           npx nx release version
+          rm -rf .nx/version-plans
 
       - name: commit
         run: |
