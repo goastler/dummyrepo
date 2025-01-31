@@ -15,4 +15,4 @@ jobs:
       - run: npm ci
 
       - name: check versions
-        run: npx nx release plan:check --verbose --base=${{ github.event.before }} --head=${{ github.sha }}
+        run: npx nx release plan:check --verbose
