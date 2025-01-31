@@ -11,7 +11,7 @@ jobs:
 
       - run: npm ci
 
-      # - run: sleep 1m
+      - run: sleep 2m
 
       - name: version
         run: |
