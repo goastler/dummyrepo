@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 jobs:
   a:
     runs-on: ubuntu-latest

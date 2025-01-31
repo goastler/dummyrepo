@@ -13,11 +13,24 @@
     "version": {
       "generatorOptions": {
         "versionPrefix": ""
+      },
+      "git": {
+        "commit": true,
+        "tag": true,
+        "push": true,
+        "stageChanges": true
       }
+
     },
     "changelog": {
       "projectChangelogs": {
         "createRelease": "github"
+      },
+      "git": {
+        "commit": true,
+        "tag": true,
+        "push": true,
+        "stageChanges": true
       },
       "automaticFromRef": true
     }
