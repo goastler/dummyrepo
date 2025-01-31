@@ -58,6 +58,8 @@ jobs:
             echo "Package $pkg is currently at version $version"
             json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
           done
+          # reverse order to release most dependent package last
+          json=$(echo $json | jq "reverse")
 
           echo "Affected: $json"
 
@@ -80,8 +82,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # for entries in AFFECTED
-          # reverse order to release most dependent package last
-          for tag in $(echo $AFFECTED | jq -r '. | reverse | .[] | .name + "@" + .version'); do
+          for tag in $(echo $AFFECTED | jq -r '.[] | .name + "@v" + .version'); do
             echo "Releasing package $tag"
-            gh release create "$tag" --title "Release $tag" --notes "Release $tag"
+            gh release create "$tag" --title "$tag" --generate-notes
           done
