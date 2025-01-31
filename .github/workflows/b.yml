@@ -1,0 +1,18 @@
+name: b
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  a:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - run: npm ci
+
+      - name: check versions
+        run: npx nx release plan:check --verbose
