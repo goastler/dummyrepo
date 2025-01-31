@@ -56,12 +56,14 @@ jobs:
             echo "Checking package $pkg at path $pth"
             version=$(jq -r ".version" "$pth")
             echo "Package $pkg is currently at version $version"
-            json=$(echo $json | jq -c ". + {\"$pkg\": \"$version\"}")
+            json=$(echo $json | jq ". + {\"$pkg\": \"$version\"}")
           done
 
           echo "Affected: $json"
 
           echo "$json" > affected.json
+
+          json=$(echo $json | jq -c ".")
 
           echo "AFFECTED=$json" >> $GITHUB_ENV
 
