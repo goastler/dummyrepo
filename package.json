@@ -12,7 +12,6 @@
   "license": "ISC",
   "private": true,
   "workspaces": [
-    ".",
     "packages/*",
     "demos/*"
   ],
