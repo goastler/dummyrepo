@@ -33,4 +33,4 @@ jobs:
 
       - name: check versions
         run: |
-          npx nx release plan:check --verbose
+          npx nx release plan:check --verbose --base="origin/main" --head="HEAD"
