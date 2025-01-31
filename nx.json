@@ -20,6 +20,17 @@
         "push": false,
         "stageChanges": false
       }
+    },
+    "changelog": {
+      "workspaceChangelog": true,
+      "projectChangelogs": true,
+      "git": {
+        "commit": false,
+        "tag": false,
+        "push": false,
+        "stageChanges": false
+      },
+      "automaticFromRef": true
     }
   },
   "parallel": 1,
@@ -28,5 +39,5 @@
       "projectsAffectedByDependencyUpdates": "auto"
     }
   },
-  "neverConnectToCloud": true,
+  "neverConnectToCloud": true
 }
