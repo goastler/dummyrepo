@@ -16,8 +16,12 @@ jobs:
       - name: version
         run: |
           npx nx release version
-          rm -rf .nx/version-plans
-          npm i
+
+      - name: remove version plans
+        run: |
+          rm -rfv .nx/version-plans
+
+      - run: npm i
 
       - name: commit
         run: |
@@ -30,7 +34,7 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          
+
           git add .
           git commit -m "chore: release version"
           git push
