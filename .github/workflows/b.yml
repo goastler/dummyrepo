@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - run: npm ci
 
       - name: check versions
-        run: npx nx release plan:check --verbose
+        run: |
+          git fetch origin main
+          npx nx release plan:check --verbose
