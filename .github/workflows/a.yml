@@ -36,7 +36,7 @@ jobs:
 
       - run: npm i
 
-      - run: apt update && apt install -y uuid
+      - run: sudo apt update && sudo apt install -y uuid
 
       - name: commit
         run: |
