@@ -24,7 +24,6 @@
     },
     "changelog": {
       "projectChangelogs": {
-        "createRelease": "github"
       },
       "git": {
         "commit": false,
