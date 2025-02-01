@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   a:
@@ -39,8 +39,6 @@ jobs:
       - run: sudo apt update && sudo apt install -y uuid
 
       - name: commit
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.email "goastler4@gmail.com"
           git config --global user.name "goastler"
@@ -61,7 +59,7 @@ jobs:
           git commit -m "chore: release version"
           git push
 
-          GH_TOKEN=${{ secrets.GH_TOKEN }} gh pr create --title "chore: release version" --body "chore: release version" --base main
+          gh pr create --title "chore: release version" --body "chore: release version" --base main
 
       # - name: affected
       #   run: |
