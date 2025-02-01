@@ -61,7 +61,7 @@ jobs:
           git commit -m "chore: release version"
           git push
 
-          gh pr create --title "chore: release version" --body "chore: release version" --base main
+          GH_TOKEN=${{ secrets.GH_TOKEN }} gh pr create --title "chore: release version" --body "chore: release version" --base main
 
       # - name: affected
       #   run: |
