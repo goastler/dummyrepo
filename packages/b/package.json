@@ -1,11 +1,11 @@
 {
   "name": "b",
-  "version": "11.0.11",
+  "version": "11.1.0",
   "type": "module",
   "description": "",
   "private": true,
   "dependencies": {
-    "a": "4.0.9"
+    "a": "4.1.0"
   },
   "scripts": {
     "build": "echo build b",
