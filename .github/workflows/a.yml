@@ -30,28 +30,34 @@ jobs:
         run: |
           npx nx release version
 
-      # - name: remove version plans
-      #   run: |
-      #     rm -rfv .nx/version-plans
+      - name: remove version plans
+        run: |
+          rm -rfv .nx/version-plans
 
-      # - run: npm i
+      - run: npm i
 
-      # - name: commit
-      #   run: |
-      #     git config --global user.email "goastler4@gmail.com"
-      #     git config --global user.name "goastler"
+      - run: apt update && apt install -y uuid
 
-      #     git add .
+      - name: commit
+        run: |
+          git config --global user.email "goastler4@gmail.com"
+          git config --global user.name "goastler"
 
-      #     git diff --cached
+          git checkout -b $(uuid)
 
-      #     if git diff --cached --quiet; then
-      #       echo "No changes to commit"
-      #       exit 0
-      #     fi
+          git add .
 
-      #     git commit -m "chore: release version"
-      #     git push
+          git diff --cached
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: release version"
+          git push
+
+          gh pr create --title "chore: release version" --body "chore: release version" --base main
 
       # - name: affected
       #   run: |

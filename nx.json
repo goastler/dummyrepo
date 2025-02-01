@@ -15,10 +15,10 @@
         "versionPrefix": ""
       },
       "git": {
-        "commit": true,
-        "tag": true,
-        "push": true,
-        "stageChanges": true
+        "commit": false,
+        "tag": false,
+        "push": false,
+        "stageChanges": false
       }
 
     },
@@ -27,10 +27,10 @@
         "createRelease": "github"
       },
       "git": {
-        "commit": true,
-        "tag": true,
-        "push": true,
-        "stageChanges": true
+        "commit": false,
+        "tag": false,
+        "push": false,
+        "stageChanges": false
       },
       "automaticFromRef": true
     }
