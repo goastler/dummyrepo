@@ -19,6 +19,12 @@ jobs:
 
       - run: npm ci
 
-      - name: check versions
+      # version bump the packages
+      - name: apply changesets
+        run: |
+          npx @changesets/cli apply --since="origin/${{ github.base_ref }}" --verbose
+
+      # after versions have been bumped, check for any changes in packages which HAVE NOT been bumped
+      - name: check changesets
         run: |
           npx @changesets/cli status --since="origin/${{ github.base_ref }}" --verbose
