@@ -21,4 +21,4 @@ jobs:
 
       - name: check versions
         run: |
-          npx nx release plan:check --verbose --base="origin/${{ github.base_ref }}" --head="origin/${{ github.head_ref }}"
+          npx @changesets/cli status --since="origin/${{ github.base_ref }}" --verbose

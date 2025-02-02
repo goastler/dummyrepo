@@ -23,6 +23,7 @@
 
     },
     "changelog": {
+      "projectsRelationship": "independent",
       "projectChangelogs": true,
       "git": {
         "commit": false,
