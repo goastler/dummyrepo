@@ -23,8 +23,7 @@
 
     },
     "changelog": {
-      "projectChangelogs": {
-      },
+      "projectChangelogs": true,
       "git": {
         "commit": false,
         "tag": false,
