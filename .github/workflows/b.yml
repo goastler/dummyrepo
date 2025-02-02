@@ -19,11 +19,17 @@ jobs:
 
       - run: npm ci
 
+      # check some changesets exist
+      - name: check changesets
+        run: |
+          npx @changesets/cli status --since="origin/${{ github.base_ref }}" --verbose
+
       # version bump the packages
       - name: apply changesets
         run: |
           npx @changesets/cli version --since="origin/${{ github.base_ref }}" --verbose
-          # changesets uses git to measure changes, so commit the changes temporarily - we won't push this up!
+
+          # commit the version bumps so we can compare against them in the next step
           git config --global user.email "tmp@tmp.com"
           git config --global user.name "tmp"
           git add .
@@ -32,4 +38,4 @@ jobs:
       # after versions have been bumped, check for any changes in packages which HAVE NOT been bumped
       - name: check changesets
         run: |
-          npx @changesets/cli status --since="origin/${{ github.base_ref }}" --verbose
+          npx @changesets/cli status --since='HEAD~1' --verbose
