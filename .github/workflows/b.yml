@@ -23,6 +23,11 @@ jobs:
       - name: apply changesets
         run: |
           npx @changesets/cli version --since="origin/${{ github.base_ref }}" --verbose
+          # changesets uses git to measure changes, so commit the changes temporarily - we won't push this up!
+          git config --global user.email "tmp@tmp.com"
+          git config --global user.name "tmp"
+          git add .
+          git commit -m "tmp"
 
       # after versions have been bumped, check for any changes in packages which HAVE NOT been bumped
       - name: check changesets
