@@ -12,9 +12,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - run: git pull origin ${{ github.base_ref }}
-      - run: git pull origin ${{ github.head_ref }}
-
       - run: npm ci
 
       - name: check versions
