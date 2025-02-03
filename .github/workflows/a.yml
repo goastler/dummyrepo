@@ -123,8 +123,10 @@ jobs:
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
           # for each affected pkg, get the pkg name and version
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+            pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
             npm pkg -w "$pkg" set repository.type=git
             npm pkg -w "$pkg" set repository.url="https://github.com/${{ github.repository }}.git"
+            npm pkg -w "$pkg" set repository.directory="$pth"
             # publish the pkg
             version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
             echo "Publishing package $pkg at version $version"
