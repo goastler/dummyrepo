@@ -117,6 +117,8 @@ jobs:
           done
 
       - name: publish
+        with:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
 
           # for each affected pkg, get the pkg name and version
