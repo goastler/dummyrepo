@@ -38,7 +38,6 @@ jobs:
 
       - name: commit
         run: |
-			
 			# apply the version
 			git config --global user.email "goastler4@gmail.com"
 			git config --global user.name "goastler"
