@@ -8,6 +8,6 @@
     "test": "echo test c"
   },
   "dependencies": {
-    "b": "11.1.2"
+    "@goastler/b": "11.1.2"
   }
 }
