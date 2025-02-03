@@ -1,6 +1,6 @@
 {
   "name": "@goastler/c",
-  "version": "2.13.19",
+  "version": "2.13.21",
   "main": "index.js",
   "description": "",
   "type": "module",
@@ -9,6 +9,6 @@
     "test": "echo test c"
   },
   "dependencies": {
-    "@goastler/b": "11.1.10"
+    "@goastler/b": "11.1.11"
   }
 }
