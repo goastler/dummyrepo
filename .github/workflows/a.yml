@@ -126,5 +126,3 @@ jobs:
             npm publish -w "$pkg" --registry https://npm.pkg.github.com
             echo ''
           done
-
-	
