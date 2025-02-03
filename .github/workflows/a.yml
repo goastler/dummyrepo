@@ -92,10 +92,10 @@ jobs:
             npm run build -w $pkg --if-present
           done
 
-          - name: tag packages
-            env:
-              GH_TOKEN: ${{ github.token }}
-            run: |
+      - name: tag packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
 
           # for each affected pkg, get the pkg name and version
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
