@@ -1,13 +1,12 @@
 {
-  "name": "c",
-  "version": "2.12.4",
+  "name": "@goastler/c",
+  "version": "2.13.2",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "echo build c",
+    "build": "echo build c && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
     "test": "echo test c"
   },
-  "private": true,
   "dependencies": {
     "b": "11.1.2"
   }

@@ -1,14 +1,13 @@
 {
-  "name": "b",
+  "name": "@goastler/b",
   "version": "11.1.2",
   "type": "module",
   "description": "",
-  "private": true,
   "dependencies": {
     "a": "4.1.0"
   },
   "scripts": {
-    "build": "echo build b",
+    "build": "echo build b && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
     "test": "echo test b"
   }
 }

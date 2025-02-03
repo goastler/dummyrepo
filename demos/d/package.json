@@ -1,9 +1,9 @@
 {
-  "name": "d",
+  "name": "@goastler/d",
   "version": "3.1.6",
   "main": "index.js",
   "scripts": {
-    "build": "echo build d",
+    "build": "echo build d && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
     "test": "echo test d"
   },
   "keywords": [],
