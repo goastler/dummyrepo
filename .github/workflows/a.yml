@@ -14,8 +14,8 @@ jobs:
     steps:
       - uses: ./.github/actions/print_contexts
         with:
-          - SECRET_CONTEXT: ${{ toJson(secrets) }}
-          - VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRET_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
 
       - name: Checkout repository
         uses: actions/checkout@v3
