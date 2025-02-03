@@ -2,7 +2,7 @@
   "name": "@goastler/a",
   "version": "4.1.1",
   "type": "module",
-  "description": "",
+  "description": "a",
   "scripts": {
     "build": "echo build a && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
     "test": "echo test a"
