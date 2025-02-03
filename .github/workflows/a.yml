@@ -90,6 +90,15 @@ jobs:
             npm run build -w $pkg --if-present
           done
 
+      - name: gh release
+        run: |
+
+          # do a release for the workspace
+          version=$(cat package.json | jq -r ".version")
+          tag="v$version"
+          gh release create --generate-notes "$tag"
+          gh release upload "$tag" affected.json
+
       - name: tag packages
         env:
           GH_TOKEN: ${{ github.token }}
@@ -105,15 +114,6 @@ jobs:
             git push origin "$tag"
             echo ''
           done
-
-      - name: gh release
-        run: |
-
-          # do a release for the workspace
-          version=$(cat package.json | jq -r ".version")
-          tag="v$version"
-          gh release create --generate-notes --title "$tag"
-          gh release upload "$tag" affected.json
 
       - name: publish
         run: |
