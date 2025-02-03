@@ -120,7 +120,7 @@ jobs:
         run: |
 
           registry="npm.pkg.github.com"
-          echo "//$registry/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
           # for each affected pkg, get the pkg name and version
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
             # publish the pkg
