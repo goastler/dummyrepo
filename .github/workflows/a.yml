@@ -28,9 +28,9 @@ jobs:
         run: |
           npx nx release version
 
-      - name: remove version plans
-        run: |
-          rm -rfv .nx/version-plans
+      # - name: remove version plans
+      #   run: |
+      #     rm -rfv .nx/version-plans
 
       - name: commit
         run: |
@@ -50,7 +50,6 @@ jobs:
           fi
 
           git commit -m "chore: release version"
-          git push
 
       - name: affected
         run: |
@@ -87,6 +86,10 @@ jobs:
             echo "Building package $pkg"
             npm run build -w $pkg --if-present
           done
+
+      - name: push changes
+        run: |
+          git push
 
       - name: gh release
         run: |
