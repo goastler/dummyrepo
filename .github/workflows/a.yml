@@ -119,13 +119,13 @@ jobs:
       - name: publish
         run: |
 
-          registry="https://npm.pkg.github.com"
+          registry="npm.pkg.github.com"
           echo "//$registry/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           # for each affected pkg, get the pkg name and version
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
             # publish the pkg
             version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
             echo "Publishing package $pkg at version $version"
-            npm publish -w "$pkg" --registry $registry
+            npm publish -w "$pkg" --registry "https://$registry"
             echo ''
           done
