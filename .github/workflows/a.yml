@@ -117,7 +117,7 @@ jobs:
           done
 
       - name: publish
-        with:
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
 
