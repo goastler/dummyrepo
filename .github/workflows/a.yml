@@ -118,7 +118,8 @@ jobs:
 
       - name: publish
         run: |
-
+        
+          npm config set repository "https://github.com/${{ github.repository }}.git"
           registry="npm.pkg.github.com"
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
           # for each affected pkg, get the pkg name and version
