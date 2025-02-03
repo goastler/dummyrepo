@@ -50,8 +50,6 @@ jobs:
           fi
 
           git commit -m "chore: release version"
-          # echo "${{ secrets.KEY }}" > key
-          # GIT_SSH_COMMAND="ssh  -o IdentitiesOnly=yes -i $(pwd)/key" git push
           git push
 
       - name: affected
