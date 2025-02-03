@@ -22,5 +22,6 @@
     "@swc/helpers": "0.5.11",
     "nx": "20.3.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "private": false
 }
