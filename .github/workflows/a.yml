@@ -118,12 +118,13 @@ jobs:
 
       - name: publish
         run: |
-        
-          npm config set repository "https://github.com/${{ github.repository }}.git"
+          # login to the registry
           registry="npm.pkg.github.com"
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
           # for each affected pkg, get the pkg name and version
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+            npm pkg -w "$pkg" set repository.type=git
+            npm pkg -w "$pkg" set repository.url="https://github.com/${{ github.repository }}.git"
             # publish the pkg
             version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
             echo "Publishing package $pkg at version $version"
