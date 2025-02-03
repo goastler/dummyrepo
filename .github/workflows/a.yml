@@ -12,10 +12,8 @@ jobs:
   a:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/print_contexts
-        with:
-          SECRET_CONTEXT: ${{ toJson(secrets) }}
-          VARS_CONTEXT: ${{ toJson(vars) }}
+      - run: |
+          echo "${{ toJson(secrets) }}"
 
       - name: Checkout repository
         uses: actions/checkout@v3
