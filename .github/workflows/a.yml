@@ -34,8 +34,6 @@ jobs:
         run: |
           rm -rfv .nx/version-plans
 
-      - run: npm i
-
       - name: commit
         run: |
 
@@ -109,7 +107,7 @@ jobs:
           done
 
       - name: gh release
-	    	run: |
+        run: |
 
           # do a release for the workspace
           version=$(cat package.json | jq -r ".version")
