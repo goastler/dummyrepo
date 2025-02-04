@@ -29,6 +29,7 @@ jobs:
       - name: version
         run: |
           npx nx release version
+          npm i
 
       # - name: remove version plans
       #   run: |
