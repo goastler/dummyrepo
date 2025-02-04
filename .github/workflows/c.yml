@@ -1,0 +1,26 @@
+name: c
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package to release'
+        required: true
+      version:
+        description: 'Version to release'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - run: npm ci
+
+      - name: fetch version from github packages
+        run: |
+          # get the version from the package.json
+          pkg="${{ github.event.inputs.package }}"
+          version="${{ github.event.inputs.version }}"
