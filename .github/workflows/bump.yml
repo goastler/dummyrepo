@@ -54,18 +54,11 @@ jobs:
       - name: commit
         run: |
 
-          echo "DIFF"
-          git diff
-
-          version=$(cat package.json | jq -r ".version")
-          branchName="release/$version"
-          git add .
-          git checkout -b $branchName
-
-          echo "DIFF2"
-          git diff
-
           if git diff --cached --quiet; then
+            version=$(cat package.json | jq -r ".version")
+            branchName="release/$version"
+            git add .
+            git checkout -b $branchName
             git commit -m "chore: release $version"
             git push origin $branchName
             gh pr create --fill --base ${{ github.ref }}
