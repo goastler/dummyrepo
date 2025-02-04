@@ -32,7 +32,7 @@ jobs:
           pkgs=$(npm run --workspaces env | grep npm_package_name | cut -d '=' -f 2)
           json='[]'
           for pkg in $pkgs; do
-            version=$(npm run -w $pkg node -e 'console.log(require("./package.json").version)')
+            version=$(npx -w $pkg node -e 'console.log(require("./package.json").version)')
             tag="$pkg@$version"
             echo "Creating tag $tag"
             git tag -a "$tag" -m "chore: release $tag"
