@@ -21,6 +21,8 @@ jobs:
           registry="npm.pkg.github.com"
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> ~/.npmrc
 
+      - run: cat ~/.npmrc
+
       - name: fetch version from github packages
         run: |
           # get the version from the package.json
