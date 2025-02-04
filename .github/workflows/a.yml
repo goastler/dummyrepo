@@ -89,7 +89,8 @@ jobs:
 
       - name: push changes
         run: |
-          git push
+          echo "${{ secrets.KEY }}" > key
+          GIT_SSH_COMMAND="ssh -i key" git push
 
       - name: gh release
         run: |
@@ -133,3 +134,4 @@ jobs:
             npm publish -w "$pkg" --registry "https://$registry"
             echo '----'
           done
+

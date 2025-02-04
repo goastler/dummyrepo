@@ -9,6 +9,14 @@ on:
       version:
         description: 'Version to release'
         required: true
+  workflow_call:
+    inputs:
+      package:
+        description: 'Package to release'
+        required: true
+      version:
+        description: 'Version to release'
+        required: true
 
 jobs:
   deploy:

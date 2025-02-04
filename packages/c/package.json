@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "echo build c && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js && echo 'console.log(\"c\")' > dist/index.unit.test.js",
-    "deploy": "echo deploy c",
+    "deploy": "vite build",
     "test": "echo test c"
   },
   "dependencies": {
