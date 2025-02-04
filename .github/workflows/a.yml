@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.KEY }}
 
       - run: git fetch origin ${{ github.event.before }}
 
@@ -89,8 +91,7 @@ jobs:
 
       - name: push changes
         run: |
-          echo "${{ secrets.KEY }}" > key
-          GIT_SSH_COMMAND="ssh -o IdentitiesOnly=yes -i $(pwd)/key" git push
+          git push
 
       - name: gh release
         run: |
