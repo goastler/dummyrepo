@@ -87,49 +87,53 @@ jobs:
             npm run build -w $pkg --if-present
           done
 
-      - name: push changes
+      - name: tmp
         run: |
-          git push
+          ls -la packages/c
 
-      - name: gh release
-        run: |
+      # - name: push changes
+      #   run: |
+      #     git push
 
-          # do a release for the workspace
-          version=$(cat package.json | jq -r ".version")
-          tag="v$version"
-          gh release create --generate-notes "$tag"
-          gh release upload "$tag" affected.json
+      # - name: gh release
+      #   run: |
 
-      - name: tag packages
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
+      #     # do a release for the workspace
+      #     version=$(cat package.json | jq -r ".version")
+      #     tag="v$version"
+      #     gh release create --generate-notes "$tag"
+      #     gh release upload "$tag" affected.json
 
-          # for each affected pkg, get the pkg name and version
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            # tag the pkg
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            tag="$pkg@$version"
-            echo "Creating tag $tag"
-            git tag -a "$tag" -m "chore: release $tag"
-            git push origin "$tag"
-            echo '----'
-          done
+      # - name: tag packages
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
 
-      - name: publish
-        run: |
-          # login to the registry
-          registry="npm.pkg.github.com"
-          echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
-          # for each affected pkg, get the pkg name and version
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
-            npm pkg -w "$pkg" set repository.type=git
-            npm pkg -w "$pkg" set repository.url="https://github.com/${{ github.repository }}.git"
-            npm pkg -w "$pkg" set repository.directory="$pth"
-            # publish the pkg
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            echo "Publishing package $pkg at version $version"
-            npm publish -w "$pkg" --registry "https://$registry"
-            echo '----'
-          done
+      #     # for each affected pkg, get the pkg name and version
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       # tag the pkg
+      #       version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
+      #       tag="$pkg@$version"
+      #       echo "Creating tag $tag"
+      #       git tag -a "$tag" -m "chore: release $tag"
+      #       git push origin "$tag"
+      #       echo '----'
+      #     done
+
+      # - name: publish
+      #   run: |
+      #     # login to the registry
+      #     registry="npm.pkg.github.com"
+      #     echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
+      #     # for each affected pkg, get the pkg name and version
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
+      #       npm pkg -w "$pkg" set repository.type=git
+      #       npm pkg -w "$pkg" set repository.url="https://github.com/${{ github.repository }}.git"
+      #       npm pkg -w "$pkg" set repository.directory="$pth"
+      #       # publish the pkg
+      #       version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
+      #       echo "Publishing package $pkg at version $version"
+      #       npm publish -w "$pkg" --registry "https://$registry"
+      #       echo '----'
+      #     done
