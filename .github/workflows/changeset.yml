@@ -1,4 +1,4 @@
-name: b
+name: changeset
 
 on:
   pull_request:
@@ -8,6 +8,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    if: "!startsWith(github.head_ref, 'release/')" # skip release branches
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
