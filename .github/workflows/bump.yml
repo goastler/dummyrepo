@@ -53,7 +53,7 @@ jobs:
           # add a patch bump for the workspace
           mkdir -p .nx/version-plans
           pkg=$(cat package.json | jq -r ".name")
-          printf "---\n'$pkg': patch\n---\nworkspace member bumped\n" '' > .nx/version-plans/workspace-$(date +%s).json
+          printf "---\n'$pkg': patch\n---\nworkspace member bumped\n" > .nx/version-plans/workspace-$(date +%s).json
           npx nx release version
           rm -rfv .nx/version-plans
 
