@@ -41,6 +41,7 @@ jobs:
             pkg=$(cat package.json | jq -r ".name")
             printf -- "---\n'$pkg': patch\n---\nworkspace member bumped\n" > .nx/version-plans/workspace-$(date +%s).json
             npx nx release version
+            npm i
           else
             echo "No version changes"
             exit 0
@@ -53,11 +54,17 @@ jobs:
       - name: commit
         run: |
 
+          echo "DIFF"
+          git diff
+
           version=$(cat package.json | jq -r ".version")
           branchName="release/$version"
           git checkout -b $branchName
           git add .
 
+          echo "DIFF2"
+          git diff
+          
           if git diff --cached --quiet; then
             git commit -m "chore: release $version"
             git push origin $branchName
