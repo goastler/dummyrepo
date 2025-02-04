@@ -28,6 +28,8 @@ jobs:
           # Custom registry for scoped packages
           echo '@goastler:registry=https://$registry' >> ~/.npmrc
 
+          cat ~/.npmrc
+
           # get the version from the package.json
           pkg="${{ github.event.inputs.package }}"
           version="${{ github.event.inputs.version }}"
