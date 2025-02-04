@@ -57,7 +57,7 @@ jobs:
 ---
 
 workspace member bumped
-" > .nx/version-plans/workspace-$(date +%s).json"
+" > .nx/version-plans/workspace-$(date +%s).json
           npx nx release version
 
           git commit -m "chore: release $version"
