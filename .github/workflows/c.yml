@@ -33,6 +33,6 @@ jobs:
           rm *.tgz
           cd package
 
-          npm i --registry "https://$registry"
+          cat package.json | jq '.devDependencies | to_entries[] | "\(.key)@\(.value)"' | xargs -t npm i --registry "https://$registry" --registry "https://registry.npmjs.org"
 
           npm run deploy
