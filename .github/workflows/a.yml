@@ -90,6 +90,7 @@ jobs:
       - name: tmp
         run: |
           ls -la packages/c
+          npm publish --dry-run -w @goastler/c
 
       # - name: push changes
       #   run: |
