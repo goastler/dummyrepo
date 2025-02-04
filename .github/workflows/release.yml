@@ -24,8 +24,6 @@ jobs:
           ssh-key: ${{ secrets.KEY }}
           fetch-depth: 0 # get all tags
 
-      - run: npm ci
-
       - name: tag
         run: |
           
@@ -55,6 +53,8 @@ jobs:
           json=$(echo $json | jq -c ".")
 
           echo "AFFECTED=$json" >> $GITHUB_ENV
+
+      - run: npm ci
 
       - name: build
         run: |
