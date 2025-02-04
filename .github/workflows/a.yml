@@ -90,7 +90,7 @@ jobs:
       - name: push changes
         run: |
           echo "${{ secrets.KEY }}" > key
-          GIT_SSH_COMMAND="ssh -i key" git push
+          GIT_SSH_COMMAND="ssh -o IdentitiesOnly=yes -i $(pwd)/key" git push
 
       - name: gh release
         run: |
