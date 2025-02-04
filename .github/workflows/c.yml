@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: login to npm registry
+        run: |
+          # login to the registry
+          registry="npm.pkg.github.com"
+          echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
+
       - name: fetch version from github packages
         run: |
           # get the version from the package.json
