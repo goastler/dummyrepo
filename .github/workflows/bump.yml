@@ -28,16 +28,6 @@ jobs:
 
       - run: npm ci
 
-      - name: add workspace changeset
-        run: |
-          pkg=$(cat package.json | jq -r ".name")
-          echo "---
-'$pkg': patch
----
-
-workspace member bumped
-" > .nx/version-plans/workspace-$(date +%s).json"
-
       - name: version
         run: |
           npx nx release version
@@ -60,6 +50,16 @@ workspace member bumped
             exit 0
           fi
 
-          git commit -m "chore: release version"
+          # add a patch bump for the workspace
+          pkg=$(cat package.json | jq -r ".name")
+          echo "---
+'$pkg': patch
+---
+
+workspace member bumped
+" > .nx/version-plans/workspace-$(date +%s).json"
+          npx nx release version
+
+          git commit -m "chore: release $version"
           git push origin $branchName
-          gh pr create --fill --base main
+          gh pr create --fill --base ${{ github.ref }}
