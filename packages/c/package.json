@@ -1,14 +1,23 @@
 {
   "name": "@goastler/c",
-  "version": "2.13.35",
+  "version": "2.13.36",
   "main": "index.js",
   "description": "",
   "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "!dist/**/*.test.js"
+  ],
   "scripts": {
-    "build": "echo build c && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
+    "build": "echo build c && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js && echo 'console.log(\"c\")' > dist/index.unit.test.js",
+    "deploy": "echo deploy c",
     "test": "echo test c"
   },
   "dependencies": {
     "@goastler/b": "11.1.18"
+  },
+  "devDependencies": {
+    "vite": "6.0.11"
   }
 }

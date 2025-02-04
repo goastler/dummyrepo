@@ -1,12 +1,20 @@
 {
   "name": "@goastler/d",
   "version": "3.1.7",
-  "main": "index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "!dist/**/*.test.js"
+  ],
   "scripts": {
     "build": "echo build d && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
+    "deploy": "echo deploy d",
     "test": "echo test d"
   },
   "keywords": [],
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "vite": "6.0.11"
+  }
 }

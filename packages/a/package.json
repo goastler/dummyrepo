@@ -3,8 +3,17 @@
   "version": "4.1.16",
   "type": "module",
   "description": "a",
+  "files": [
+    "dist",
+    "README.md",
+    "!dist/**/*.test.js"
+  ],
   "scripts": {
     "build": "echo build a && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
+    "deploy": "echo deploy a",
     "test": "echo test a"
+  },
+  "devDependencies": {
+    "vite": "6.0.11"
   }
 }

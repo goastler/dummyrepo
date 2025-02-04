@@ -3,11 +3,20 @@
   "version": "11.1.18",
   "type": "module",
   "description": "",
+  "files": [
+    "dist",
+    "README.md",
+    "!dist/**/*.test.js"
+  ],
   "dependencies": {
     "@goastler/a": "4.1.16"
   },
   "scripts": {
     "build": "echo build b && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
+    "deploy": "echo deploy b",
     "test": "echo test b"
+  },
+  "devDependencies": {
+    "vite": "6.0.11"
   }
 }
