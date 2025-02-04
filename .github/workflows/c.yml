@@ -23,10 +23,10 @@ jobs:
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> ~/.npmrc
 
           # Default registry for public packages
-          echo 'registry=https://registry.npmjs.org/' >> ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
 
           # Custom registry for scoped packages
-          echo '@goastler:registry=https://$registry' >> ~/.npmrc
+          echo "@${{ github.repository_owner }}:registry=https://$registry" >> ~/.npmrc
 
           cat ~/.npmrc
 
