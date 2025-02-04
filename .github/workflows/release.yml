@@ -1,4 +1,4 @@
-name: a
+name: release
 
 on:
   push:
@@ -12,66 +12,38 @@ jobs:
   a:
     runs-on: ubuntu-latest
     steps:
+      - name: git author
+        run: |
+        
+          git config --global user.email "goastler4@gmail.com"
+          git config --global user.name "goastler"
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           ssh-key: ${{ secrets.KEY }}
 
-      - run: git fetch origin ${{ github.event.before }}
-
-      - name: git author
-        run: |
-          git config --global user.email "goastler4@gmail.com"
-          git config --global user.name "goastler"
-
       - run: npm ci
 
-      - name: version
+      - name: tag
         run: |
-          npx nx release version
-          npm i
-
-      # - name: remove version plans
-      #   run: |
-      #     rm -rfv .nx/version-plans
-
-      - name: commit
-        run: |
-
-          # apply the version
-          git config --global user.email "goastler4@gmail.com"
-          git config --global user.name "goastler"
-
-          git add .
-
-          git diff --cached
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-
-            exit 0
-          fi
-
-          git commit -m "chore: release version"
-
-      - name: affected
-        run: |
-
-          # HEAD is the latest commit and contains the version bumps
-          pkgs=$(npx nx show projects --affected --base ${{ github.event.before }} --head HEAD)
-          echo "Affected packages: $pkgs"
-
-          json="[]"
-          # for each package, find the current version from the package.json
+          
+          # for each package, try to push a tag for the current version
+          pkgs=$(npm run --workspaces env | grep npm_package_name | cut -d '=' -f 2)
+          json='[]'
           for pkg in $pkgs; do
-          pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')/package.json"
-          echo "Checking package $pkg at path $pth"
-          version=$(jq -r ".version" "$pth")
-          echo "Package $pkg is currently at version $version"
-          json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
+            version=$(npm run -w $pkg node -e 'console.log(require("./package.json").version)')
+            tag="$pkg@$version"
+            echo "Creating tag $tag"
+            git tag -a "$tag" -m "chore: release $tag"
+            if [ $? -ne 0 ]; then
+              echo "Tag $tag already exists"
+              continue
+            fi
+            echo "Created tag $tag"
+            json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
+            echo '----'
           done
-          # reverse order to release most dependent package last
-          json=$(echo $json | jq "reverse")
 
           echo "Affected: $json"
 
@@ -90,31 +62,26 @@ jobs:
             npm run build -w $pkg --if-present
           done
 
-      - name: push changes
-        run: |
-          git push
-
       - name: gh release
         run: |
 
           # do a release for the workspace
           version=$(cat package.json | jq -r ".version")
-          tag="v$version"
+          name=$(cat package.json | jq -r ".name")
+          tag="$name@$version"
           gh release create --generate-notes "$tag"
           gh release upload "$tag" affected.json
 
-      - name: tag packages
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: push tags
         run: |
+          # build and release successful, so push all tags
 
-          # for each affected pkg, get the pkg name and version
+          # for each package in AFFECTED
           for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            # tag the pkg
+            # push the tag
             version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
             tag="$pkg@$version"
-            echo "Creating tag $tag"
-            git tag -a "$tag" -m "chore: release $tag"
+            echo "Pushing tag $tag"
             git push origin "$tag"
             echo '----'
           done
