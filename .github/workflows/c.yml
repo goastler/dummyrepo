@@ -29,10 +29,10 @@ jobs:
           npm pack $tag --registry "https://$registry"
 
           # unpack the tarball
-          tar -xvzf *.tgz --strip-components=1
+          tar -xvzf *.tgz
           rm *.tgz
+          cd package
 
-      # install only the dev deps to allow deploy
-      - run: npm i --only=dev
+          npm i --registry "https://$registry"
 
-      - run: npm run deploy
+          npm run deploy
