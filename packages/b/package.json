@@ -1,6 +1,6 @@
 {
   "name": "@goastler/b",
-  "version": "11.1.20",
+  "version": "11.1.21",
   "type": "module",
   "description": "",
   "files": [
@@ -9,7 +9,7 @@
     "!dist/**/*.test.js"
   ],
   "dependencies": {
-    "@goastler/a": "4.1.18"
+    "@goastler/a": "4.1.19"
   },
   "scripts": {
     "build": "echo build b && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
