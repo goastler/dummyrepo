@@ -36,12 +36,14 @@ jobs:
             version=$(npx -w $pkg node -e 'console.log(require("./package.json").version)')
             tag="$pkg@$version"
             echo "Creating tag $tag"
-            git tag -a "$tag" -m "chore: release $tag"
-            if [ $? -ne 0 ]; then
+            if git rev-parse "$tag" >/dev/null 2>&1; then
               echo "Tag $tag already exists"
               continue
+            else
+              git tag -a "$tag" -m "chore: release $tag"
+              echo "Tag $tag created"
+              echo "Created tag $tag"
             fi
-            echo "Created tag $tag"
             echo '----'
             json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
           done
