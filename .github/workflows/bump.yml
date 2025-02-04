@@ -33,6 +33,19 @@ jobs:
           npx nx release version
           npm i
 
+      - name: bump workspace
+        run: |
+          if git diff --cached --quiet; then
+            echo "No version changes"
+            exit 0
+          else
+            # changes have been made, so make sure the workspace gets at least patch bumped
+            mkdir -p .nx/version-plans
+            pkg=$(cat package.json | jq -r ".name")
+            printf -- "---\n'$pkg': patch\n---\nworkspace member bumped\n" > .nx/version-plans/workspace-$(date +%s).json
+            npx nx release version
+          fi
+
       - name: remove version plans
         run: |
           rm -rfv .nx/version-plans
@@ -49,13 +62,6 @@ jobs:
             echo "No version changes"
             exit 0
           fi
-
-          # add a patch bump for the workspace
-          mkdir -p .nx/version-plans
-          pkg=$(cat package.json | jq -r ".name")
-          printf -- "---\n'$pkg': patch\n---\nworkspace member bumped\n" > .nx/version-plans/workspace-$(date +%s).json
-          npx nx release version
-          rm -rfv .nx/version-plans
 
           git commit -m "chore: release $version"
           git push origin $branchName
