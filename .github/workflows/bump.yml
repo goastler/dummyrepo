@@ -28,6 +28,16 @@ jobs:
 
       - run: npm ci
 
+      - name: add workspace changeset
+        run: |
+          pkg=$(cat package.json | jq -r ".name")
+          echo "---
+'$pkg': patch
+---
+
+workspace member bumped
+" > .nx/version-plans/workspace-$(date +%s).json"
+
       - name: version
         run: |
           npx nx release version
