@@ -15,21 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: login to npm registry
+      - name: fetch version from github packages
         run: |
+
           # login to the registry
           registry="npm.pkg.github.com"
           echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> ~/.npmrc
 
-      - run: cat ~/.npmrc
-
-      - name: fetch version from github packages
-        run: |
           # get the version from the package.json
           pkg="${{ github.event.inputs.package }}"
           version="${{ github.event.inputs.version }}"
           tag="$pkg@$version"
-          npm pack $tag
+          npm pack $tag --registry "https://$registry"
 
           # unpack the tarball
           tar -xvzf *.tgz --strip-components=1
