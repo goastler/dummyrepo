@@ -28,19 +28,17 @@ jobs:
           # Custom registry for scoped packages
           echo "@${{ github.repository_owner }}:registry=https://$registry" >> ~/.npmrc
 
-          cat ~/.npmrc
-
           # get the version from the package.json
           pkg="${{ github.event.inputs.package }}"
           version="${{ github.event.inputs.version }}"
           tag="$pkg@$version"
-          npm pack $tag --registry "https://$registry"
+          npm pack $tag
 
           # unpack the tarball
           tar -xvzf *.tgz
           rm *.tgz
           cd package
 
-          cat package.json | jq '.devDependencies | to_entries[] | "\(.key)@\(.value)"' | xargs -t npm i --registry "https://$registry" --registry "https://registry.npmjs.org"
+          cat package.json | jq '.devDependencies | to_entries[] | "\(.key)@\(.value)"' | xargs -t npm i
 
           npm run deploy
