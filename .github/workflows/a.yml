@@ -28,9 +28,9 @@ jobs:
         run: |
           npx nx release version
 
-      - name: remove version plans
-        run: |
-          rm -rfv .nx/version-plans
+      # - name: remove version plans
+      #   run: |
+      #     rm -rfv .nx/version-plans
 
       - name: commit
         run: |
