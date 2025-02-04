@@ -1,10 +1,10 @@
 {
   "name": "@goastler/b",
-  "version": "11.1.17",
+  "version": "11.1.18",
   "type": "module",
   "description": "",
   "dependencies": {
-    "@goastler/a": "4.1.15"
+    "@goastler/a": "4.1.16"
   },
   "scripts": {
     "build": "echo build b && mkdir -p dist && echo 'console.log(\"c\")' > dist/index.js",
