@@ -52,12 +52,7 @@ jobs:
 
           # add a patch bump for the workspace
           pkg=$(cat package.json | jq -r ".name")
-          echo "---
-'$pkg': patch
----
-
-workspace member bumped
-" > .nx/version-plans/workspace-$(date +%s).json
+          printf "---\n'$pkg': patch\n---\nworkspace member bumped\n" > .nx/version-plans/workspace-$(date +%s).json
           npx nx release version
 
           git commit -m "chore: release $version"
