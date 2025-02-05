@@ -1,25 +1,25 @@
-# name: changeset
+name: changeset
 
-# on:
-#   pull_request:
-#     branches:
-#       - main
+on:
+  pull_request:
+    branches:
+      - main
 
-# jobs:
-#   check:
-#     runs-on: ubuntu-latest
-#     if: "!startsWith(github.head_ref, 'release/')" # skip release branches
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.head_ref, 'release/')" # skip release branches
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-#       - run: git fetch origin ${{ github.base_ref }}
-#       - run: git fetch origin ${{ github.head_ref }}
+      - run: git fetch origin ${{ github.base_ref }}
+      - run: git fetch origin ${{ github.head_ref }}
 
-#       - run: git diff --name-only --no-renames --relative "origin/main" "HEAD"
+      - run: git diff --name-only --no-renames --relative "origin/main" "HEAD"
 
-#       - run: npm ci
+      - run: npm ci
 
-#       - name: check versions
-#         run: |
-#           npx nx release plan:check --verbose --base="origin/${{ github.base_ref }}" --head="origin/${{ github.head_ref }}"
+      # - name: check versions
+      #   run: |
+      #     npx nx release plan:check --verbose --base="origin/${{ github.base_ref }}" --head="origin/${{ github.head_ref }}"
