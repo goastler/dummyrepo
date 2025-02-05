@@ -1,0 +1,5 @@
+---
+'@goastler/b': patch
+---
+
+a
