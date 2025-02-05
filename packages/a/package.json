@@ -2,7 +2,6 @@
   "name": "@goastler/a",
   "version": "4.2.0",
   "type": "module",
-  "description": "a",
   "files": [
     "dist",
     "README.md",
