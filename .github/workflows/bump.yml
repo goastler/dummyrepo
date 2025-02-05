@@ -35,6 +35,8 @@ jobs:
 
       - name: bump workspace
         run: |
+          echo "DIFF"
+          git diff
           if git diff --cached --quiet; then
             # changes have been made, so make sure the workspace gets at least patch bumped
             mkdir -p .nx/version-plans
