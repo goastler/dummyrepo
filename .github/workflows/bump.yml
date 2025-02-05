@@ -61,7 +61,8 @@ jobs:
             git checkout -b $branchName
             git commit -m "chore: release $version"
             git push origin $branchName
-            gh pr create --fill --base ${{ github.ref }}
+            echo pr'ing to ${GITHUB_REF#refs/heads/}
+            gh pr create --fill --base ${GITHUB_REF#refs/heads/}
           else
             echo "No version changes"
             exit 0
