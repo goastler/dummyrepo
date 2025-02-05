@@ -1,6 +1,6 @@
 {
   "name": "@goastler/b",
-  "version": "11.3.5",
+  "version": "11.4.0",
   "type": "module",
   "files": [
     "dist",
