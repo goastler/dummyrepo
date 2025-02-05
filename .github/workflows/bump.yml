@@ -62,7 +62,8 @@ jobs:
             exit 0
           else
             version=$(cat package.json | jq -r ".version")
-            branchName="release/$version"
+            branchName="release/$(date +%s)"
+            # branchName="release/$version"
             git add .
             git checkout -b $branchName
             git commit -m "chore: release $version"
