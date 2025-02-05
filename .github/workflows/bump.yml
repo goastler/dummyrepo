@@ -52,7 +52,7 @@ jobs:
       - name: remove version plans
         run: |
         
-          rm -v .nx/version-plans/*
+          rm -v .nx/version-plans/* || true
 
       - name: commit
         run: |
