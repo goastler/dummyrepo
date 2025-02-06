@@ -1,6 +1,6 @@
 {
   "name": "@goastler/dummyrepo",
-  "version": "1.10.4",
+  "version": "1.10.5",
   "type": "module",
   "description": "Repo for trying out github actions, etc. A playground if you will.",
   "main": "index.js",
