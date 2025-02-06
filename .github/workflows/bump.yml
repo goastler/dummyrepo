@@ -62,8 +62,11 @@ jobs:
             exit 0
           else
             version=$(cat package.json | jq -r ".version")
-            branchName="release/$(date +%s)"
-            # branchName="release/$version"
+            # push to a branch for version bumping
+            # note that the branch name is based on the source branch to prevent parallel version bumps
+            # thus pushing may error if the branch already exists due to an open pr
+            # resolve the open pr, which should merge into the source branch, triggering this workflow again and handling the further version bump(s)
+            branchName="release/${GITHUB_REF#refs/heads/}"
             git add .
             git checkout -b $branchName
             git commit -m "chore: release $version"
