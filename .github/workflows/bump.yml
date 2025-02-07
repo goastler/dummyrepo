@@ -68,8 +68,8 @@ jobs:
             # resolve the open pr, which should merge into the source branch, triggering this workflow again and handling the further version bump(s)
             branchName="release/${GITHUB_REF#refs/heads/}"
             # switch to the branch, creating if it doesn't exist 
-            git switch -C $branchName
-            git pull
+            git switch -C origin/$branchName
+            # git pull
             # merge latest changes from the source branch
             git merge $GITHUB_REF
             # commit the version bump
