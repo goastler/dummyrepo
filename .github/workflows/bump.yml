@@ -65,7 +65,7 @@ jobs:
           git add .
           git commit -m "chore: release"
           # update branches
-          git pull --rebase origin $destBranch || true
+          git pull --rebase=false origin $destBranch || true
           git merge $sourceBranch
           # pr into source branch
           git push --set-upstream origin $destBranch
