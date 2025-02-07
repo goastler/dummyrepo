@@ -59,6 +59,7 @@ jobs:
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
+          git fetch
           git checkout -b $destBranch
           git branch --set-upstream-to origin/$destBranch
           git pull
