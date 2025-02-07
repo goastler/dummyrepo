@@ -8,10 +8,6 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-defaults:
-  shell:
-    bash
-
 jobs:
   a:
     runs-on: ubuntu-latest
