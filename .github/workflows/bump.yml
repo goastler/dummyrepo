@@ -26,11 +26,12 @@ jobs:
 
       - name: checkout
         run: |
+
           bash -x
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist 
-          git switch -C $destBranch
+          git switch -C $destBranch --track origin/$destBranch || git switch $destBranch9
           # merge latest changes from the source branch
           git fetch origin $sourceBranch
           git merge --no-edit origin/$sourceBranch
