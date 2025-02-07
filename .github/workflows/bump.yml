@@ -61,7 +61,7 @@ jobs:
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
           git checkout -b $destBranch
-          git pull --ff-only origin $destBranch || true
+          git pull --rebase origin $destBranch || true
           git merge $sourceBranch
           # commit the version bump
           git add .
