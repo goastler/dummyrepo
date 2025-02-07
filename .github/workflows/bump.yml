@@ -70,7 +70,7 @@ jobs:
             # switch to the branch, creating if it doesn't exist 
             git switch -C $branchName
             # merge latest changes from the source branch
-            git merge $GITHUB_REF --no-ff
+            git merge $GITHUB_REF
             # commit the version bump
             git add .
             git commit -m "chore: release $version"
