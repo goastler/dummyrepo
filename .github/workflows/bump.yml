@@ -62,10 +62,10 @@ jobs:
           git fetch origin $destBranch
           git checkout -b $destBranch
           git branch --set-upstream-to origin/$destBranch
-          git pull origin $destBranch
+          git pull --ff-only origin $destBranch
           # merge latest changes from the source branch
           git fetch origin $sourceBranch
-          git merge --no-edit origin/$sourceBranch
+          git merge --rebase --no-edit origin/$sourceBranch
           # commit the version bump
           git add .
           git commit -m "chore: release"
