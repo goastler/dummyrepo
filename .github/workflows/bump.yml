@@ -30,8 +30,8 @@ jobs:
           bash -x
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
-          # switch to the branch, creating if it doesn't exist 
-          git switch -C $destBranch --track origin/$destBranch || git switch $destBranch9
+          # switch to the branch, creating if it doesn't exist
+          git checkout --track origin/$destBranch || git checkout $destBranch
           # merge latest changes from the source branch
           git fetch origin $sourceBranch
           git merge --no-edit origin/$sourceBranch
@@ -70,7 +70,7 @@ jobs:
           # commit the version bump
           git add .
           git commit -m "chore: release $version"
-          git push origin $destBranch
+          git push --set-upstream origin $destBranch
           # pr into source branch
           echo pr to $sourceBranch
           gh pr create --fill --base $sourceBranch
