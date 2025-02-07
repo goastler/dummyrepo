@@ -67,10 +67,15 @@ jobs:
             # thus pushing may error if the branch already exists due to an open pr
             # resolve the open pr, which should merge into the source branch, triggering this workflow again and handling the further version bump(s)
             branchName="release/${GITHUB_REF#refs/heads/}"
+            # switch to the branch, creating if it doesn't exist 
+            git switch -C $branchName
+            # merge latest changes from the source branch
+            git merge $GITHUB_REF --no-ff
+            # commit the version bump
             git add .
-            git checkout -b $branchName
             git commit -m "chore: release $version"
             git push origin $branchName
+            # pr into source branch
             echo pr to ${GITHUB_REF#refs/heads/}
             gh pr create --fill --base ${GITHUB_REF#refs/heads/}
           fi
