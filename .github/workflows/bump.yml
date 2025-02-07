@@ -24,18 +24,6 @@ jobs:
         with:
           ssh-key: ${{ secrets.KEY }}
 
-      - name: checkout
-        run: |
-
-          set -x
-          sourceBranch=${GITHUB_REF#refs/heads/}
-          destBranch="release/$sourceBranch"
-          # switch to the branch, creating if it doesn't exist
-          git checkout --track origin/$destBranch || git checkout -b $destBranch
-          # merge latest changes from the source branch
-          git fetch origin $sourceBranch
-          git merge --no-edit origin/$sourceBranch
-
       - run: npm ci
 
       # - name: optionally bump workspace
@@ -68,6 +56,13 @@ jobs:
         run: |
 
           set -x
+          sourceBranch=${GITHUB_REF#refs/heads/}
+          destBranch="release/$sourceBranch"
+          # switch to the branch, creating if it doesn't exist
+          git checkout --track origin/$destBranch || git checkout -b $destBranch
+          # merge latest changes from the source branch
+          git fetch origin $sourceBranch
+          git merge --no-edit origin/$sourceBranch
           # commit the version bump
           git add .
           git commit -m "chore: release $version"
