@@ -1,0 +1,17 @@
+name: tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  a:
+    runs-on: ubuntu-latest
+    steps:
+      - name: tagging
+        run: |
+          echo hello

@@ -54,61 +54,61 @@ jobs:
 
           echo "AFFECTED=$json" >> $GITHUB_ENV
 
-      - run: npm ci
+      # - run: npm ci
 
-      - name: build
-        run: |
+      # - name: build
+      #   run: |
 
-          # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            echo "Building package $pkg"
-            npm run build -w $pkg --if-present
-          done
+      #     # for each package in AFFECTED
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       echo "Building package $pkg"
+      #       npm run build -w $pkg --if-present
+      #     done
 
-      - name: push tags
-        run: |
-          # build and release successful, so push all tags
+      # - name: push tags
+      #   run: |
+      #     # build and release successful, so push all tags
 
-          # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            # push the tag
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            tag="$pkg@$version"
-            echo "Pushing tag $tag"
-            git push origin "$tag"
-            echo '----'
-          done
+      #     # for each package in AFFECTED
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       # push the tag
+      #       version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
+      #       tag="release/$pkg@$version"
+      #       echo "Pushing tag $tag"
+      #       git push origin "$tag"
+      #       echo '----'
+      #     done
 
-      - name: gh release
-        run: |
+      # - name: gh release
+      #   run: |
 
-          # if the workspace is affected
-          name=$(cat package.json | jq -r ".name")
-          version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$name\") | .version")
-          if [ -z "$version" ]; then
-            echo "Workspace not affected, skipping release"
-            exit 0
-          fi
-          # do a release for the workspace
-          tag="$name@$version"
-          gh release create --generate-notes "$tag"
-          gh release upload "$tag" affected.json
+      #     # if the workspace is affected
+      #     name=$(cat package.json | jq -r ".name")
+      #     version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$name\") | .version")
+      #     if [ -z "$version" ]; then
+      #       echo "Workspace not affected, skipping release"
+      #       exit 0
+      #     fi
+      #     # do a release for the workspace
+      #     tag="release/$name@$version"
+      #     gh release create --generate-notes "$tag"
+      #     gh release upload "$tag" affected.json
 
-      - name: publish
-        run: |
-          # login to the registry
-          registry="npm.pkg.github.com"
-          echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
-          # for each affected pkg, get the pkg name and version
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
-            npm pkg -w "$pkg" set repository.type=git
-            npm pkg -w "$pkg" set repository.url="git+https://github.com/${{ github.repository }}.git"
-            npm pkg -w "$pkg" set repository.directory="$pth"
-            # publish the pkg
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            echo "Publishing package $pkg at version $version"
-            npm publish -w "$pkg" --registry "https://$registry"
-            echo '----'
-          done
+      # - name: publish
+      #   run: |
+      #     # login to the registry
+      #     registry="npm.pkg.github.com"
+      #     echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
+      #     # for each affected pkg, get the pkg name and version
+      #     for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
+      #       pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
+      #       npm pkg -w "$pkg" set repository.type=git
+      #       npm pkg -w "$pkg" set repository.url="git+https://github.com/${{ github.repository }}.git"
+      #       npm pkg -w "$pkg" set repository.directory="$pth"
+      #       # publish the pkg
+      #       version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
+      #       echo "Publishing package $pkg at version $version"
+      #       npm publish -w "$pkg" --registry "https://$registry"
+      #       echo '----'
+      #     done
 
