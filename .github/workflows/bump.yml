@@ -62,7 +62,7 @@ jobs:
           git fetch origin $destBranch
           git checkout -b $destBranch
           git branch --set-upstream-to origin/$destBranch
-          git pull
+          git pull origin $destBranch
           # merge latest changes from the source branch
           git fetch origin $sourceBranch
           git merge --no-edit origin/$sourceBranch
