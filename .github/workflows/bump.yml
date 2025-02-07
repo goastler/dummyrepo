@@ -31,7 +31,7 @@ jobs:
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
-          git checkout --track origin/$destBranch || git checkout $destBranch
+          git checkout --track origin/$destBranch || git checkout -b $destBranch
           # merge latest changes from the source branch
           git fetch origin $sourceBranch
           git merge --no-edit origin/$sourceBranch
