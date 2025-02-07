@@ -60,13 +60,7 @@ jobs:
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
-          # git fetch origin $destBranch
           git checkout -b $destBranch
-          # git branch --set-upstream-to origin/$destBranch
-          # git pull --ff-only origin $destBranch
-          # merge latest changes from the source branch
-          # git fetch origin $sourceBranch
-          # git merge --rebase --no-edit origin/$sourceBranch
           git merge $sourceBranch
           # commit the version bump
           git add .
