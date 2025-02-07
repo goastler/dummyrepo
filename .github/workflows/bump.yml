@@ -8,6 +8,10 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+defaults:
+  shell:
+    bash
+
 jobs:
   a:
     runs-on: ubuntu-latest
@@ -27,7 +31,7 @@ jobs:
       - name: checkout
         run: |
 
-          bash -x
+          set -x
           sourceBranch=${GITHUB_REF#refs/heads/}
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
@@ -67,6 +71,7 @@ jobs:
       - name: pr
         run: |
 
+          set -x
           # commit the version bump
           git add .
           git commit -m "chore: release $version"
