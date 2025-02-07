@@ -24,7 +24,16 @@ jobs:
         with:
           ssh-key: ${{ secrets.KEY }}
 
-      - run: git fetch origin ${{ github.event.before }}
+      - name: checkout
+        run: |
+          bash -x
+          sourceBranch=${GITHUB_REF#refs/heads/}
+          destBranch="release/$sourceBranch"
+          # switch to the branch, creating if it doesn't exist 
+          git switch -C $destBranch
+          # merge latest changes from the source branch
+          git fetch origin $sourceBranch
+          git merge --no-edit origin/$sourceBranch
 
       - run: npm ci
 
@@ -54,31 +63,13 @@ jobs:
         
           rm -v .nx/version-plans/* || true
 
-      - name: commit
+      - name: pr
         run: |
-          bash +x
-          if git diff --quiet; then
-            echo "No changes"
-            exit 0
-          else
-            version=$(cat package.json | jq -r ".version")
-            # push to a branch for version bumping
-            # note that the branch name is based on the source branch to prevent parallel version bumps
-            # thus pushing may error if the branch already exists due to an open pr
-            # resolve the open pr, which should merge into the source branch, triggering this workflow again and handling the further version bump(s)
-            sourceBranch=${GITHUB_REF#refs/heads/}
-            destBranch="release/$sourceBranch"
-            # switch to the branch, creating if it doesn't exist 
-            git switch -C $destBranch
-            # merge latest changes from the source branch
-            git fetch origin $sourceBranch
-            git merge --no-edit origin/$sourceBranch
-            # commit the version bump
-            git add .
-            git commit -m "chore: release $version"
-            git push origin $destBranch
-            # pr into source branch
-            echo pr to $sourceBranch
-            gh pr create --fill --base $sourceBranch
-          fi
 
+          # commit the version bump
+          git add .
+          git commit -m "chore: release $version"
+          git push origin $destBranch
+          # pr into source branch
+          echo pr to $sourceBranch
+          gh pr create --fill --base $sourceBranch
