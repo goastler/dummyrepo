@@ -69,11 +69,11 @@ jobs:
             branchName="release/${GITHUB_REF#refs/heads/}"
             # switch to the branch, creating if it doesn't exist 
             git switch -C $branchName
-            # merge latest changes from the source branch
-            git pull --rebase origin $branchName
             # commit the version bump
             git add .
             git commit -m "chore: release $version"
+            # merge latest changes from the source branch
+            git pull --rebase origin $branchName
             git push origin $branchName
             # pr into source branch
             echo pr to ${GITHUB_REF#refs/heads/}
