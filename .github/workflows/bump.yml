@@ -65,7 +65,8 @@ jobs:
           git merge --no-edit origin/$sourceBranch
           # commit the version bump
           git add .
-          git commit -m "chore: release $version"
+          git commit -m "chore: release"
+          git pull
           git push --set-upstream origin $destBranch
           # pr into source branch
           echo pr to $sourceBranch
