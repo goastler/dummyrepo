@@ -56,7 +56,7 @@ jobs:
 
       - name: commit
         run: |
-
+          bash +x
           if git diff --quiet; then
             echo "No changes"
             exit 0
@@ -69,9 +69,8 @@ jobs:
             branchName="release/${GITHUB_REF#refs/heads/}"
             # switch to the branch, creating if it doesn't exist 
             git switch -C $branchName
-            git pull --ff-only origin $branchName
             # merge latest changes from the source branch
-            git merge --no-ff $GITHUB_REF
+            git pull --rebase origin $branchName
             # commit the version bump
             git add .
             git commit -m "chore: release $version"
