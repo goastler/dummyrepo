@@ -1,6 +1,6 @@
 {
   "name": "@goastler/c",
-  "version": "2.14.15",
+  "version": "2.14.16",
   "main": "index.js",
   "description": "",
   "type": "module",
