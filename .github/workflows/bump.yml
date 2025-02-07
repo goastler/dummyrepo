@@ -71,7 +71,7 @@ jobs:
             git switch -C $branchName
             git pull --ff-only origin $branchName
             # merge latest changes from the source branch
-            git merge $GITHUB_REF
+            git merge --no-ff $GITHUB_REF
             # commit the version bump
             git add .
             git commit -m "chore: release $version"
