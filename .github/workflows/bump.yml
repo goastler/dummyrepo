@@ -67,7 +67,7 @@ jobs:
           # merge latest changes from the source branch
           # git fetch origin $sourceBranch
           # git merge --rebase --no-edit origin/$sourceBranch
-          git merge --rebase --no-edit $sourceBranch
+          git merge $sourceBranch
           # commit the version bump
           git add .
           git commit -m "chore: release"
