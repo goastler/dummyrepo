@@ -61,12 +61,13 @@ jobs:
           destBranch="release/$sourceBranch"
           # switch to the branch, creating if it doesn't exist
           git checkout -b $destBranch
-          git pull --rebase origin $destBranch || true
-          git merge $sourceBranch
           # commit the version bump
           git add .
           git commit -m "chore: release"
-          git push --set-upstream origin $destBranch
+          # update branches
+          git pull --rebase origin $destBranch || true
+          git merge $sourceBranch
           # pr into source branch
+          git push --set-upstream origin $destBranch
           echo pr to $sourceBranch
           gh pr create --fill --base $sourceBranch
