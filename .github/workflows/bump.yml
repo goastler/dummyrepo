@@ -64,10 +64,9 @@ jobs:
           # commit the version bump
           git add .
           git commit -m "chore: release"
-          # update branches
-          git pull --rebase=false origin $destBranch || true
-          git merge $sourceBranch
           # pr into source branch
+          # if this fails it's likely the branch already exists on the remote due to an unmerged release pr
+          # handle the pending pr or delete the branch and try again
           git push --set-upstream origin $destBranch
           echo pr to $sourceBranch
           gh pr create --fill --base $sourceBranch
