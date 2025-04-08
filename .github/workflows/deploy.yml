@@ -81,7 +81,7 @@ jobs:
                 done
 
                 # run the deploy package
-                npm run start -- "${{ github.event.inputs.data }}"
+                npm run start -- '${{ github.event.inputs.data }}'
 
             - name: slack notification
               if: always()
