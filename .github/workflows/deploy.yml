@@ -69,11 +69,10 @@ jobs:
 
                 # Combine all contexts into a single JSON object
                 COMBINED_JSON=$(jq -n \
-                  --argjson inputs '${{ toJson(github.event.inputs) }}' \
                   --argjson secrets '${{ toJson(secrets) }}' \
                   --argjson env '${{ toJson(env) }}' \
                   --argjson vars '${{ toJson(vars) }}' \
-                  '$inputs + $secrets + $env + $vars')
+                  '$secrets + $env + $vars')
 
                 echo "Combined JSON: $COMBINED_JSON"
 
