@@ -75,6 +75,8 @@ jobs:
                   --argjson vars '${{ toJson(vars) }}' \
                   '$inputs + $secrets + $env + $vars')
 
+                echo "Combined JSON: $COMBINED_JSON"
+
                 # Export each key from the combined JSON
                 for key in $(echo $COMBINED_JSON | jq -r 'keys[]'); do
                     export $key=$(echo $COMBINED_JSON | jq -r .$key)
