@@ -65,13 +65,19 @@ jobs:
                 cat package.json | jq '.devDependencies | to_entries[] | "\(.key)@\(.value)"' | xargs -t npm i
 
             - name: deploy
-              env:
-                SECRETS_JSON: ${{ toJson(merge(env, vars, secrets, github.event.inputs)) }}
               run: |
 
-                # Loop through the keys in SECRETS_JSON and export each one
-                for key in $(echo $SECRETS_JSON | jq -r 'keys[]'); do
-                    export $key=$(echo $SECRETS_JSON | jq -r .$key)
+                # Combine all contexts into a single JSON object
+                COMBINED_JSON=$(jq -n \
+                  --argjson inputs '${{ toJson(github.event.inputs) }}' \
+                  --argjson secrets '${{ toJson(secrets) }}' \
+                  --argjson env '${{ toJson(env) }}' \
+                  --argjson vars '${{ toJson(vars) }}' \
+                  '$inputs + $secrets + $env + $vars')
+
+                # Export each key from the combined JSON
+                for key in $(echo $COMBINED_JSON | jq -r 'keys[]'); do
+                    export $key=$(echo $COMBINED_JSON | jq -r .$key)
                 done
 
                 # run the deploy package
