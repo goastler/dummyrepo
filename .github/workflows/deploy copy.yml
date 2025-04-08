@@ -1,0 +1,92 @@
+# deploy a given version to a given environment
+# note this DOES NOT build the version, it simply deploys artifacts that have already been built
+
+name: deploy
+
+on:
+    workflow_dispatch:
+        inputs:
+            data:
+                description: 'The json data to pass to the deploy package'
+                required: true
+            deploy_package_version:
+                description: 'The version of the deploy package to use'
+                required: true
+                default: 'latest' # default to the latest version of the deploy package
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+    run:
+        shell: bash
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print contexts
+              uses: prosopo/captcha/.github/actions/print_contexts@main
+              with:
+                  INPUTS_CONTEXT: ${{ toJson(inputs) }}
+                  NEEDS_CONTEXT: ${{ toJson(needs) }}
+                  VARS_CONTEXT: ${{ toJson(vars) }}
+                  SECRETS_CONTEXT: ${{ toJson(secrets) }}
+
+            - name: configure registries
+              run: |
+                # set gh registry for prosopo packages
+                echo "@prosopo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+                echo "//npm.pkg.github.com/:_authToken=${{ env.GH_PAT }}" >> ~/.npmrc
+                # npm registry for everything else
+                echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+            - name: debug .npmrc
+              run: cat ~/.npmrc
+
+            - name: test gh registry authentication
+              run: npm whoami --registry=https://npm.pkg.github.com
+
+            - name: fetch deploy package
+              run: |
+
+                npm pack "@prosopo/deploy${{ github.event.deploy_package_version }}" --registry https://npm.pkg.github.com
+
+                # unpack the tarball
+                tar -xvzf *.tgz --strip-components=1
+                rm *.tgz
+
+            - name: install
+              run: |
+
+                # install the dev deps
+                cat package.json | jq '.devDependencies | to_entries[] | "\(.key)@\(.value)"' | xargs -t npm i
+
+            - name: deploy
+              env:
+                SECRETS_JSON: ${{ toJson(merge(env, vars, secrets, github.event.inputs)) }}
+              run: |
+
+                # Loop through the keys in SECRETS_JSON and export each one
+                for key in $(echo $SECRETS_JSON | jq -r 'keys[]'); do
+                    export $key=$(echo $SECRETS_JSON | jq -r .$key)
+                done
+
+                # run the deploy package
+                npm run start -- "${{ github.event.inputs.data }}"
+
+            - name: slack notification
+              if: always()
+              run: |
+                
+                version=$(jq -r '.version' < package.json)
+                emoji=':check-passed:'
+                status='succeeded'
+                if [ ${{ success() }} == 'false' ]; then
+                  emoji=':check-failed:'
+                  status='failed'
+                fi
+
+                curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":$emoji: ${{ github.repository }} ${{ github.event.inputs.package }}@${{ github.event.inputs.version }} deploy to ${{ github.event.inputs.env }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|$status>\"}"  ${{ secrets.SLACKBOT_DEVOPS }}
