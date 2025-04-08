@@ -15,8 +15,7 @@
   "license": "ISC",
   "workspaces": [
     "packages/*",
-    "demos/*",
-    "."
+    "demos/*"
   ],
   "devDependencies": {
     "@nx/js": "20.3.3",
