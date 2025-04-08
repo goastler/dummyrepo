@@ -90,7 +90,7 @@ jobs:
                 version=$(jq -r '.version' < package.json)
                 emoji=':check-passed:'
                 status='succeeded'
-                if [ ${{ success() }} == 'false' ]; then
+                if [ "${{ job.status }}" != "success" ]; then
                   emoji=':check-failed:'
                   status='failed'
                 fi
