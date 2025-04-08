@@ -38,7 +38,7 @@ jobs:
               run: |
                 # set gh registry for prosopo packages
                 echo "@prosopo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
-                echo "//npm.pkg.github.com/:_authToken=${{ env.GH_PAT }}" >> ~/.npmrc
+                echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PAT }}" >> ~/.npmrc
                 # npm registry for everything else
                 echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
                 echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
@@ -87,7 +87,6 @@ jobs:
               if: always()
               run: |
                 
-                version=$(jq -r '.version' < package.json)
                 emoji=':check-passed:'
                 status='succeeded'
                 if [ "${{ job.status }}" != "success" ]; then
@@ -95,4 +94,4 @@ jobs:
                   status='failed'
                 fi
 
-                curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":$emoji: ${{ github.repository }} ${{ github.event.inputs.package }}@${{ github.event.inputs.version }} deploy to ${{ github.event.inputs.env }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|$status>\"}"  ${{ secrets.SLACKBOT_DEVOPS }}
+                curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":$emoji: ${{ github.repository }} deploy <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|$status>\"}"  ${{ secrets.SLACKBOT_DEVOPS }}
