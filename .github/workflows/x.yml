@@ -24,8 +24,8 @@ jobs:
       - name: b
         run: |
           echo "environment: ${{ inputs.environment }}" > secret.txt
-          echo "secret: ${{ secrets.ENV_SECRET_B }}" >> secret.txt
-          echo "var: ${{ vars.ENV_VAR_B }}" >> secret.txt
+          echo "secret: ${{ secrets.ENV_SECRET_A }}" >> secret.txt
+          echo "var: ${{ vars.ENV_VAR_A }}" >> secret.txt
 
       - name: Upload secret file as artifact
         uses: actions/upload-artifact@v4
