@@ -1,0 +1,20 @@
+name: Reusable Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+
+      - name: a
+        run: |
+          echo "environment: ${{ inputs.environment }}"
+          echo "secret: ${{ secrets.ENV_SECRET_A }}"
+          echo "var: ${{ secrets.ENV_VAR_A }}"
