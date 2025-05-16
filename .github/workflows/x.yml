@@ -17,4 +17,4 @@ jobs:
         run: |
           echo "environment: ${{ inputs.environment }}"
           echo "secret: ${{ secrets.ENV_SECRET_A }}"
-          echo "var: ${{ secrets.ENV_VAR_A }}"
+          echo "var: ${{ env.ENV_VAR_A }}"
