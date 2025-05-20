@@ -96,3 +96,4 @@ jobs:
                 git add .
                 git commit -m "version bump"
                 GIT_SSH_COMMAND="ssh -i ~/.ssh/id -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" git push
+
