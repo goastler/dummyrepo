@@ -1,6 +1,6 @@
 # process changesets to bump package versions, then pr them back into the branch
 
-name: version
+name: release
 
 on:
     push:
