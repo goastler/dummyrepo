@@ -1,114 +1,92 @@
-name: release
+# process changesets to bump package versions, then pr them back into the branch
+
+name: version
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches: # on push to these branches
+            - main
+            - build/*
+    workflow_dispatch:
 
-env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: false # queue the new runs until previous have finished. This avoids version bumps overlapping with each other
+
+defaults:
+    run:
+        shell: bash
 
 jobs:
-  a:
-    runs-on: ubuntu-latest
-    steps:
-      - name: git author
-        run: |
+    version:
+        name: version
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print contexts
+              uses: prosopo/captcha/.github/actions/print_contexts@gha
+              with:
+                    INPUTS_CONTEXT: ${{ toJson(inputs) }}
+                    NEEDS_CONTEXT: ${{ toJson(needs) }}
+                    VARS_CONTEXT: ${{ toJson(vars) }}
+                    SECRETS_CONTEXT: ${{ toJson(secrets) }}
         
-          git config --global user.email "goastler4@gmail.com"
-          git config --global user.name "goastler"
+            - name: Authenticate GitHub CLI
+              run: echo "${{ secrets.PROSOPONATOR_PAT }}" | gh auth login --with-token
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ssh-key: ${{ secrets.KEY }}
-          fetch-depth: 0 # get all tags
+            - uses: actions/checkout@v4
+              with:
+                  submodules: 'recursive'
+                  token: ${{ secrets.PROSOPONATOR_PAT }}
+                  fetch-depth: 0 # fetch all history
 
-      - name: tag
-        run: |
-          
-          # for each package, try to push a tag for the current version
-          pkgs=$(npm run --workspaces env | grep npm_package_name | cut -d '=' -f 2)
-          json='[]'
-          for pkg in $pkgs; do
-            version=$(npx -w $pkg node -e 'console.log(require("./package.json").version)')
-            tag="$pkg@$version"
-            echo "Creating tag $tag"
-            if git rev-parse "$tag" >/dev/null 2>&1; then
-              echo "Tag $tag already exists"
-              continue
-            else
-              git tag -a "$tag" -m "chore: release $tag"
-              echo "Tag $tag created"
-              echo "Created tag $tag"
-            fi
-            echo '----'
-            json=$(echo $json | jq ". + [{\"name\": \"$pkg\", \"version\": \"$version\"}]")
-          done
+            - uses: prosopo/captcha/.github/actions/npm@gha
 
-          echo "Affected: $json"
+            - name: Set up SSH
+              run: |
+                mkdir -p ~/.ssh
+                echo "${{ secrets.PROSOPONATOR_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+                chmod 600 ~/.ssh/id_rsa
+                ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-          echo "$json" > affected.json
+            - name: git config
+              run: |
+                set -x
+                git config user.name "prosoponator[bot]"
+                git config user.email "dev@prosopo.io"
 
-          json=$(echo $json | jq -c ".")
+            - name: check for changesets
+              run: |
+                set -x
+                set +e
+                (npm run changesets)
+                echo "changesets_exit_code=$?" >> $GITHUB_ENV
 
-          echo "AFFECTED=$json" >> $GITHUB_ENV
+            - name: set prerelease mode
+              if: env.changesets_exit_code == '0'
+              run: |
+                set -x
+                tag=$(echo "${GITHUB_REF#refs/heads/}" | cut -d'/' -f2-)
+                # enter prerelease mode if the branch is not main
+                # exit prerelease mode if the branch is main
+                if [[ ${{ github.ref }} == "refs/heads/main" ]]; then
+                  if [[ -f .changeset/pre.json ]]; then
+                    # exit prerelease mode if not already
+                    npx changeset pre exit
+                  fi
+                elif [[ ! -f .changeset/pre.json ]]; then
+                  # enter prerelease mode if not already
+                  npx changeset pre enter $tag
+                fi
 
-      - run: npm ci
+            - name: apply changesets
+              if: env.changesets_exit_code == '0'
+              run: |
+                # apply changesets to bump package versions
+                npm run changesets:version
 
-      - name: build
-        run: |
-
-          # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            echo "Building package $pkg"
-            npm run build -w $pkg --if-present
-          done
-
-      - name: push tags
-        run: |
-          # build and release successful, so push all tags
-
-          # for each package in AFFECTED
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            # push the tag
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            tag="release/$pkg@$version"
-            echo "Pushing tag $tag"
-            git push origin "$tag"
-            echo '----'
-          done
-
-      - name: gh release
-        run: |
-
-          # if the workspace is affected
-          name=$(cat package.json | jq -r ".name")
-          version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$name\") | .version")
-          if [ -z "$version" ]; then
-            echo "Workspace not affected, skipping release"
-            exit 0
-          fi
-          # do a release for the workspace
-          tag="release/$name@$version"
-          gh release create --generate-notes "$tag"
-          gh release upload "$tag" affected.json
-
-      - name: publish
-        run: |
-          # login to the registry
-          registry="npm.pkg.github.com"
-          echo "//$registry/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
-          # for each affected pkg, get the pkg name and version
-          for pkg in $(echo $AFFECTED | jq -r '.[].name'); do
-            pth="$(npx -w "$pkg" node -e 'console.log(process.cwd())')"
-            npm pkg -w "$pkg" set repository.type=git
-            npm pkg -w "$pkg" set repository.url="git+https://github.com/${{ github.repository }}.git"
-            npm pkg -w "$pkg" set repository.directory="$pth"
-            # publish the pkg
-            version=$(echo $AFFECTED | jq -r ".[] | select(.name == \"$pkg\") | .version")
-            echo "Publishing package $pkg at version $version"
-            npm publish -w "$pkg" --registry "https://$registry"
-            echo '----'
-          done
-
+            - name: push changes
+              if: env.changesets_exit_code == '0'
+              run: |
+                git add .
+                git commit -m "version bump"
+                git push
