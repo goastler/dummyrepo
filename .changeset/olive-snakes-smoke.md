@@ -1,6 +1,6 @@
 ---
-"a": major
-"b": minor
+"@goastler/a": major
+"@goastler/b": minor
 ---
 
 blah
