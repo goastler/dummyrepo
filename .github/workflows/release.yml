@@ -86,12 +86,13 @@ jobs:
             - name: Set up SSH
               run: |
                 mkdir -p ~/.ssh
-                echo "${{ secrets.PROSOPONATOR_DEPLOY_KEY }}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
+                chmod 700 ~/.ssh
+                echo "${{ secrets.PROSOPONATOR_DEPLOY_KEY }}" > ~/.ssh/id
+                chmod 600 ~/.ssh/id
 
             - name: push changes
               if: env.changesets_exit_code == '0'
               run: |
                 git add .
                 git commit -m "version bump"
-                GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" git push
+                GIT_SSH_COMMAND="ssh -i ~/.ssh/id -o StrictHostKeyChecking=no" git push
