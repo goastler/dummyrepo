@@ -39,49 +39,17 @@ jobs:
                   token: ${{ secrets.PROSOPONATOR_PAT }}
                   fetch-depth: 0 # fetch all history
 
-            - name: Set up SSH
-              run: |
-                mkdir -p ~/.ssh
-                echo "${{ secrets.PROSOPONATOR_DEPLOY_KEY }}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-                ssh-keyscan github.com >> ~/.ssh/known_hosts
-
             - name: git config
               run: |
                 set -x
                 git config user.name "prosoponator[bot]"
                 git config user.email "dev@prosopo.io"
 
-            - name: check for changesets
-              run: |
-                set -x
-                set +e
-                (npm run changesets)
-                echo "changesets_exit_code=$?" >> $GITHUB_ENV
-
-            - name: set prerelease mode
-              if: env.changesets_exit_code == '0'
-              run: |
-                set -x
-                tag=$(echo "${GITHUB_REF#refs/heads/}" | cut -d'/' -f2-)
-                # enter prerelease mode if the branch is not main
-                # exit prerelease mode if the branch is main
-                if [[ ${{ github.ref }} == "refs/heads/main" ]]; then
-                  if [[ -f .changeset/pre.json ]]; then
-                    # exit prerelease mode if not already
-                    npx changeset pre exit
-                  fi
-                elif [[ ! -f .changeset/pre.json ]]; then
-                  # enter prerelease mode if not already
-                  npx changeset pre enter $tag
-                fi
-
             - name: apply changesets
               if: env.changesets_exit_code == '0'
               run: |
                 # apply changesets to bump package versions
                 npm run changesets:version
-
 
             - name: Set up SSH
               run: |
