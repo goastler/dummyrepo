@@ -39,8 +39,6 @@ jobs:
                   token: ${{ secrets.PROSOPONATOR_PAT }}
                   fetch-depth: 0 # fetch all history
 
-            - uses: prosopo/captcha/.github/actions/npm@gha
-
             - name: Set up SSH
               run: |
                 mkdir -p ~/.ssh
