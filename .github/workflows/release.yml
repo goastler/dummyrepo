@@ -88,12 +88,10 @@ jobs:
                 mkdir -p ~/.ssh
                 echo "${{ secrets.PROSOPONATOR_DEPLOY_KEY }}" > ~/.ssh/id_rsa
                 chmod 600 ~/.ssh/id_rsa
-                ssh-keyscan github.com >> ~/.ssh/known_hosts
-
 
             - name: push changes
               if: env.changesets_exit_code == '0'
               run: |
                 git add .
                 git commit -m "version bump"
-                git push
+                GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" git push
