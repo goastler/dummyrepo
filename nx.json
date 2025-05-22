@@ -5,6 +5,14 @@
       "dependsOn": ["^build"]
     }
   },
+  "target": {
+    "rel": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "command": "echo Hello from my-lib"
+      }
+    }
+  },
   "defaultBase": "main",
   "release": {
     "projects": ["*"],
