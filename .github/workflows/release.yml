@@ -58,4 +58,4 @@ jobs:
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release --skip-publish --base ${{ github.event.before }} --head ${{ github.sha }} --first-release
+                npx nx release --skip-publish --first-release
