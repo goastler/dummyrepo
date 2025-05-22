@@ -18,8 +18,8 @@ defaults:
         shell: bash
 
 jobs:
-    version:
-        name: version
+    release:
+        name: release
         runs-on: ubuntu-latest
         steps:
             - name: Print contexts
@@ -52,17 +52,12 @@ jobs:
                 git config user.name "prosoponator[bot]"
                 git config user.email "dev@prosopo.io"
 
-            - name: apply changesets
-              if: env.changesets_exit_code == '0'
+            - name: Apply version bumps - dry run
               run: |
-                # apply changesets to bump package versions
-                npm run changesets:version
+                npx nx release version  --dry-run
 
-            - name: push changes
-              if: env.changesets_exit_code == '0'
+            - name: Apply version bumps
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                git add .
-                git commit -m "version bump"
-                git push
+                npx nx release version --skip-publish --base ${{ github.event.before }} --head ${{ github.sha }}

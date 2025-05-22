@@ -11,9 +11,6 @@
     "versionPlans": true,
     "projectsRelationship": "independent",
     "version": {
-      "generatorOptions": {
-        "versionPrefix": ""
-      },
       "git": {
         "commit": false,
         "tag": false,
@@ -23,7 +20,6 @@
 
     },
     "changelog": {
-      "projectChangelogs": true,
       "git": {
         "commit": false,
         "tag": false,
