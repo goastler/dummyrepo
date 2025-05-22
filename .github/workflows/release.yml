@@ -54,12 +54,8 @@ jobs:
 
             - run: npm ci
 
-            - name: Apply version bumps - dry run
-              run: |
-                npx nx release version  --dry-run
-
             - name: Apply version bumps
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release version --skip-publish --base ${{ github.event.before }} --head ${{ github.sha }}
+                npx nx release --skip-publish --base ${{ github.event.before }} --head ${{ github.sha }} --first-release
