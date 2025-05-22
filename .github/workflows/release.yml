@@ -56,5 +56,5 @@ jobs:
 
             - name: Apply version bumps
               run: |
-                npx nx release --skip-publish --first-release --push
+                npx nx release --skip-publish --first-release --git-push
 
