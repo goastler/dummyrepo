@@ -31,6 +31,8 @@ jobs:
               with:
                   submodules: 'recursive'
 
+            - run: npm ci
+
             - name: Check changesets
               run: |
-                npx nx release plan:check --base ${{ github.event.before }} --head ${{ github.sha }}
+                npx nx release plan:check --verbose --base ${{ github.event.before }} --head ${{ github.sha }}
