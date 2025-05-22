@@ -10,22 +10,8 @@
     "projects": ["*"],
     "versionPlans": true,
     "projectsRelationship": "independent",
-    "version": {
-      "git": {
-        "commit": false,
-        "tag": false,
-        "push": false,
-        "stageChanges": false
-      }
-
-    },
     "changelog": {
-      "git": {
-        "commit": false,
-        "tag": false,
-        "push": false,
-        "stageChanges": false
-      },
+      "projectChangelogs": true,
       "automaticFromRef": true
     }
   },
