@@ -30,6 +30,13 @@ jobs:
                     VARS_CONTEXT: ${{ toJson(vars) }}
                     SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
+            - name: Get token for gh app token
+              id: app_token
+              uses: peter-murray/workflow-application-token-action@v3
+              with:
+                application_id: ${{ vars.PROSOPONATOR_APP_ID }}
+                application_private_key: ${{ secrets.PROSOPONATOR_APP_PRIVATE_KEY }}
+
             - uses: actions/checkout@v4
               with:
                   submodules: 'recursive'
@@ -51,13 +58,6 @@ jobs:
             #   run: |
             #     set -x
             #     npm whoami --registry https://npm.pkg.github.com/
-
-            - name: Get token for gh app token
-              id: app_token
-              uses: peter-murray/workflow-application-token-action@v3
-              with:
-                application_id: ${{ vars.PROSOPONATOR_APP_ID }}
-                application_private_key: ${{ secrets.PROSOPONATOR_APP_PRIVATE_KEY }}
 
             # - name: Authenticate GitHub CLI
             #   run: echo "${{ secrets.PROSOPONATOR_PAT }}" | gh auth login --with-token
