@@ -57,6 +57,7 @@ jobs:
             - name: Apply version bumps
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                 npx nx release --first-release --yes
 
