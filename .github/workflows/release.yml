@@ -1,5 +1,3 @@
-# process changesets to bump package versions, then pr them back into the branch
-
 name: release
 
 on:
@@ -47,7 +45,7 @@ jobs:
               run: |
                 set -x
                 echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-                # echo "//npm.pkg.github.com/:_authToken=${{ secrets.PROSOPONATOR_PAT }}" >> .npmrc
+                echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
 
             - name: authenticate npm registry
               run: |
@@ -70,10 +68,6 @@ jobs:
 
             - run: npm ci
 
-            - name: affected
-              run: |
-                npx nx show projects --affected --base=${{ github.event.before }}
-
             - name: Apply version bumps
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
@@ -87,6 +81,7 @@ jobs:
               run: |
                 set -x
                 git add .
+                git status
                 git commit -m "chore: version bump"
                 git push
                 git push --tags
@@ -105,7 +100,6 @@ jobs:
                     npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
                 done
 
-            
             - name: publish to gh
               run: |
                 # make all packages non-private - this just means we can publish them, not that they're public!
