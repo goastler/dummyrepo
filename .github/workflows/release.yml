@@ -75,9 +75,12 @@ jobs:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
                 NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
-                npx nx release --first-release --yes
+                npx nx release --skip-publish --first-release
 
             - run: git status
+
+            - run: |
+                npx nx release publish --yes --access public --first-release --registry https://registry.npmjs.org
 
             # - name: push
             #   env: 
