@@ -73,7 +73,7 @@ jobs:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
                 NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
-                npx nx release --skip-publish --first-release
+                npx nx release
 
             - name: push changesets
               env: 
