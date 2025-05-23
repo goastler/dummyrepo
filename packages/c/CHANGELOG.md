@@ -1,3 +1,9 @@
+## 2.14.49 (2025-05-23)
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/b to 11.6.22
+
 ## 2.14.48 (2025-05-23)
 
 ### 🧱 Updated Dependencies
