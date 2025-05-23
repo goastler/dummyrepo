@@ -55,12 +55,25 @@ jobs:
             - run: npm ci
 
             - name: Apply version bumps
-              run: |
-                npx nx release --skip-publish --first-release
-
-            - name: push
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release version --git-push --skip-publish --first-release
+                npx nx release --skip-publish --first-release
+
+            # - name: push
+            #   env: 
+            #     GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
+            #   run: |
+            #     set -x
+            #     git add .
+            #     git commit -m "chore: version bump"
+            #     git push
+
+            # - name: publish npm
+            #   run: |
+            #     npx nx release publish --registry https://registry.npmjs.org --first-release
+
+            # - name: publish gh
+            #   run: |
+            #     npx nx release publish --registry https://npm.github.com --first-release
 
