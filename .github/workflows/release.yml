@@ -77,10 +77,19 @@ jobs:
               run: |
                 npx nx release --skip-publish --first-release
 
-            - run: git status
+            - name: affected
+              run: |
+                npx nx show projects --affected --base=${{ github.event.before }} --head=${{ github.sha }}
 
-            - run: |
-                npx nx release publish --yes --access public --first-release --registry https://registry.npmjs.org
+            # - name: push changesets
+            #   run: |
+            #     set -x
+            #     git add .
+            #     git commit -m "chore: version bump"
+            #     git push
+
+            # - run: |
+            #     npx nx release publish --yes --access public --first-release --registry https://registry.npmjs.org
 
             # - name: push
             #   env: 

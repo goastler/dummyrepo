@@ -1,0 +1,25 @@
+{
+  "name": "@goastler/dev",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "private": true,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "dev": "tsx src/index.ts",
+    "deploy": "vite build",
+    "test": "echo test c"
+  },
+  "devDependencies": {
+    "tsx": "4.19.4",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "nx": "21.1.1",
+    "@nx/devkit": "21.1.1"
+  }
+}
