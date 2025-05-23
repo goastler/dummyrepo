@@ -1,3 +1,13 @@
+## 11.6.11 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([1284f5b](https://github.com/goastler/dummyrepo/commit/1284f5b))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.10 (2025-05-23)
 
 ### 🩹 Fixes
