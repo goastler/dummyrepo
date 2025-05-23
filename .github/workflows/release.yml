@@ -74,9 +74,13 @@ jobs:
 
             - name: pkg lock
               run: |
-                npm i
-                git add package-lock.json
-                git commit --amend --no-edit
+                if git diff --quiet HEAD@{1} HEAD; then
+                  echo "No new commit, skipping package-lock update."
+                else
+                  npm i
+                  git add package-lock.json
+                  git commit --amend --no-edit
+                fi
 
             - name: push changesets
               env: 
