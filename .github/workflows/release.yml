@@ -72,7 +72,7 @@ jobs:
 
             - name: affected
               run: |
-                npx nx show projects --affected --base=${{ github.event.before }} --head=${{ github.sha }}
+                npx nx show projects --affected --base=${{ github.event.before }}
 
             - name: Apply version bumps
               env: 
@@ -81,9 +81,18 @@ jobs:
               run: |
                 npx nx release --skip-publish --first-release
 
+            - name: push changesets
+              env: 
+                GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
+              run: |
+                set -x
+                git add .
+                git commit -m "chore: version bump"
+                # git push
+
             - name: affected
               run: |
-                npx nx show projects --affected --base=${{ github.event.before }} --head=${{ github.sha }}
+                npx nx show projects --affected --base=${{ github.event.before }}
 
             # - name: push changesets
             #   run: |
