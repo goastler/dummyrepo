@@ -1,3 +1,13 @@
+## 11.6.10 (2025-05-23)
+
+### 🩹 Fixes
+
+- blah ([b3d22d0](https://github.com/goastler/dummyrepo/commit/b3d22d0))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.9 (2025-05-23)
 
 ### 🩹 Fixes
