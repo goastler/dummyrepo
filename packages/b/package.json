@@ -3,6 +3,7 @@
   "version": "11.6.10",
   "type": "module",
   "private": true,
+  "description": "b",
   "files": [
     "dist",
     "README.md",
