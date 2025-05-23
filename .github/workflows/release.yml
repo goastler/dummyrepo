@@ -77,10 +77,14 @@ jobs:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
                 set -x
+                if [ -z "$(git status --porcelain)" ]; then
+                    echo "No changes to commit"
+                    exit 0
+                fi
                 git add .
                 git commit -m "chore: version bump"
-                git push || true
-                git push --tags || true
+                git push
+                git push --tags
 
             - name: affected
               run: |
