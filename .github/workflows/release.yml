@@ -69,27 +69,23 @@ jobs:
             - run: npm ci
 
             - name: Apply version bumps
-              run: |
-                npx nx release --first-release
-
-            - name: pkg lock
-              run: |
-                if git rev-list --count ${{ github.event.before }}..HEAD | grep -q '^0$'; then
-                  echo "No new commit from nx, skipping package-lock update."
-                else
-                  npm i
-                  git add package-lock.json
-                  git commit --amend --no-edit
-                fi
-
-            - name: push changesets
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                set -x
-                git status
-                git push || true
-                git push --tags || true
+                # if there are changesets, apply them
+                if find .nx/version-plans -type f -print -quit | grep -q .; then
+                  echo "Found changeset files"
+                  npx nx release --first-release
+                  # nx doesn't update the pkg lock properly so do it manually
+                  npm i
+                  git add package-lock.json
+                  git commit --amend --no-edit
+                  git status
+                  git push
+                  git push --tags
+                else
+                  echo "No changeset files found"
+                fi
 
             - name: affected
               run: |
