@@ -44,8 +44,8 @@ jobs:
             - name: setup npm registry
               run: |
                 set -x
-                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
-                # echo "//npm.pkg.github.com/:_authToken=${{ steps.app_token.outputs.token }}" >> .npmrc
+                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+                # echo "//npm.pkg.github.com/:_authToken=${{ steps.app_token.outputs.token }}" >> ~/.npmrc
 
             - name: authenticate npm registry
               run: |
