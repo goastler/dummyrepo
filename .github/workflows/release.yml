@@ -78,6 +78,8 @@ jobs:
               run: |
                 set -x
                 git status
+                npm i
+                git status
                 git push || true
                 git push --tags || true
 
