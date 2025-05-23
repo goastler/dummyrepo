@@ -88,23 +88,53 @@ jobs:
                 echo "affected=$affected" >> $GITHUB_ENV
 
             - name: publish to npm
+              id: publish_npm
               run: |
                 # for each affected package
+                output="[]"
                 for pkg in $(echo $affected | jq -r '.[]'); do
                     echo "Publishing $pkg"
+                    set +e
                     npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
+                    result=$?
+                    set -e
+                    if [ $result -eq 0 ]; then
+                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                    else
+                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                    fi
                 done
+
+                echo "output: $output"
+                echo "output=$output" >> $GITHUB_OUTPUT
 
             - name: publish to gh
               run: |
                 # make all packages non-private - this just means we can publish them, not that they're public!
                 npm pkg -ws delete private
                 # for each affected package
+                output="[]"
                 for pkg in $(echo $affected | jq -r '.[]'); do
                     echo "Publishing $pkg"
                     # restricted access for private packages on gh (only accessible to the org)
+                    set +e
                     npm publish -w "$pkg" --access restricted --registry https://npm.pkg.github.com
+                    result=$?
+                    set -e
+                    if [ $result -eq 0 ]; then
+                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                    else
+                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                    fi
                 done
+
+                echo "output: $output"
+                echo "output=$output" >> $GITHUB_OUTPUT
+
+            - name: print output
+              run: |
+                echo "output: ${{ steps.publish_npm.outputs.output }}"
+                echo "output: ${{ steps.publish_gh.outputs.output }}"
 
             # - name: push changesets
             #   run: |
