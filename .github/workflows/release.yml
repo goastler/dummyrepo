@@ -70,6 +70,10 @@ jobs:
 
             - run: npm ci
 
+            - name: affected
+              run: |
+                npx nx show projects --affected --base=${{ github.event.before }} --head=${{ github.sha }}
+
             - name: Apply version bumps
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
