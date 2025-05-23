@@ -1,3 +1,13 @@
+## 11.6.7 (2025-05-23)
+
+### 🩹 Fixes
+
+- blah ([36db212](https://github.com/goastler/dummyrepo/commit/36db212))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.6 (2025-05-23)
 
 ### 🩹 Fixes
