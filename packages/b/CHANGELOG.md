@@ -1,3 +1,13 @@
+## 11.6.18 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([497a80e](https://github.com/goastler/dummyrepo/commit/497a80e))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.17 (2025-05-23)
 
 ### 🩹 Fixes
