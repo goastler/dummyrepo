@@ -30,6 +30,22 @@ jobs:
                     VARS_CONTEXT: ${{ toJson(vars) }}
                     SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
+            - name: setup npm registry
+              run: |
+                set -x
+                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+                echo "//npm.pkg.github.com/:_authToken=${{ secrets.PROSOPONATOR_PAT }}" >> .npmrc
+
+            - name: authenticate npm registry
+              run: |
+                set -x
+                npm whoami --registry https://registry.npmjs.org/
+
+            - name: authenticate gh registry
+              run: |
+                set -x
+                npm whoami --registry https://npm.pkg.github.com/
+
             - name: Get token for gh app token
               id: app_token
               uses: peter-murray/workflow-application-token-action@v3
