@@ -72,13 +72,17 @@ jobs:
               run: |
                 npx nx release --first-release
 
+            - name: pkg lock
+              run: |
+                npm i
+                git add package-lock.json
+                git commit --amend --no-edit
+
             - name: push changesets
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
                 set -x
-                git status
-                npm i
                 git status
                 git push || true
                 git push --tags || true
