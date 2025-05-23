@@ -98,8 +98,6 @@ jobs:
                 echo "affected=$affected" >> $GITHUB_ENV
 
             - name: publish to npm
-              env: 
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                 # for each affected package
                 for pkg in $(echo $affected | jq -r '.[]'); do
