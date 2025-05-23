@@ -78,14 +78,8 @@ jobs:
               run: |
                 set -x
                 git status
-                if [ -z "$(git status --porcelain)" ]; then
-                    echo "No changes to commit"
-                    exit 0
-                fi
-                git add .
-                git commit -m "chore: version bump"
-                git push
-                git push --tags
+                git push || true
+                git push --tags || true
 
             - name: affected
               run: |
