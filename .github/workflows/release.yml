@@ -44,8 +44,8 @@ jobs:
             - name: setup npm registry
               run: |
                 set -x
-                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-                echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PAT }}" >> .npmrc
+                echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+                echo "//npm.pkg.github.com/:_authToken=${{ steps.app_token.outputs.token }}" >> .npmrc
 
             - name: authenticate npm registry
               run: |
@@ -69,11 +69,8 @@ jobs:
             - run: npm ci
 
             - name: Apply version bumps
-              env: 
-                GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
-                npx nx release
+                npx nx release --first-release
 
             - name: push changesets
               env: 
@@ -81,7 +78,6 @@ jobs:
               run: |
                 set -x
                 git add .
-                git status
                 git commit -m "chore: version bump"
                 git push
                 git push --tags
