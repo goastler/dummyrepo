@@ -58,7 +58,7 @@ jobs:
               env: 
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release --skip-publish --first-release
+                npx nx release --first-release
 
             # - name: push
             #   env: 
