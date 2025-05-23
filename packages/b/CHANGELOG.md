@@ -1,3 +1,13 @@
+## 11.6.20 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([fcb4d46](https://github.com/goastler/dummyrepo/commit/fcb4d46))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.19 (2025-05-23)
 
 ### 🩹 Fixes
