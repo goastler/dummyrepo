@@ -1,3 +1,13 @@
+## 11.6.17 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([61d2c7f](https://github.com/goastler/dummyrepo/commit/61d2c7f))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.16 (2025-05-23)
 
 ### 🩹 Fixes
