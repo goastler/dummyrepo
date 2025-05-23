@@ -138,6 +138,12 @@ jobs:
               run: |
                 echo "output: ${{ steps.publish_npm.outputs.output }}"
                 echo "output: ${{ steps.publish_gh.outputs.output }}"
+                npm_failed=$(echo '${{ steps.publish_npm.outputs.output }}' | jq '[.[] | select(.ok==false)] | length')
+                gh_failed=$(echo '${{ steps.publish_gh.outputs.output }}' | jq '[.[] | select(.ok==false)] | length')
+                if [ "$npm_failed" -gt 0 ] || [ "$gh_failed" -gt 0 ]; then
+                  echo "One or more packages failed to publish."
+                  exit 1
+                fi
 
             # - name: push changesets
             #   run: |
