@@ -89,7 +89,7 @@ jobs:
 
             - name: affected
               run: |
-                affected=$(npx nx show projects --json --affected --base=${{ github.event.before }} --head=HEAD)
+                affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
                 echo "affected: $affected"
                 echo "affected=$affected" >> $GITHUB_ENV
 
