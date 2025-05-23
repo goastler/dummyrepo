@@ -102,7 +102,7 @@ jobs:
                 NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                 # for each affected package
-                for pkg in $(echo $affected | jq -r '.[] | .name'); do
+                for pkg in $(echo $affected | jq -r '.[]'); do
                     echo "Publishing $pkg"
                     npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
                 done
@@ -113,7 +113,7 @@ jobs:
                 # make all packages non-private - this just means we can publish them, not that they're public!
                 npm pkg -ws delete private
                 # for each affected package
-                for pkg in $(echo $affected | jq -r '.[] | .name'); do
+                for pkg in $(echo $affected | jq -r '.[]'); do
                     echo "Publishing $pkg"
                     # restricted access for private packages on gh (only accessible to the org)
                     npm publish -w "$pkg" --access restricted --registry https://npm.pkg.github.com
