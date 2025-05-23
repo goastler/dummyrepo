@@ -74,8 +74,8 @@ jobs:
 
             - name: pkg lock
               run: |
-                if git diff --quiet HEAD@{1} HEAD; then
-                  echo "No new commit, skipping package-lock update."
+                if git rev-list --count ${{ github.event.before }}..HEAD | grep -q '^0$'; then
+                  echo "No new commit from nx, skipping package-lock update."
                 else
                   npm i
                   git add package-lock.json
