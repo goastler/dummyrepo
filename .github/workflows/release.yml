@@ -88,11 +88,36 @@ jobs:
                 set -x
                 git add .
                 git commit -m "chore: version bump"
-                # git push
+                git push
+                git push --tags
 
             - name: affected
               run: |
-                npx nx show projects --affected --base=${{ github.event.before }}
+                affected=$(npx nx show projects --json --affected --base=${{ github.event.before }} --head=HEAD)
+                echo "affected: $affected"
+                echo "affected=$affected" >> $GITHUB_ENV
+
+            - name: publish to npm
+              env: 
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: |
+                # for each affected package
+                for pkg in $(echo $affected | jq -r '.[] | .name'); do
+                    echo "Publishing $pkg"
+                    npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
+                done
+
+            
+            - name: publish to gh
+              run: |
+                # make all packages non-private - this just means we can publish them, not that they're public!
+                npm pkg -ws delete private
+                # for each affected package
+                for pkg in $(echo $affected | jq -r '.[] | .name'); do
+                    echo "Publishing $pkg"
+                    # restricted access for private packages on gh (only accessible to the org)
+                    npm publish -w "$pkg" --access restricted --registry https://npm.pkg.github.com
+                done
 
             # - name: push changesets
             #   run: |

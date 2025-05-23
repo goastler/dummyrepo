@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "private": true,
+  "private": "true",
   "files": [
     "dist",
     "README.md"
@@ -19,7 +19,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "nx": "21.1.1",
-    "@nx/devkit": "21.1.1"
+    "@nx/devkit": "21.1.1",
+    "nx": "21.1.1"
   }
 }
