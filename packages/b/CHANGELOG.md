@@ -1,3 +1,13 @@
+## 11.6.14 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([85c7551](https://github.com/goastler/dummyrepo/commit/85c7551))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.13 (2025-05-23)
 
 ### 🩹 Fixes
