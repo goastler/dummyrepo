@@ -99,9 +99,9 @@ jobs:
                     result=$?
                     set -e
                     if [ $result -eq 0 ]; then
-                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": true}]")
-                    else
-                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                                        else
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": false}]")
                     fi
                 done
 
@@ -122,9 +122,9 @@ jobs:
                     result=$?
                     set -e
                     if [ $result -eq 0 ]; then
-                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": true}]")
                     else
-                      output=$(echo "$output" | jq ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": false}]")
                     fi
                 done
 
