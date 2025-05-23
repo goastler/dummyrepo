@@ -79,8 +79,8 @@ jobs:
                 set -x
                 git add .
                 git commit -m "chore: version bump"
-                git push
-                git push --tags
+                git push || true
+                git push --tags || true
 
             - name: affected
               run: |
