@@ -1,3 +1,13 @@
+## 11.6.21 (2025-05-23)
+
+### 🩹 Fixes
+
+- x ([7982bc2](https://github.com/goastler/dummyrepo/commit/7982bc2))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.20 (2025-05-23)
 
 ### 🩹 Fixes
