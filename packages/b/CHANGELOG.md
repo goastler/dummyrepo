@@ -1,3 +1,13 @@
+## 11.6.29 (2025-05-27)
+
+### 🩹 Fixes
+
+- x ([a0d3edb](https://github.com/goastler/dummyrepo/commit/a0d3edb))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.28 (2025-05-27)
 
 ### 🩹 Fixes
