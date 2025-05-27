@@ -1,3 +1,13 @@
+## 11.6.28 (2025-05-27)
+
+### 🩹 Fixes
+
+- x ([a7192be](https://github.com/goastler/dummyrepo/commit/a7192be))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.27 (2025-05-27)
 
 ### 🩹 Fixes
