@@ -57,8 +57,15 @@ jobs:
                 set -x
                 npm whoami --registry https://npm.pkg.github.com/
 
-            # - name: Authenticate GitHub CLI
-            #   run: echo "${{ secrets.PROSOPONATOR_PAT }}" | gh auth login --with-token
+            - name: vars to env
+              run: |
+                VARS_JSON='${{ toJson(vars) }}'
+                KEYS=$(echo "$VARS_JSON" | jq -r 'keys[]')
+                for key in $KEYS; do
+                  value=$(echo "$VARS_JSON" | jq -r --arg key "$key" '.[$key]')
+                  echo "$key: $value"
+                  echo "$key=$value" >> $GITHUB_ENV
+                done
 
             - name: git config
               run: |
@@ -150,8 +157,8 @@ jobs:
             - name: print output
               if: always()
               run: |
-                echo "output: ${{ steps.publish_npm.outputs.output }}"
-                echo "output: ${{ steps.publish_gh.outputs.output }}"
+                echo "npm output: ${{ steps.publish_npm.outputs.output }}"
+                echo "gh output: ${{ steps.publish_gh.outputs.output }}"
                 npm_nok=$(echo '${{ steps.publish_npm.outputs.output }}' | jq '[.[] | select(.ok==false)]')
                 npm_ok=$(echo '${{ steps.publish_npm.outputs.output }}' | jq '[.[] | select(.ok==true)]')
                 gh_nok=$(echo '${{ steps.publish_gh.outputs.output }}' | jq '[.[] | select(.ok==false)]')
