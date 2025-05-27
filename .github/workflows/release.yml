@@ -76,10 +76,6 @@ jobs:
                 if find .nx/version-plans -type f -print -quit | grep -q .; then
                   echo "Found changeset files"
                   npx nx release --first-release
-                  # nx doesn't update the pkg lock properly so do it manually
-                  npm i
-                  git add package-lock.json
-                  git commit --amend --no-edit
                   git status
                   git push
                   git push --tags
