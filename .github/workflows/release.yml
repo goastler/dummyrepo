@@ -91,12 +91,12 @@ jobs:
 
             - name: publish npm
               run: |
-                projects=$(echo ${{ env.affected }} | jq -r '. | join(" ")')
+                projects=$(echo '${{ env.affected }}' | jq -r '. | join(" ")')
                 npx nx release publish --registry https://registry.npmjs.org --first-release --projects $projects
 
             - name: publish gh
               run: |
-                projects=$(echo ${{ env.affected }} | jq -r '. | join(" ")')
+                projects=$(echo '${{ env.affected }}' | jq -r '. | join(" ")')
                 npx nx release publish --registry https://npm.github.com --first-release --projects $projects
 
             # - name: push changesets
