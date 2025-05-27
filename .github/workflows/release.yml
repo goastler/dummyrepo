@@ -52,10 +52,10 @@ jobs:
                 set -x
                 npm whoami --registry https://registry.npmjs.org/
 
-            # - name: authenticate gh registry
-            #   run: |
-            #     set -x
-            #     npm whoami --registry https://npm.pkg.github.com/
+            - name: authenticate gh registry
+              run: |
+                set -x
+                npm whoami --registry https://npm.pkg.github.com/
 
             # - name: Authenticate GitHub CLI
             #   run: echo "${{ secrets.PROSOPONATOR_PAT }}" | gh auth login --with-token
@@ -88,30 +88,92 @@ jobs:
                 affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
                 echo "affected: $affected"
                 echo "affected=$affected" >> $GITHUB_ENV
-
-            - name: publish npm
+                
+            - name: publish to npm
+              id: publish_npm
               run: |
-                npx nx release publish --registry https://registry.npmjs.org
+                # for each affected package
+                output="[]"
+                for pkg in $(echo $affected | jq -r '.[]'); do
+                    echo "Publishing $pkg"
+                    set +e
+                    npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
+                    result=$?
+                    set -e
+                    if [ $result -eq 0 ]; then
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                    else
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                    fi
+                done
 
-            - name: publish gh
+                echo "output: $output"
+                echo "output=$output" >> $GITHUB_OUTPUT
+
+                failed=$(echo "$output" | jq '[.[] | select(.ok==false)] | length')
+                if [ "$failed" -gt 0 ]; then
+                    echo "Some packages failed to publish to GitHub Packages"
+                    exit 1
+                fi
+
+            - name: publish to gh
+              id: publish_gh
+              if: steps.publish_npm.outcome != 'skipped' # run this step if the previous step was not skipped due to error in previous step
               run: |
-                npx nx release publish --registry https://npm.github.com
+                # make all packages non-private - this just means we can publish them, not that they're public!
+                npm pkg -ws delete private
+                # for each affected package
+                output="[]"
+                for pkg in $(echo $affected | jq -r '.[]'); do
+                    echo "Publishing $pkg"
+                    # restricted access for private packages on gh (only accessible to the org)
+                    set +e
+                    npm publish -w "$pkg" --access restricted --registry https://npm.pkg.github.com
+                    result=$?
+                    set -e
+                    if [ $result -eq 0 ]; then
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": true}]")
+                    else
+                      output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"ok\": false}]")
+                    fi
+                done
 
-            # - name: push changesets
-            #   run: |
-            #     set -x
-            #     git add .
-            #     git commit -m "chore: version bump"
-            #     git push
+                echo "output: $output"
+                echo "output=$output" >> $GITHUB_OUTPUT
+                
+                failed=$(echo "$output" | jq '[.[] | select(.ok==false)] | length')
+                if [ "$failed" -gt 0 ]; then
+                    echo "Some packages failed to publish to GitHub Packages"
+                    exit 1
+                fi
 
-            # - run: |
-            #     npx nx release publish --yes --access public --first-release --registry https://registry.npmjs.org
+            - name: print output
+              if: always()
+              run: |
+                echo "output: ${{ steps.publish_npm.outputs.output }}"
+                echo "output: ${{ steps.publish_gh.outputs.output }}"
+                npm_nok=$(echo '${{ steps.publish_npm.outputs.output }}' | jq '[.[] | select(.ok==false)]')
+                npm_ok=$(echo '${{ steps.publish_npm.outputs.output }}' | jq '[.[] | select(.ok==true)]')
+                gh_nok=$(echo '${{ steps.publish_gh.outputs.output }}' | jq '[.[] | select(.ok==false)]')
+                gh_ok=$(echo '${{ steps.publish_gh.outputs.output }}' | jq '[.[] | select(.ok==true)]')
 
-            # - name: push
-            #   env: 
-            #     GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
-            #   run: |
-            #     set -x
-            #     git add .
-            #     git commit -m "chore: version bump"
-            #     git push
+                npm_success=$(echo "$npm_ok" | jq -r '.[].package')
+                gh_success=$(echo "$gh_ok" | jq -r '.[].package')
+                npm_failure=$(echo "$npm_nok" | jq -r '.[].package')
+                gh_failure=$(echo "$gh_nok" | jq -r '.[].package')
+
+                echo "Successfully published to npm:"
+                echo "$npm_success"
+                echo ""
+
+                echo "Successfully published to GitHub Packages:"
+                echo "$gh_success"
+                echo ""
+
+                echo "Failed to publish to npm:"
+                echo "$npm_failure"
+                echo ""
+
+                echo "Failed to publish to GitHub Packages:"
+                echo "$gh_failure"
+                echo ""
