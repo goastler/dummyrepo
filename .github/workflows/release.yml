@@ -162,18 +162,26 @@ jobs:
                 npm_failure=$(echo "$npm_nok" | jq -r '.[].package')
                 gh_failure=$(echo "$gh_nok" | jq -r '.[].package')
 
-                echo "Successfully published to npm:"
-                echo "$npm_success"
-                echo ""
+                if [ -n "$npm_success" ]; then
+                  echo "Successfully published to npm:"
+                  echo "$npm_success"
+                  echo ""
+                fi
 
-                echo "Successfully published to GitHub Packages:"
-                echo "$gh_success"
-                echo ""
+                if [ -n "$gh_success" ]; then
+                  echo "Successfully published to GitHub Packages:"
+                  echo "$gh_success"
+                  echo ""
+                fi
+                
+                if [ -n "$npm_failure" ]; then
+                  echo "Failed to publish to npm:"
+                  echo "$npm_failure"
+                  echo ""
+                fi
 
-                echo "Failed to publish to npm:"
-                echo "$npm_failure"
-                echo ""
-
-                echo "Failed to publish to GitHub Packages:"
-                echo "$gh_failure"
-                echo ""
+                if [ -n "$gh_failure" ]; then
+                  echo "Failed to publish to GitHub Packages:"
+                  echo "$gh_failure"
+                  echo ""
+                fi
