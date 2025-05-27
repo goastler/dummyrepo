@@ -1,3 +1,13 @@
+## 11.6.33 (2025-05-27)
+
+### 🩹 Fixes
+
+- x ([f02eedf](https://github.com/goastler/dummyrepo/commit/f02eedf))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.32 (2025-05-27)
 
 ### 🩹 Fixes
