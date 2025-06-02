@@ -1,0 +1,72 @@
+name: Auto Update PRs on Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  update-behind-prs:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Update outdated PRs using github-script
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const baseBranch = context.payload.pull_request.base.ref;
+
+            console.log(`Merged into '${baseBranch}' — scanning for outdated PRs.`);
+
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            for (const pr of prs) {
+              if (pr.base.ref !== baseBranch || pr.draft) continue;
+
+              let attempts = 0;
+              let mergeable = null;
+
+              // Retry up to 10 times to get a reliable mergeable_state
+              while (mergeable === null && attempts < 10) {
+                const { data: fullPR } = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number: pr.number,
+                });
+                mergeable = fullPR.mergeable;
+                if (mergeable === null) {
+                  console.log(`PR #${pr.number} mergeable state is null; retrying in ${2 ** attempts}s...`);
+                  await sleep(1000 * 2 ** attempts); // Exponential backoff: 1s, 2s, 4s, 8s, ...
+                  attempts++;
+                } else if (fullPR.mergeable_state === "behind") {
+                  console.log(`Updating PR #${pr.number} (behind ${baseBranch})...`);
+                  try {
+                    await github.rest.pulls.updateBranch({
+                      owner,
+                      repo,
+                      pull_number: pr.number,
+                    });
+                  } catch (error) {
+                    console.warn(`❌ Failed to update PR #${pr.number}: ${error.message}`);
+                  }
+                } else {
+                  console.log(`PR #${pr.number} is not behind. Skipping.`);
+                }
+              }
+
+              if (mergeable === null) {
+                console.warn(`⚠️ PR #${pr.number}: mergeable state remained null after retries. Skipping.`);
+              }
+            }
