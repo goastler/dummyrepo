@@ -11,7 +11,7 @@ defaults:
         shell: bash
 
 jobs:
-    test:
+    check:
         name: test
         runs-on: ubuntu-latest
         steps:
