@@ -1,5 +1,11 @@
 ## 5.0.9 (2025-06-03)
 
+## 5.0.10
+
+### Patch Changes
+
+- 5474cc7: x
+
 ### 🩹 Fixes
 
 - x ([381297b](https://github.com/goastler/dummyrepo/commit/381297b))

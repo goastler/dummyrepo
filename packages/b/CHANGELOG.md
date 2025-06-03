@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.41
+
+### Patch Changes
+
+- 5474cc7: x
+- Updated dependencies [5474cc7]
+  - @goastler/a@5.0.10
+
 ### 🩹 Fixes
 
 - x ([381297b](https://github.com/goastler/dummyrepo/commit/381297b))

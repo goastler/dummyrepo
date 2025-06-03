@@ -1,5 +1,13 @@
 ## 2.14.67 (2025-06-03)
 
+## 2.14.68
+
+### Patch Changes
+
+- 5474cc7: x
+- Updated dependencies [5474cc7]
+  - @goastler/b@11.6.41
+
 ### 🩹 Fixes
 
 - x ([381297b](https://github.com/goastler/dummyrepo/commit/381297b))
