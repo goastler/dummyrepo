@@ -72,6 +72,7 @@ jobs:
             - name: version
               run: |
                 npx @changesets/cli version --verbose
+                git status
 
             - name: affected
               run: |
