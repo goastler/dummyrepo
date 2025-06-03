@@ -17,7 +17,7 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   submodules: 'recursive'
-                  token: ${{ steps.app_token.outputs.token }}
+                  token: ${{ secrets.PROSOPONATOR_PAT }}
                   fetch-depth: 0 # fetch all history
 
             - name: Get safe branch name
