@@ -82,7 +82,7 @@ jobs:
             - name: bundle
               if: ${{ env.affected != '[]' }}
               run: |
-                projects=$(echo ${{ env.affected }} | jq -r '.[] | join(",")')
+                projects=$(echo '${{ env.affected }}' | jq -r '.[] | join(",")')
                 npx nx run-many --target=bundle --projects="$projects"
 
             - name: push
