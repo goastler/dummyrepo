@@ -82,6 +82,18 @@ jobs:
                 affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
                 echo "affected: $affected"
                 echo "affected=$affected" >> $GITHUB_ENV
+
+            - name: tag
+              if: ${{ env.affected != '[]' }}
+              run: |
+                set -x
+                # tag each affected package with the new version
+                for pkg in $(echo '${{ env.affected }}' | jq -r '.[]'); do
+                    version=$(npm pkg --workspace $pkg get version)
+                    echo "Tagging $pkg with version $version"
+                    git tag "$pkg@$version"
+                    echo
+                done
               
             - name: build+bundle
               if: ${{ env.affected != '[]' }}
@@ -91,6 +103,7 @@ jobs:
                 npx nx run-many --target=build,build:cjs,bundle --projects=$(echo $affected | jq -r 'keys | join(",")')
 
             - name: push
+              if: ${{ env.affected != '[]' }}
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
@@ -99,6 +112,7 @@ jobs:
                 git push --tags || true
 
             - name: publish
+              if: ${{ env.affected != '[]' }}
               id: publish
               run: |
                 # for each affected package
