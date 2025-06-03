@@ -111,8 +111,7 @@ jobs:
                     npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
                     result_npm=$?
                     set -e
-                    echo ""
-                    echo ""
+                    echo
 
                     echo "Publishing $pkg to gh"
                     # make the package non-private so it can be published to gh
@@ -121,8 +120,7 @@ jobs:
                     npm publish -w "$pkg" --access public --registry https://npm.pkg.github.com
                     result_gh=$?
                     set -e
-                    echo ""
-                    echo ""
+                    echo
 
                     output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"npm\": $result_npm, \"gh\": $result_gh}]")
                 done
