@@ -1,5 +1,13 @@
 ## 2.14.67 (2025-06-03)
 
+## 2.14.77-silly-branch-name.1
+
+### Patch Changes
+
+- dc9ad81: x
+- Updated dependencies [dc9ad81]
+  - @goastler/b@11.6.50-silly-branch-name.1
+
 ## 2.14.77-name.0
 
 ### Patch Changes

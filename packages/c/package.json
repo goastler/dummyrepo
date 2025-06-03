@@ -1,6 +1,6 @@
 {
   "name": "@goastler/c",
-  "version": "2.14.77-name.0",
+  "version": "2.14.77-silly-branch-name.1",
   "main": "index.js",
   "description": "z",
   "type": "module",
@@ -16,7 +16,7 @@
     "test": "echo test c"
   },
   "dependencies": {
-    "@goastler/b": "11.6.50-name.0"
+    "@goastler/b": "11.6.50-silly-branch-name.1"
   },
   "devDependencies": {
     "vite": "6.0.11"

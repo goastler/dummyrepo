@@ -1,5 +1,11 @@
 ## 5.0.9 (2025-06-03)
 
+## 5.0.19-silly-branch-name.1
+
+### Patch Changes
+
+- dc9ad81: x
+
 ## 5.0.19-name.0
 
 ### Patch Changes
