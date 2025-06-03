@@ -1,5 +1,11 @@
 ## 5.0.5 (2025-06-03)
 
+## 5.0.6
+
+### Patch Changes
+
+- 2867827: x
+
 ### 🩹 Fixes
 
 - x ([136dd07](https://github.com/goastler/dummyrepo/commit/136dd07))

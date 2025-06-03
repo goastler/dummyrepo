@@ -1,5 +1,12 @@
 ## 11.6.36 (2025-06-03)
 
+## 11.6.37
+
+### Patch Changes
+
+- Updated dependencies [2867827]
+  - @goastler/a@5.0.6
+
 ### 🩹 Fixes
 
 - x ([136dd07](https://github.com/goastler/dummyrepo/commit/136dd07))
