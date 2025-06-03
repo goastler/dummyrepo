@@ -73,6 +73,9 @@ jobs:
               run: |
                 npx @changesets/cli version --verbose
                 git status
+                git add -u .
+                git commit -m "chore: version bump" || true # allow the commit to fail if there are no changes to commit
+                git status
 
             - name: affected
               run: |
