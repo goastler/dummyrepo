@@ -3,6 +3,12 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
+    },
+    "build:cjs": {
+      "dependsOn": ["build"]
+    },
+    "bundle": {
+      "dependsOn": ["build:cjs"]
     }
   },
   "target": {
@@ -21,6 +27,9 @@
     "changelog": {
       "projectChangelogs": true,
       "automaticFromRef": true
+    },
+    "version": {
+      "preVersionCommand": "npx nx affected --target=bundle"
     }
   },
   "parallel": 1,
