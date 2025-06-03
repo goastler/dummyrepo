@@ -13,12 +13,6 @@ jobs:
         # if: github.event.pull_request.merged == true || github.event.pull_request.state == 'closed'
         runs-on: ubuntu-latest
         steps:
-            - name: Get token for gh app token
-              id: app_token
-              uses: peter-murray/workflow-application-token-action@v3
-              with:
-                application_id: ${{ vars.PROSOPONATOR_APP_ID }}
-                application_private_key: ${{ secrets.PROSOPONATOR_APP_PRIVATE_KEY }}
 
             - uses: actions/checkout@v4
               with:
@@ -32,6 +26,11 @@ jobs:
                 branch="${{ github.event.pull_request.head.ref }}"
                 safe_branch_name=$(echo "$branch" | tr '/\\:;*?"<>|@#%&=+,$' '-')
                 echo "safe_branch_name=$safe_branch_name" >> $GITHUB_ENV
+
+            - name: auth gh cli
+              run: |
+                gh auth login --with-token < <(echo "${{ secrets.PROSOPONATOR_PAT }}")
+                gh auth status
 
             - name: purge gh pkgs
               run: |
@@ -50,7 +49,7 @@ jobs:
             - name: purge tags
               run: |
                 git fetch --tags
-                tags=$(git tag | grep -E "-${{ env.safe_branch_name }}\.[0-9]+")
+                tags=$(git tag | grep -E '-${{ env.safe_branch_name }}\.[0-9]+')
                 echo "matching tags:"
                 echo "$tags"
                 for tag in $tags; do
