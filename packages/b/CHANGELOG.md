@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.49-tmp5.0
+
+### Patch Changes
+
+- 0cbf2bd: x
+- Updated dependencies [0cbf2bd]
+  - @goastler/a@5.0.18-tmp5.0
+
 ## 11.6.48
 
 ### Patch Changes
