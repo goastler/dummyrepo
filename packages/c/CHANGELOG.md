@@ -1,3 +1,17 @@
+## 2.14.62 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([b46fed8](https://github.com/goastler/dummyrepo/commit/b46fed8))
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/b to 11.6.35
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 2.14.61 (2025-05-27)
 
 ### 🧱 Updated Dependencies

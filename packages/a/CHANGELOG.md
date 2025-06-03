@@ -1,3 +1,13 @@
+## 5.0.4 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([b46fed8](https://github.com/goastler/dummyrepo/commit/b46fed8))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 5.0.3 (2025-05-23)
 
 ### 🩹 Fixes
