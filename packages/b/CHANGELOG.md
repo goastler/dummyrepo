@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.42
+
+### Patch Changes
+
+- 6fd893c: x
+- Updated dependencies [6fd893c]
+  - @goastler/a@5.0.11
+
 ## 11.6.41
 
 ### Patch Changes
