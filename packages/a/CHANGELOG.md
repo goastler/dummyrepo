@@ -1,3 +1,13 @@
+## 5.0.5 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([136dd07](https://github.com/goastler/dummyrepo/commit/136dd07))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 5.0.4 (2025-06-03)
 
 ### 🩹 Fixes
