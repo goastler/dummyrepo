@@ -132,8 +132,8 @@ jobs:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
                 # allow the push to fail if there are no changes to push
-                git push || true
-                git push --tags || true
+                git push
+                git push --tags
 
             - name: publish
               if: ${{ env.affected != '[]' }}
