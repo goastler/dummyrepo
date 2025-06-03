@@ -85,7 +85,7 @@ jobs:
                   else
                     echo "Not on main branch, entering prerelease mode"
                     # pre.json puts changesets into prerelease mode
-                    branch_name="${GITHUB_REF##*/}"
+                    branch_name="${GITHUB_REF#refs/heads/}"
                     # sanitize branch name to be safe for changesets
                     # replace unsafe characters with '-'
                     # e.g. my/branch?is#unsafe -> my-branch-is-unsafe
