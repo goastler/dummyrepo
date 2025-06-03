@@ -1,5 +1,13 @@
 ## 2.14.67 (2025-06-03)
 
+## 2.14.72
+
+### Patch Changes
+
+- e1d3195: x
+- Updated dependencies [e1d3195]
+  - @goastler/b@11.6.45
+
 ## 2.14.71
 
 ### Patch Changes

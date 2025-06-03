@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.45
+
+### Patch Changes
+
+- e1d3195: x
+- Updated dependencies [e1d3195]
+  - @goastler/a@5.0.14
+
 ## 11.6.44
 
 ### Patch Changes
