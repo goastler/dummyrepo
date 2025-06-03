@@ -73,7 +73,7 @@ jobs:
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release
+                npx nx release --yes
 
             # - name: Apply version bumps
             #   env: 
