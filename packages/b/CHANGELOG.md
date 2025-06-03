@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.46-undefined.5
+
+### Patch Changes
+
+- 218fdc0: x
+- Updated dependencies [218fdc0]
+  - @goastler/a@5.0.15-undefined.5
+
 ## 11.6.46-undefined.4
 
 ### Patch Changes
