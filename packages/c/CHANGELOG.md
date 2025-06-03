@@ -1,3 +1,17 @@
+## 2.14.67 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([381297b](https://github.com/goastler/dummyrepo/commit/381297b))
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/b to 11.6.40
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 2.14.66 (2025-06-03)
 
 ### 🩹 Fixes
