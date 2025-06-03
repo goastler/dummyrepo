@@ -72,7 +72,7 @@ jobs:
             - name: prerelease
               run: |
                 # if there are changesets
-                if [ $(find .changeset -name "*.md" | grep -q .) ]; then
+                if find .changeset -name "*.md" | grep -q . ; then
                   echo "Found changesets"
                   if [ "${GITHUB_REF##*/}" = "main" ]; then
                     echo "On main branch, exiting prerelease mode"
