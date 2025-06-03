@@ -69,8 +69,6 @@ jobs:
 
             - run: npm ci
 
-            - run: npx @changesets/cli version
-
             - name: affected
               run: |
                 affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
