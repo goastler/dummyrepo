@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.50-tmp6.0
+
+### Patch Changes
+
+- 4cd1ced: x
+- Updated dependencies [4cd1ced]
+  - @goastler/a@5.0.19-tmp6.0
+
 ## 11.6.49
 
 ### Patch Changes

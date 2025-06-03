@@ -1,6 +1,6 @@
 {
   "name": "@goastler/c",
-  "version": "2.14.76",
+  "version": "2.14.77-tmp6.0",
   "main": "index.js",
   "description": "z",
   "type": "module",
@@ -16,7 +16,7 @@
     "test": "echo test c"
   },
   "dependencies": {
-    "@goastler/b": "11.6.49"
+    "@goastler/b": "11.6.50-tmp6.0"
   },
   "devDependencies": {
     "vite": "6.0.11"

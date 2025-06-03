@@ -1,5 +1,13 @@
 ## 2.14.67 (2025-06-03)
 
+## 2.14.77-tmp6.0
+
+### Patch Changes
+
+- 4cd1ced: x
+- Updated dependencies [4cd1ced]
+  - @goastler/b@11.6.50-tmp6.0
+
 ## 2.14.76
 
 ### Patch Changes
