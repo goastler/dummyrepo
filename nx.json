@@ -27,9 +27,6 @@
     "changelog": {
       "projectChangelogs": true,
       "automaticFromRef": true
-    },
-    "version": {
-      "preVersionCommand": "git push && git push --tags"
     }
   },
   "parallel": 1,
