@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.50-name.0
+
+### Patch Changes
+
+- dc9ad81: x
+- Updated dependencies [dc9ad81]
+  - @goastler/a@5.0.19-name.0
+
 ## 11.6.49
 
 ### Patch Changes
