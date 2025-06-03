@@ -8,7 +8,7 @@
       "dependsOn": ["build"]
     },
     "bundle": {
-      "dependsOn": ["build:cjs"]
+      "dependsOn": ["build:cjs", "build"]
     }
   },
   "target": {
