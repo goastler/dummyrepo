@@ -96,7 +96,7 @@ jobs:
               run: |
                 # for each affected package
                 output="[]"
-                for pkg in $(echo $affected | jq -r '.[]'); do
+                for pkg in $(echo '${{ env.affected }}' | jq -r '.[]'); do
                     # skip the workspace root
                     if [ "$pkg" == "$(cat package.json | jq -r '.name')" ]; then
                         echo "Skipping workspace root package"
