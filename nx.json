@@ -29,7 +29,7 @@
       "automaticFromRef": true
     },
     "version": {
-      "preVersionCommand": "npx nx affected --target=bundle"
+      "preVersionCommand": "git push && git push --tags"
     }
   },
   "parallel": 1,

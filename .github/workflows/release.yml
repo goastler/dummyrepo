@@ -69,6 +69,8 @@ jobs:
 
             - run: npm ci
 
+            - run: npx nx affected --target=bundle
+
             - name: release
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
