@@ -89,7 +89,7 @@ jobs:
                 set -x
                 # tag each affected package with the new version
                 for pkg in $(echo '${{ env.affected }}' | jq -r '.[]'); do
-                    version=$(npm pkg --workspace $pkg get version)
+                    version=$(npm pkg --workspace $pkg get version | jq -r ".$pkg")
                     echo "Tagging $pkg with version $version"
                     git tag "$pkg@$version"
                     echo
