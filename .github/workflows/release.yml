@@ -78,12 +78,11 @@ jobs:
                 affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
                 echo "affected: $affected"
                 echo "affected=$affected" >> $GITHUB_ENV
-
-            - name: bundle
-              if: ${{ env.affected != '[]' }}
+              
+            - name: build+bundle
               run: |
-                projects=$(echo '${{ env.affected }}' | jq -r '.[] | join(",")')
-                npx nx run-many --target=bundle --projects="$projects"
+                echo "Building and bundling affected packages"
+                npx nx run-many --target=bundle --projects=$(echo $affected | jq -r 'keys | join(",")')
 
             - name: push
               env:
