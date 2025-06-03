@@ -1,3 +1,17 @@
+## 2.14.65 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([14df40a](https://github.com/goastler/dummyrepo/commit/14df40a))
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/b to 11.6.38
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 2.14.63 (2025-06-03)
 
 ## 2.14.64

@@ -1,3 +1,17 @@
+## 11.6.38 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([14df40a](https://github.com/goastler/dummyrepo/commit/14df40a))
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/a to 5.0.7
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.36 (2025-06-03)
 
 ## 11.6.37
