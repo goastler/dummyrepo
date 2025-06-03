@@ -70,7 +70,9 @@ jobs:
             - run: npm ci
 
             - name: prerelease
+              id: prerelease
               run: |
+                prerelease=false
                 # if there are changesets
                 if find .changeset -name "*.md" | grep -q . ; then
                   echo "Found changesets"
@@ -82,10 +84,12 @@ jobs:
                     echo "Not on main branch, entering prerelease mode"
                     # pre.json puts changesets into prerelease mode
                     npx @changesets/cli pre enter "${GITHUB_REF##*/}"
+                    prerelease=true
                   fi
                 else
                   echo "No changesets found"
                 fi
+                echo "prerelease=$prerelease" >> $GITHUB_ENV                
 
             - name: version
               run: |
@@ -142,13 +146,19 @@ jobs:
                     fi
 
                     echo "Publishing $pkg to npm"
-                    set +e
-                    npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
-                    result_npm=$?
-                    set -e
+                    result_npm=0
+                    if [ "${{ env.prerelease }}" = "false" ]; then
+                      set +e
+                      npm publish -w "$pkg" --access public --registry https://registry.npmjs.org/
+                      result_npm=$?
+                      set -e
+                    else
+                      echo "Skipping npm publish for prerelease"
+                    fi
                     echo
 
                     echo "Publishing $pkg to gh"
+                    result_gh=0
                     # make the package non-private so it can be published to gh
                     npm pkg --workspace $pkg delete private
                     set +e
