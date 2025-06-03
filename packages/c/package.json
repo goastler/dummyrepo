@@ -16,7 +16,7 @@
     "test": "echo test c"
   },
   "dependencies": {
-    "@goastler/b": "11.6.46-undefined.8"
+    "@goastler/b": "11.6.47"
   },
   "devDependencies": {
     "vite": "6.0.11"
