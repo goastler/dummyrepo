@@ -78,30 +78,33 @@ jobs:
                 echo "affected=$affected" >> $GITHUB_ENV
 
             - name: bundle
+              if: ${{ env.affected != '[]' }}
               run: |
-                set -x
                 projects=$(echo ${{ env.affected }} | jq -r '.[] | join(",")')
-                npx nx run-many --target=bundle --projects=$projects
+                npx nx run-many --target=bundle --projects="$projects"
+
+            - name: version
+              run: |
+                npx nx release --skip-publish --first-release
 
             - name: push
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                if [ -z "$(git status --porcelain)" ]; then
-                    echo "No changes to commit"
-                    exit 0
-                fi
-                git add -u .
-                git commit -m "release"
-                git push
-                git push --tags
-                
+                git push --follow-tags || true # allow the push to fail if there are no changes to push
+
             - name: publish
               id: publish
               run: |
                 # for each affected package
                 output="[]"
                 for pkg in $(echo $affected | jq -r '.[]'); do
+                    # skip the workspace root
+                    if [ "$pkg" == "$(cat package.json | jq -r '.name')" ]; then
+                        echo "Skipping workspace root package"
+                        continue
+                    fi
+
                     echo "Publishing $pkg to npm"
                     set +e
                     npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
