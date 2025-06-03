@@ -1,5 +1,13 @@
 ## 11.6.40 (2025-06-03)
 
+## 11.6.48-tmp4.0
+
+### Patch Changes
+
+- 218fdc0: x
+- Updated dependencies [218fdc0]
+  - @goastler/a@5.0.17-tmp4.0
+
 ## 11.6.46-undefined.8
 
 ### Patch Changes
