@@ -1,3 +1,17 @@
+## 11.6.36 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([136dd07](https://github.com/goastler/dummyrepo/commit/136dd07))
+
+### 🧱 Updated Dependencies
+
+- Updated @goastler/a to 5.0.5
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 11.6.35 (2025-06-03)
 
 ### 🩹 Fixes
