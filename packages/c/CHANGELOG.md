@@ -1,5 +1,13 @@
 ## 2.14.67 (2025-06-03)
 
+## 2.14.75
+
+### Patch Changes
+
+- 218fdc0: x
+- Updated dependencies [218fdc0]
+  - @goastler/b@11.6.48
+
 ## 2.14.73-undefined.8
 
 ### Patch Changes
