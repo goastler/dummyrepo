@@ -1,34 +1,33 @@
 {
-  "name": "@goastler/dummyrepo",
-  "version": "1.10.10",
-  "type": "module",
-  "description": "Repo for trying out github actions, etc. A playground if you will.",
-  "main": "index.js",
-  "scripts": {
-    "build": "echo build dummyrepo",
-    "deploy": "echo deploy dummyrepo",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "changesets:empty": "npx @changesets/cli add --empty",
-    "changesets:add": "npx @changesets/cli add",
-    "changesets": "npx @changesets/cli status --verbose",
-    "changesets:version": "npx @changesets/cli version"
-  },
-  "files": [],
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "workspaces": [
-    "packages/*",
-    "demos/*"
-  ],
-  "devDependencies": {
-    "@nx/js": "21.1.1",
-    "@swc-node/register": "1.9.1",
-    "@swc/core": "1.5.7",
-    "@swc/helpers": "0.5.11",
-    "@swc/types": "^0.1.21",
-    "nx": "21.1.1",
-    "vite": "6.0.11"
-  },
-  "private": false
+    "name": "@goastler/dummyrepo",
+    "version": "1.10.10",
+    "type": "module",
+    "description": "Repo for trying out github actions, etc. A playground if you will.",
+    "main": "index.js",
+    "scripts": {
+        "build": "echo build dummyrepo",
+        "deploy": "echo deploy dummyrepo",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "changesets:empty": "npx @changesets/cli add --empty",
+        "changesets:add": "npx @changesets/cli add",
+        "changesets": "npx @changesets/cli status --verbose"
+    },
+    "files": [],
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "workspaces": [
+        "packages/*",
+        "demos/*"
+    ],
+    "devDependencies": {
+        "@nx/js": "21.1.1",
+        "@swc-node/register": "1.9.1",
+        "@swc/core": "1.5.7",
+        "@swc/helpers": "0.5.11",
+        "@swc/types": "^0.1.21",
+        "nx": "21.1.1",
+        "vite": "6.0.11"
+    },
+    "private": false
 }

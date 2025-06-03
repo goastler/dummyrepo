@@ -69,34 +69,63 @@ jobs:
 
             - run: npm ci
 
-            - run: npx nx affected --target=bundle
+            - run: npx @changesets/cli version
 
-            - name: release
+            - name: affected
+              run: |
+                affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
+                echo "affected: $affected"
+                echo "affected=$affected" >> $GITHUB_ENV
+
+            - name: bundle
+              run: |
+                set -x
+                projects=$(echo ${{ env.affected }} | jq -r '.[] | join(",")')
+                npx nx run-many --target=bundle --projects=$projects
+
+            - name: push
               env:
                 GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
               run: |
-                npx nx release --yes
+                if [ -z "$(git status --porcelain)" ]; then
+                    echo "No changes to commit"
+                    exit 0
+                fi
+                git add -u .
+                git commit -m "release"
                 git push
                 git push --tags
-
-            # - name: Apply version bumps
-            #   env: 
-            #     GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
-            #   run: |
-            #     # if there are changesets, apply them
-            #     if find .nx/version-plans -type f -print -quit | grep -q .; then
-            #       echo "Found changeset files"
-            #       npx nx release --first-release
-            #       git status
-            #       git push
-            #       git push --tags
-            #     else
-            #       echo "No changeset files found"
-            #     fi
-
-            # - name: affected
-            #   run: |
-            #     affected=$(npx nx show projects --json --affected --base=${{ github.sha }} --head=HEAD)
-            #     echo "affected: $affected"
-            #     echo "affected=$affected" >> $GITHUB_ENV
                 
+            - name: publish
+              id: publish
+              run: |
+                # for each affected package
+                output="[]"
+                for pkg in $(echo $affected | jq -r '.[]'); do
+                    echo "Publishing $pkg to npm"
+                    set +e
+                    npm publish -w "$pkg" --access public --registry https://registry.npmjs.org
+                    result_npm=$?
+                    set -e
+                    echo ""
+
+                    echo "Publishing $pkg to gh"
+                    # make the package non-private so it can be published to gh
+                    npm pkg --workspace $pkg delete private
+                    set +e
+                    npm publish -w "$pkg" --access public --registry https://npm.pkg.github.com
+                    result_gh=$?
+                    set -e
+                    echo ""
+
+                    output=$(echo "$output" | jq -c ". += [{\"package\": \"$pkg\", \"npm\": $result_npm, \"gh\": $result_gh}]")
+                done
+
+                echo "output: $output"
+                echo "output=$output" >> $GITHUB_OUTPUT
+
+                failed=$(echo "$output" | jq '[.[] | select((.npm!=0) or (.gh!=0))] | length')
+                if [ "$failed" -gt 0 ]; then
+                    echo "Some packages failed to publish to GitHub Packages"
+                    exit 1
+                fi
