@@ -1,3 +1,13 @@
+## 5.0.8 (2025-06-03)
+
+### 🩹 Fixes
+
+- x ([c51e2c5](https://github.com/goastler/dummyrepo/commit/c51e2c5))
+
+### ❤️ Thank You
+
+- George Oastler
+
 ## 5.0.7 (2025-06-03)
 
 ### 🩹 Fixes
