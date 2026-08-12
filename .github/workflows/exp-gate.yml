@@ -1,0 +1,14 @@
+# Experiment: does a workflow skipped by paths-ignore leave a required context
+# pending forever? Unique job name so nothing else can supply `gate`.
+name: exp-gate
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "gate ran"

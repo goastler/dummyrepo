@@ -1,0 +1,19 @@
+# Experiment: duplicate check names. Same job name (`check`) as exp-alpha.yml.
+# Finishes LAST (long sleep) so we can tell latest-wins from all-must-pass.
+name: exp-beta
+
+on:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Settle ordering — finish after alpha
+        run: sleep 90
+      - name: Outcome from exp/beta.txt
+        run: |
+          want=$(cat exp/beta.txt 2>/dev/null || echo pass)
+          echo "beta wants: $want"
+          [[ "$want" == "pass" ]]
