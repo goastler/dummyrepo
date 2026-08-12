@@ -6,6 +6,9 @@ name: exp-alpha
 
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
 
 jobs:
   check:
