@@ -25,12 +25,12 @@ jobs:
             --jq '.workflow_runs[] | select(.event == "pull_request") | "  \(.id) \(.status) created=\(.created_at) name=\(.name)"'
           echo "--- selected for cancellation ---"
           gh api "repos/$REPO/actions/runs?head_sha=$SHA&per_page=100" \
-            --jq --arg cutoff "$CUTOFF" --arg self "$SELF" '
+            | jq -r --arg cutoff "$CUTOFF" --argjson self "$SELF" '
               .workflow_runs[]
               | select(.event == "pull_request")
               | select(.status == "queued" or .status == "in_progress")
               | select(.created_at < $cutoff)
-              | select(.id != ($self | tonumber))
+              | select(.id != $self)
               | .id' > /tmp/ids.txt
           cat /tmp/ids.txt
           while read -r id; do
