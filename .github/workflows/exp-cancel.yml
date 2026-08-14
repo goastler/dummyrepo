@@ -1,0 +1,29 @@
+name: exp-cancel
+on:
+  pull_request:
+    types: [closed]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  cancel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: cancel in-flight runs for this PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          SELF: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          echo "head sha: $SHA"
+          gh api "repos/$REPO/actions/runs?head_sha=$SHA&per_page=100" \
+            -q '.workflow_runs[] | select(.event == "pull_request") | select(.status == "queued" or .status == "in_progress") | "\(.id) \(.name) \(.status)"' \
+            | tee /tmp/runs.txt
+          while read -r id name status; do
+            [ -z "${id:-}" ] && continue
+            if [ "$id" = "$SELF" ]; then echo "skip self $id"; continue; fi
+            echo "cancelling $id ($name, $status)"
+            gh api -X POST "repos/$REPO/actions/runs/$id/cancel" || echo "cancel failed for $id"
+          done < /tmp/runs.txt
