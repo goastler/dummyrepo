@@ -1,9 +1,0 @@
-name: exp-postmerge
-on:
-  pull_request:
-    types: [closed]
-jobs:
-  postmerge:
-    runs-on: ubuntu-latest
-    steps:
-      - run: for i in $(seq 1 24); do echo "postmerge tick $i"; sleep 15; done
