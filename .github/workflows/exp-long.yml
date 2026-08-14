@@ -1,0 +1,11 @@
+name: exp-long
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  longjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: burn
+        run: |
+          for i in $(seq 1 40); do echo "tick $i"; sleep 15; done
