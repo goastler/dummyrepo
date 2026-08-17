@@ -1,9 +1,0 @@
-name: exp-observer
-on:
-  pull_request:
-    types: [closed]
-jobs:
-  observe:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "pr=${{ github.event.pull_request.number }} merged=${{ github.event.pull_request.merged }}"
